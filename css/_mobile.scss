@@ -63,6 +63,24 @@ button {
     }
 }
 
+ul {
+    list-style: none;
+    text-transform: uppercase;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: center;
+    text-align: center;
+}
+li {
+    margin: 40px;
+    font-size: 3rem;
+    a {
+        text-decoration: none;
+        color: black;
+    }
+}
+
 h1 {
     margin: 0 auto;
 }
