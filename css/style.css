@@ -358,8 +358,7 @@ nav.open {
   height: 100vh;
   width: 100vw;
   position: fixed;
-  background-color: lightgray;
-  color: black;
+  background-color: rgb(38, 38, 38);
 }
 
 nav:not(.open) {
@@ -386,6 +385,7 @@ button span {
   height: 4px;
   border-radius: 4px;
   margin-bottom: 4px;
+  transition: all 0.3s ease-in-out;
 }
 button.open span:nth-child(2) {
   display: none;
@@ -413,7 +413,7 @@ li {
 }
 li a {
   text-decoration: none;
-  color: black;
+  color: white;
 }
 
 h1 {
