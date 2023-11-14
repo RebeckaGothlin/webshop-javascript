@@ -1,3 +1,68 @@
+@mixin visually-hidden {
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+}
+
 body {
-    background-color: black;
+    background-color: #1E1E1E;
+    color: white;
+}
+
+header {
+    display: flex;
+    justify-content: space-around;
+    height: 50px;
+    width: 100vw;
+    position: fixed;
+    background-color: #1E1E1E;
+    top: 0;
+    border-bottom: 1px white solid;
+}
+
+nav.open {
+    display: block;
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    background-color: lightgray;
+    color: black;
+}
+nav:not(.open) {
+    @include visually-hidden;
+}
+
+button {
+    z-index: 2;
+    border: 0;
+    color: white;
+    cursor: pointer;
+    background: transparent;
+    span {
+        display: block;
+        background: white;
+        width: 35px;
+        height: 4px;
+        border-radius: 4px;
+        margin-bottom: 4px;
+    }
+    &.open {
+        span:nth-child(2) {
+            display: none;
+        }
+        span:nth-child(1) {
+            transform: rotate(45deg);
+        }
+        span:nth-child(3) {
+            transform: rotate(-45deg);
+        }
+    }
+}
+
+h1 {
+    margin: 0 auto;
 }
