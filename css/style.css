@@ -449,6 +449,10 @@ h1 {
   grid-column: span 4;
   text-align: center;
 }
+.page-content .page1 img {
+  width: 280px;
+  height: auto;
+}
 .page-content .page2 {
   grid-column: span 4;
   text-align: center;

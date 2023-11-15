@@ -122,6 +122,10 @@ h1 {
     .page1 {
         grid-column: span 4;
         text-align: center;
+        img {
+            width: 280px;
+            height: auto;
+        }
     }
     .page2 {
         grid-column: span 4;
