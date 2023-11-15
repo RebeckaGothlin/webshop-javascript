@@ -391,10 +391,10 @@ button.open span:nth-child(2) {
   display: none;
 }
 button.open span:nth-child(1) {
-  transform: rotate(45deg);
+  transform: rotate(-45deg) translate(-2px);
 }
 button.open span:nth-child(3) {
-  transform: rotate(-45deg);
+  transform: rotate(45deg) translate(-5px, -4px);
 }
 
 ul {
