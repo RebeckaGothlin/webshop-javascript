@@ -337,11 +337,23 @@ template {
   display: none;
 }
 
-body {
+body,
+body:not(.dark-theme) {
+  background-color: lightgray;
+  color: black;
+}
+
+body.dark-theme {
   background-color: #1E1E1E;
   color: white;
 }
 
+@media screen and (prefers-color-scheme: dark) {
+  body {
+    background-color: #1E1E1E;
+    color: white;
+  }
+}
 header {
   display: flex;
   justify-content: space-around;
@@ -417,7 +429,11 @@ li a {
 }
 
 h1 {
+  display: flex;
   margin: 0 auto;
+  color: white;
+  font-size: 1.5rem;
+  align-items: center;
 }
 
 .page-content {

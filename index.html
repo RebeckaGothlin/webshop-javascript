@@ -25,7 +25,7 @@
 
 <body>
     <main>
-        <header>
+        <header id="header-home-link">
             <button id="toggleMenu" aria-label="Open menu">
                 <span></span>
                 <span></span>
@@ -34,20 +34,21 @@
 
             <nav id="menu" class="visually-hidden">
                 <ul>
-                    <li><a href="#">Hem</a></li>
-                    <li><a href="#">Produkter</a></li>
-                    <li><a href="#">Varukorg</a></li> <!--ankarlänka-->
+                    <li><a href="#header-home-link">Hem</a></li>
+                    <li><a href="#page1-link">Produkter</a></li>
+                    <li><a href="#page2-link">Varukorg</a></li> <!--ankarlänka-->
                 </ul>
             </nav>
 
-            <h1>Gottlins chokladbollar</h1>
-            <!--Kundvagn med ankarlänk till varukorgen-->
+            <h1>Gottlins choklad</h1>
+            Kundv.<!--Kundvagn med ankarlänk till varukorgen-->
+            <button id="themeToggle">Change theme</button>
         </header>
 
         <div class="page-content">
             <!-- Page 1-->
             <section class="page page1">
-                <h2>Produkter</h2>
+                <h2 id="page1-link">Produkter</h2>
                 <!--sortera efter:-->
                 <div>
                     <img src="" width="" height="" alt="" loading="lazy">
@@ -122,7 +123,7 @@
             </section>
     
             <section class="page page2">
-                <h2>Varukorg</h2>
+                <h2 id="page2-link">Varukorg</h2>
                 <!--varukorg: med bilder, styckpriser, summa mm.-->
                 
                 <!--knapp: fortsätt ankarlänk-->
