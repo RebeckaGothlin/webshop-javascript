@@ -31,6 +31,7 @@ nav.open {
     position: fixed;
     background-color: rgb(38, 38, 38);
 }
+
 nav:not(.open) {
     @include visually-hidden;
 }
@@ -41,6 +42,7 @@ button {
     color: white;
     cursor: pointer;
     background: transparent;
+
     span {
         display: block;
         background: white;
@@ -50,13 +52,16 @@ button {
         margin-bottom: 4px;
         transition: all 0.3s ease-in-out;
     }
+
     &.open {
         span:nth-child(2) {
             display: none;
         }
+
         span:nth-child(1) {
             transform: rotate(-45deg) translate(-2px);
         }
+
         span:nth-child(3) {
             transform: rotate(45deg) translate(-5px, -4px);
         }
@@ -72,9 +77,11 @@ ul {
     justify-content: center;
     text-align: center;
 }
+
 li {
     margin: 40px;
     font-size: 3rem;
+
     a {
         text-decoration: none;
         color: white;
@@ -83,4 +90,20 @@ li {
 
 h1 {
     margin: 0 auto;
+}
+
+.page-content {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+    margin-top: 100px;
+
+    .page {
+        min-height: 100vh;
+    }
+
+    .page1 {
+        grid-column: span 4;
+        text-align: center;
+    }
 }

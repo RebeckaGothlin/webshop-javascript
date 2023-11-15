@@ -420,6 +420,20 @@ h1 {
   margin: 0 auto;
 }
 
+.page-content {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 100px;
+}
+.page-content .page {
+  min-height: 100vh;
+}
+.page-content .page1 {
+  grid-column: span 4;
+  text-align: center;
+}
+
 @media screen and (min-width: 768px) {
   body {
     background-color: pink;
