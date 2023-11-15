@@ -125,8 +125,12 @@ h1 {
         img {
             width: 280px;
             height: auto;
+            display: block;
+            margin: 0 auto;
         }
-        
+        .checked {
+            color: orange;
+        }
     }
     .page2 {
         grid-column: span 4;

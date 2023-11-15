@@ -452,6 +452,11 @@ h1 {
 .page-content .page1 img {
   width: 280px;
   height: auto;
+  display: block;
+  margin: 0 auto;
+}
+.page-content .page1 .checked {
+  color: orange;
 }
 .page-content .page2 {
   grid-column: span 4;
