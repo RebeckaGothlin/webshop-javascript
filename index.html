@@ -28,25 +28,28 @@
 
 <body>
     <main>
-        <header id="header-home-link">
-            <button id="toggleMenu" aria-label="Open menu">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-
-            <nav id="menu" class="visually-hidden">
-                <ul>
-                    <li><a href="#header-home-link">Hem</a></li>
-                    <li><a href="#page1-link">Produkter</a></li>
-                    <li><a href="#page2-link">Varukorg</a></li> <!--ankarlänka-->
-                </ul>
-            </nav>
-
-            <h1>Gottlins choklad</h1>
-            <span class="material-symbols-outlined">shopping_cart</span><!--ankarlänk till varukorgen-->
-            <button class="theme-toggle" id="themeToggle"><i class="material-symbols-outlined">contrast</i></button>
-        </header>
+        <section class="header-container">
+            <header id="header-home-link">
+                <button class="menu-button" id="toggleMenu" aria-label="Open menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+    
+                <nav id="menu" class="visually-hidden">
+                    <ul>
+                        <li><a href="#header-home-link">Hem</a></li>
+                        <li><a href="#page1-link">Produkter</a></li>
+                        <li><a href="#page2-link">Varukorg</a></li> <!--ankarlänka-->
+                    </ul>
+                </nav>
+    
+                <h1>Gottlins choklad</h1>
+                <a href="#page2-link"><span class="material-symbols-outlined">shopping_cart</span></a><!--ankarlänk till varukorgen-->
+                <div><span id="price">0 kr</span></div>
+                <button class="theme-toggle-button" id="themeToggle"><i class="material-symbols-outlined">contrast</i></button>
+            </header>
+        </section>
 
         <div class="page-content">
             <!-- Page 1-->
@@ -63,9 +66,12 @@
                     <span class="fa fa-star"></span>
                     <p>Chokladboll - cappuccino</p>
                     <p>10 kr/st</p>
+
                     <button class="cart" id="subtract">-</button>
                     <input type="number" value="0" id="currentCount">
                     <button class="cart" id="add">+</button>
+    
+
                 </div>
                 <div>
                     <img src="assets/chokladboll-chokladdragerad.jpg" width="540" height="540"

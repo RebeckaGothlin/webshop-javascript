@@ -40,16 +40,28 @@ function toggleTheme() {
 
 const minus = document.querySelector('#subtract');
 const plus = document.querySelector('#add');
+const price = document.querySelector('#price');
 const currentCount = document.querySelector('#currentCount');
+let amount = Number(currentCount.value);
 
 
-minus.addEventListener('click', subtract);
-plus.addEventListener('click', add);
+minus.addEventListener('click', subtractValue);
+plus.addEventListener('click', addValue);
 
-function subtract() {
-    currentCount.value -= 1; // !!! fixa så inte -1 on noll..
+function subtractValue() {
+    amount -= 1;
+    currentCount.value = amount; // !!! fixa så inte -1 on noll..
+
+    updatePrice();
 }
 
-function add() {
-    currentCount.value = Number(currentCount.value) + 1;
+function addValue() {
+    amount += 1;
+    currentCount.value = amount;
+
+    updatePrice();
+}
+
+function updatePrice() {
+    price.innerHTML = amount * 10 + ' kr';
 }

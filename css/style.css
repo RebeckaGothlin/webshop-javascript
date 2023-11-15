@@ -363,7 +363,13 @@ body.dark-theme .cart {
     color: white;
   }
 }
+.header-container {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+} /*fixa grid*/
 header {
+  grid-column: span 4;
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -373,14 +379,17 @@ header {
   background-color: #1E1E1E;
   top: 0;
   border-bottom: 1px white solid;
+  color: white;
 }
 
 nav.open {
   display: block;
-  height: 100vh;
+  height: 300vh;
   width: 100vw;
   position: fixed;
   background-color: rgb(38, 38, 38);
+  z-index: 1;
+  transition: all 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 
 nav:not(.open) {
@@ -393,14 +402,35 @@ nav:not(.open) {
   width: 1px;
 }
 
-button {
+ul {
+  margin-top: 50%;
+  list-style: none;
+  text-transform: uppercase;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+li {
+  font-size: 2rem;
+  margin: 30px;
+}
+li a {
+  text-decoration: none;
+  color: white;
+}
+
+.menu-button {
   z-index: 2;
   border: 0;
   color: white;
   cursor: pointer;
   background: transparent;
 }
-button span {
+.menu-button span {
   display: block;
   background: white;
   width: 35px;
@@ -408,34 +438,16 @@ button span {
   border-radius: 4px;
   margin-bottom: 4px;
   transition: all 0.3s ease-in-out;
+  z-index: 3;
 }
-button.open span:nth-child(2) {
+.menu-button.open span:nth-child(2) {
   display: none;
 }
-button.open span:nth-child(1) {
+.menu-button.open span:nth-child(1) {
   transform: rotate(-45deg) translate(-2px);
 }
-button.open span:nth-child(3) {
+.menu-button.open span:nth-child(3) {
   transform: rotate(45deg) translate(-5px, -4px);
-}
-
-ul {
-  list-style: none;
-  text-transform: uppercase;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  justify-content: center;
-  text-align: center;
-}
-
-li {
-  margin: 40px;
-  font-size: 3rem;
-}
-li a {
-  text-decoration: none;
-  color: white;
 }
 
 h1 {
@@ -449,6 +461,11 @@ h1 {
 .material-symbols-outlined {
   color: white;
   font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+}
+
+.theme-toggle-button {
+  background-color: #1E1E1E;
+  border: none;
 }
 
 .material-symbols-outlined {
