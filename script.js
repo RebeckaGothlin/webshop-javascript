@@ -36,11 +36,12 @@ function toggleTheme() {
     }
 }
 
-// add to cart
+// add to cart, applicera på alla!! querySelectorAll..
 
 const minus = document.querySelector('#subtract');
 const plus = document.querySelector('#add');
 const currentCount = document.querySelector('#currentCount');
+
 
 minus.addEventListener('click', subtract);
 plus.addEventListener('click', add);

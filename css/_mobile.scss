@@ -37,6 +37,7 @@ body.dark-theme {
 header {
     display: flex;
     justify-content: space-around;
+    align-items: center;
     height: 50px;
     width: 100vw;
     position: fixed;
@@ -115,6 +116,14 @@ h1 {
     color: white;
     font-size: 1.5rem;
     align-items: center;
+}
+.material-symbols-outlined {
+    color: white;
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 24
 }
 
 .page-content {
