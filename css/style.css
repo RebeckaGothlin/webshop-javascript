@@ -339,13 +339,22 @@ template {
 
 body,
 body:not(.dark-theme) {
-  background-color: lightgray;
+  background-color: white;
   color: black;
+}
+body .cart,
+body:not(.dark-theme) .cart {
+  background-color: black;
+  color: white;
 }
 
 body.dark-theme {
   background-color: #1E1E1E;
   color: white;
+}
+body.dark-theme .cart {
+  background-color: white;
+  color: black;
 }
 
 @media screen and (prefers-color-scheme: dark) {
@@ -457,6 +466,19 @@ h1 {
 }
 .page-content .page1 .checked {
   color: orange;
+}
+.page-content .page1 .cart {
+  width: 35px;
+  height: 35px;
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+.page-content .page1 input[type=number] {
+  width: 50px;
+  height: 35px;
+  text-align: center;
+  font-size: 1.5rem;
+  border: 2px solid black;
 }
 .page-content .page2 {
   grid-column: span 4;

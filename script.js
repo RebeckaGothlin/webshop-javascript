@@ -1,3 +1,5 @@
+// hamburger menu
+
 const menuBtn = document.querySelector('#toggleMenu');
 const menu = document.querySelector('#menu');
 
@@ -13,6 +15,7 @@ function toggleMenu() {
     }
 }
 
+// toggle theme, dark theme
 
 if (
     window.matchMedia && 
@@ -20,7 +23,6 @@ if (
 {
     document.body.classList.add('dark-theme');
 }
-
 
 const themeToggle = document.querySelector("#themeToggle");
 
@@ -32,4 +34,21 @@ function toggleTheme() {
     } else {
     document.body.classList.add('dark-theme');
     }
+}
+
+// add to cart
+
+const minus = document.querySelector('#subtract');
+const plus = document.querySelector('#add');
+const currentCount = document.querySelector('#currentCount');
+
+minus.addEventListener('click', subtract);
+plus.addEventListener('click', add);
+
+function subtract() {
+    currentCount.value -= 1; // !!! fixa så inte -1 on noll..
+}
+
+function add() {
+    currentCount.value = Number(currentCount.value) + 1;
 }
