@@ -122,7 +122,7 @@ const products = [
         price: 15,
         rating: 4.9,
         category: "havre",
-        imageUrl: "assets/havrebollon.png",
+        imageUrl: "assets/havreboll.png",
         amount: 0,
     },
 ];
@@ -133,9 +133,10 @@ for (let i = 0; i < products.length; i++) {
     productsContainer.innerHTML +=
         `<div id="product-${i}">
             <img src="${products[i].imageUrl}" alt="${products[i].name}">
+            Rating: ${products[i].rating}
             <strong>${products[i].name}</strong>
-            Antal: ${products[i].amount}
             Pris: ${products[i].price} kr
+            Antal: ${products[i].amount}
             <button class="subtract" id="subtract-${i}">-</button>
             <button class="add" id="add-${i}">+</button>
         </div>`;
@@ -160,9 +161,11 @@ function addAmount(e) {
     for (let i = 0; i < products.length; i++) {
         productsContainer.innerHTML +=
             `<div id="product-${i}">
+                <img src="${products[i].imageUrl}" alt="${products[i].name}">
+                Rating: ${products[i].rating}
                 <strong>${products[i].name}</strong>
-                Antal: ${products[i].amount}
                 Pris: ${products[i].price} kr
+                Antal: ${products[i].amount}
                 <button class="subtract" id="subtract-${i}">-</button>
                 <button class="add" id="add-${i}">+</button>
             </div>`;

@@ -89,6 +89,8 @@ li {
 
 .menu-button {
     z-index: 2;
+    width: 35px;
+    height: 35px;
     border: 0;
     color: white;
     cursor: pointer;
@@ -138,6 +140,8 @@ h1 {
 .theme-toggle-button {
     background-color: #1E1E1E;
     border: none;
+    width: 35px;
+    height: 35px;
 }
 .material-symbols-outlined {
     color: white;
@@ -152,7 +156,7 @@ h1 {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 16px;
-    margin-top: 80px;
+    margin-top: 50px;
 
     .page {
         min-height: 100vh;
@@ -167,10 +171,7 @@ h1 {
             display: block;
             margin: 0 auto;
         }
-        .checked {
-            color: orange;
-        }
-        .cart {
+        .add, .subtract {
             width: 35px;
             height: 35px;
             font-size: 1.8rem;
@@ -189,7 +190,33 @@ h1 {
         text-align: center;
     }
     .page3 {
+        margin: 20px;
         grid-column: span 4;
-        text-align: center;
+        input[type=text] {
+            width: 100%;
+            padding: 10px;
+            border-radius: 2px;
+            margin-top: 5px;
+            margin-bottom: 14px;
+            box-sizing: border-box;
+        }
+        
+        input[type=submit],
+        input[type=reset] {
+            background-color: white;
+            color: black;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+        }
+        
+        input[type=reset]:hover {
+            background-color: rgb(217, 108, 108);
+        }
+        
+        input[type=submit]:hover {
+            background-color: lightgray;
+        }
     }
 }
