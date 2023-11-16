@@ -12,7 +12,7 @@ body,
 body:not(.dark-theme) {
     background-color: white;
     color: black;
-    .cart {
+    .subtract, .add, .addProduct {
         background-color: black;
         color: white;
     }
@@ -21,7 +21,7 @@ body:not(.dark-theme) {
 body.dark-theme {
     background-color: #1E1E1E;
     color: white;
-    .cart {
+    .add, .subtract, .addProduct {
         background-color: white;
         color: black;
     }
@@ -38,7 +38,7 @@ body.dark-theme {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 16px;
-} /*fixa grid*/
+} 
 header {
     grid-column: span 4;
     display: flex;
@@ -137,6 +137,11 @@ h1 {
   'GRAD' 0,
   'opsz' 24
 }
+.header-cart-price {
+    span {
+        background-color: rgb(175, 41, 65);
+    }
+}
 .theme-toggle-button {
     background-color: #1E1E1E;
     border: none;
@@ -161,28 +166,40 @@ h1 {
     .page {
         min-height: 100vh;
     }
+    h2 {
+        text-align: center;
+    }
 
     .page1 {
         grid-column: span 4;
         text-align: center;
+        .product-details {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
         img {
             width: 280px;
             height: auto;
             display: block;
             margin: 0 auto;
         }
+        button {
+            display: inline-block;
+        }
         .add, .subtract {
             width: 35px;
             height: 35px;
             font-size: 1.8rem;
             font-weight: bold;
+            display: inline-block;
         }
-        input[type=number] {
-            width: 50px;
+        .addProduct {
+            width: 110px;
             height: 35px;
-            text-align: center;
-            font-size: 1.5rem;
-            border: 2px solid black;
+            font-size: 1rem;
+            font-weight: bold;
+            text-transform: uppercase;
         }
     }
     .page2 {
@@ -203,10 +220,10 @@ h1 {
         
         input[type=submit],
         input[type=reset] {
-            background-color: white;
+            background-color: lightgray;
+            border: 1px solid black;
             color: black;
             padding: 10px 15px;
-            border: none;
             border-radius: 15px;
             cursor: pointer;
         }
@@ -216,7 +233,7 @@ h1 {
         }
         
         input[type=submit]:hover {
-            background-color: lightgray;
+            background-color: gray;
         }
     }
 }

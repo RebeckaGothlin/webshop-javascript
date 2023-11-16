@@ -342,8 +342,10 @@ body:not(.dark-theme) {
   background-color: white;
   color: black;
 }
-body .cart,
-body:not(.dark-theme) .cart {
+body .subtract, body .add, body .addProduct,
+body:not(.dark-theme) .subtract,
+body:not(.dark-theme) .add,
+body:not(.dark-theme) .addProduct {
   background-color: black;
   color: white;
 }
@@ -352,7 +354,7 @@ body.dark-theme {
   background-color: #1E1E1E;
   color: white;
 }
-body.dark-theme .cart {
+body.dark-theme .add, body.dark-theme .subtract, body.dark-theme .addProduct {
   background-color: white;
   color: black;
 }
@@ -367,7 +369,8 @@ body.dark-theme .cart {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 16px;
-} /*fixa grid*/
+}
+
 header {
   grid-column: span 4;
   display: flex;
@@ -465,6 +468,10 @@ h1 {
   font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
 }
 
+.header-cart-price span {
+  background-color: rgb(175, 41, 65);
+}
+
 .theme-toggle-button {
   background-color: #1E1E1E;
   border: none;
@@ -486,9 +493,17 @@ h1 {
 .page-content .page {
   min-height: 100vh;
 }
+.page-content h2 {
+  text-align: center;
+}
 .page-content .page1 {
   grid-column: span 4;
   text-align: center;
+}
+.page-content .page1 .product-details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .page-content .page1 img {
   width: 280px;
@@ -496,18 +511,22 @@ h1 {
   display: block;
   margin: 0 auto;
 }
+.page-content .page1 button {
+  display: inline-block;
+}
 .page-content .page1 .add, .page-content .page1 .subtract {
   width: 35px;
   height: 35px;
   font-size: 1.8rem;
   font-weight: bold;
+  display: inline-block;
 }
-.page-content .page1 input[type=number] {
-  width: 50px;
+.page-content .page1 .addProduct {
+  width: 110px;
   height: 35px;
-  text-align: center;
-  font-size: 1.5rem;
-  border: 2px solid black;
+  font-size: 1rem;
+  font-weight: bold;
+  text-transform: uppercase;
 }
 .page-content .page2 {
   grid-column: span 4;
@@ -527,10 +546,10 @@ h1 {
 }
 .page-content .page3 input[type=submit],
 .page-content .page3 input[type=reset] {
-  background-color: white;
+  background-color: lightgray;
+  border: 1px solid black;
   color: black;
   padding: 10px 15px;
-  border: none;
   border-radius: 15px;
   cursor: pointer;
 }
@@ -538,7 +557,7 @@ h1 {
   background-color: rgb(217, 108, 108);
 }
 .page-content .page3 input[type=submit]:hover {
-  background-color: lightgray;
+  background-color: gray;
 }
 
 @media screen and (min-width: 768px) {

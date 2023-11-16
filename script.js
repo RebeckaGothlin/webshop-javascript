@@ -133,12 +133,17 @@ for (let i = 0; i < products.length; i++) {
     productsContainer.innerHTML +=
         `<div id="product-${i}">
             <img src="${products[i].imageUrl}" alt="${products[i].name}">
-            Rating: ${products[i].rating}
-            <strong>${products[i].name}</strong>
-            Pris: ${products[i].price} kr
-            Antal: ${products[i].amount}
-            <button class="subtract" id="subtract-${i}">-</button>
-            <button class="add" id="add-${i}">+</button>
+            <div class="product-details">
+                Rating: ${products[i].rating}
+                <strong>${products[i].name}</strong>
+                Pris: ${products[i].price} kr
+                Antal: ${products[i].amount}
+                <div class="buttons-container">
+                    <button class="subtract" id="subtract-${i}">-</button>
+                    <button class="add" id="add-${i}">+</button>
+                </div>
+                <button class="addProduct" id="addProduct-${i}">Lägg till</button>
+            </div>
         </div>`;
 }
 
@@ -149,8 +154,8 @@ for (let i = 0; i < addButtons.length; i++) {
 
 function addAmount(e) {
     // Hämta id:t från knappen man tryckt på
-    // Ta bort tecten add- från id:t så man får fram siffran ist
-    // Siffram = platsen för chokladbollen i arrayen
+    // Ta bort texten add- från id:t så man får fram siffran ist
+    // Siffran = platsen för chokladbollen i arrayen
     const index = e.target.id.replace('add-', '');
     console.log(index);
     
@@ -162,12 +167,17 @@ function addAmount(e) {
         productsContainer.innerHTML +=
             `<div id="product-${i}">
                 <img src="${products[i].imageUrl}" alt="${products[i].name}">
-                Rating: ${products[i].rating}
-                <strong>${products[i].name}</strong>
-                Pris: ${products[i].price} kr
-                Antal: ${products[i].amount}
-                <button class="subtract" id="subtract-${i}">-</button>
-                <button class="add" id="add-${i}">+</button>
+                <div class="product-details">
+                    Rating: ${products[i].rating}
+                    <strong>${products[i].name}</strong>
+                    Pris: ${products[i].price} kr
+                    Antal: ${products[i].amount}
+                    <div class="buttons-container">
+                        <button class="subtract" id="subtract-${i}">-</button>
+                        <button class="add" id="add-${i}">+</button>
+                    </div>
+                    <button class="addProduct" id="addProduct-${i}">Lägg till</button>
+                </div>
             </div>`;
     }
 
@@ -177,3 +187,52 @@ function addAmount(e) {
         addButtons[i].addEventListener('click', addAmount);
     }
 }
+
+function addAmount(e) {
+    const index = e.target.id.replace('add-', '');
+    products[index].amount += 1;
+    updateProductsContainer();
+}
+
+function subtractAmount(e) {
+    const index = e.target.id.replace('subtract-', '');
+    if (products[index].amount > 0) {
+        products[index].amount -= 1;
+        updateProductsContainer();
+    }
+}
+
+function updateProductsContainer() {
+    productsContainer.innerHTML = '';
+
+    for (let i = 0; i < products.length; i++) {
+        productsContainer.innerHTML +=
+            `<div id="product-${i}">
+                <img src="${products[i].imageUrl}" alt="${products[i].name}">
+                <div class="product-details">
+                    Rating: ${products[i].rating}
+                    <strong>${products[i].name}</strong>
+                    Pris: ${products[i].price} kr
+                    Antal: ${products[i].amount}
+                    <div class="buttons-container">
+                        <button class="subtract" id="subtract-${i}">-</button>
+                        <button class="add" id="add-${i}">+</button>
+                    </div>
+                    <button class="addProduct" id="addProduct-${i}">Lägg till</button>
+                </div>
+            </div>`;
+    }
+
+    const addButtons = Array.from(document.querySelectorAll('.add'));
+    for (let i = 0; i < addButtons.length; i++) {
+        addButtons[i].addEventListener('click', addAmount);
+    }
+
+    const subtractButtons = Array.from(document.querySelectorAll('.subtract'));
+    for (let i = 0; i < subtractButtons.length; i++) {
+        subtractButtons[i].addEventListener('click', subtractAmount);
+    }
+}
+
+updateProductsContainer();
+
