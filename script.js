@@ -36,32 +36,141 @@ function toggleTheme() {
     }
 }
 
-// add to cart, applicera på alla!! querySelectorAll..
 
-const minus = document.querySelector('#subtract');
-const plus = document.querySelector('#add');
-const price = document.querySelector('#price');
-const currentCount = document.querySelector('#currentCount');
-let amount = Number(currentCount.value);
+/*
+1. Skapa array med chokladbollarna (products) som objekt
+2. loopa ut arrayen på sidan så alla chokladbollar (products) visas
+3. skapa unika id:n för knapparna för plus och minus
+4. koppla ihop plus och minus med varje chokladboll
+ */
 
+const products = [
+    {
+        name: "Chokladboll - cappuccino",
+        price: 10,
+        rating: 4.5,
+        category: "kaffe",
+        imageUrl: "assets/chokladboll-cappuccino.png",
+        amount: 0,
+    },
+    {
+        name: "Chokladboll - chokladdragerad",
+        price: 12,
+        rating: 4.8,
+        category: "choklad",
+        imageUrl: "assets/chokladboll-chokladdragerad.png",
+        amount: 0,
+    },  
+    {
+        name: "Chokladboll - hallon",
+        price: 15,
+        rating: 4.6,
+        category: "fruktig",
+        imageUrl: "assets/chokladboll-hallon.png",
+        amount: 0,
+    },
+    {
+        name: "Chokladboll - kaffe",
+        price: 12,
+        rating: 4.3,
+        category: "kaffe",
+        imageUrl: "assets/chokladboll-kaffe.png",
+        amount: 0,
+    },  
+    {
+        name: "Chokladboll - kokos",
+        price: 10,
+        rating: 4.8,
+        category: "choklad",
+        imageUrl: "assets/chokladboll-kokos.png",
+        amount: 0,
+    },
+    {
+        name: "Chokladboll - pärlsocker",
+        price: 10,
+        rating: 4.4,
+        category: "choklad",
+        imageUrl: "assets/chokladboll-parlsocker.png",
+        amount: 0,
+    },
+    {
+        name: "Chokladboll - raw",
+        price: 13,
+        rating: 4.2,
+        category: "choklad",
+        imageUrl: "assets/chokladboll-raw.png",
+        amount: 0,
+    },
+    {
+        name: "Chokladboll - sockerfri",
+        price: 12,
+        rating: 4,
+        category: "choklad",
+        imageUrl: "assets/chokladboll-sockerfri.png",
+        amount: 0,
+    },
+    {
+        name: "Chokladboll - strössel",
+        price: 10,
+        rating: 4.4,
+        category: "fruktig",
+        imageUrl: "assets/chokladboll-strossel.png",
+        amount: 0,
+    },
+    {
+        name: "Havreboll",
+        price: 15,
+        rating: 4.9,
+        category: "havre",
+        imageUrl: "assets/havrebollon.png",
+        amount: 0,
+    },
+];
 
-minus.addEventListener('click', subtractValue);
-plus.addEventListener('click', addValue);
+const productsContainer = document.querySelector('#products');
 
-function subtractValue() {
-    amount -= 1;
-    currentCount.value = amount; // !!! fixa så inte -1 on noll..
-
-    updatePrice();
+for (let i = 0; i < products.length; i++) {
+    productsContainer.innerHTML +=
+        `<div id="product-${i}">
+            <img src="${products[i].imageUrl}" alt="${products[i].name}">
+            <strong>${products[i].name}</strong>
+            Antal: ${products[i].amount}
+            Pris: ${products[i].price} kr
+            <button class="subtract" id="subtract-${i}">-</button>
+            <button class="add" id="add-${i}">+</button>
+        </div>`;
 }
 
-function addValue() {
-    amount += 1;
-    currentCount.value = amount;
-
-    updatePrice();
+const addButtons = Array.from(document.querySelectorAll('.add'));
+for (let i = 0; i < addButtons.length; i++) {
+    addButtons[i].addEventListener('click', addAmount);
 }
 
-function updatePrice() {
-    price.innerHTML = amount * 10 + ' kr';
+function addAmount(e) {
+    // Hämta id:t från knappen man tryckt på
+    // Ta bort tecten add- från id:t så man får fram siffran ist
+    // Siffram = platsen för chokladbollen i arrayen
+    const index = e.target.id.replace('add-', '');
+    console.log(index);
+    
+    products[index].amount += 1;
+
+    productsContainer.innerHTML = '';
+
+    for (let i = 0; i < products.length; i++) {
+        productsContainer.innerHTML +=
+            `<div id="product-${i}">
+                <strong>${products[i].name}</strong>
+                Antal: ${products[i].amount}
+                Pris: ${products[i].price} kr
+                <button class="subtract" id="subtract-${i}">-</button>
+                <button class="add" id="add-${i}">+</button>
+            </div>`;
+    }
+
+    // Lägg till eventlyssnare igen på plus-knapparna då de tidigare knapparna raderades när vi nollställde  (rad 156)
+    const addButtons = Array.from(document.querySelectorAll('.add'));
+    for (let i = 0; i < addButtons.length; i++) {
+        addButtons[i].addEventListener('click', addAmount);
+    }
 }
