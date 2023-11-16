@@ -137,9 +137,10 @@ for (let i = 0; i < products.length; i++) {
                 Rating: ${products[i].rating}
                 <strong>${products[i].name}</strong>
                 Pris: ${products[i].price} kr
-                Antal: ${products[i].amount}
+                
                 <div class="buttons-container">
                     <button class="subtract" id="subtract-${i}">-</button>
+                    ${products[i].amount}
                     <button class="add" id="add-${i}">+</button>
                 </div>
                 <button class="addProduct" id="addProduct-${i}">Lägg till</button>
@@ -171,9 +172,10 @@ function addAmount(e) {
                     Rating: ${products[i].rating}
                     <strong>${products[i].name}</strong>
                     Pris: ${products[i].price} kr
-                    Antal: ${products[i].amount}
+
                     <div class="buttons-container">
                         <button class="subtract" id="subtract-${i}">-</button>
+                        ${products[i].amount}
                         <button class="add" id="add-${i}">+</button>
                     </div>
                     <button class="addProduct" id="addProduct-${i}">Lägg till</button>
@@ -213,9 +215,10 @@ function updateProductsContainer() {
                     Rating: ${products[i].rating}
                     <strong>${products[i].name}</strong>
                     Pris: ${products[i].price} kr
-                    Antal: ${products[i].amount}
+
                     <div class="buttons-container">
                         <button class="subtract" id="subtract-${i}">-</button>
+                        ${products[i].amount}
                         <button class="add" id="add-${i}">+</button>
                     </div>
                     <button class="addProduct" id="addProduct-${i}">Lägg till</button>
