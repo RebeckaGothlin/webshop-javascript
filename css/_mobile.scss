@@ -188,7 +188,7 @@ h1 {
             display: block;
             margin: 0 auto;
         }
-        button {
+        .buttons-container {
             display: inline-block;
         }
         .add, .subtract {
@@ -197,6 +197,7 @@ h1 {
             font-size: 1.8rem;
             font-weight: bold;
             display: inline-block;
+            margin-bottom: 4px;
         }
         .addProduct {
             width: 110px;

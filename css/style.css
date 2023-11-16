@@ -516,7 +516,7 @@ h1 {
   display: block;
   margin: 0 auto;
 }
-.page-content .page1 button {
+.page-content .page1 .buttons-container {
   display: inline-block;
 }
 .page-content .page1 .add, .page-content .page1 .subtract {
@@ -525,6 +525,7 @@ h1 {
   font-size: 1.8rem;
   font-weight: bold;
   display: inline-block;
+  margin-bottom: 4px;
 }
 .page-content .page1 .addProduct {
   width: 110px;
@@ -566,12 +567,38 @@ h1 {
 }
 
 @media screen and (min-width: 768px) {
-  body {
-    background-color: pink;
+  .page-content {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 16px;
+  }
+  .page-content .page1 {
+    grid-column: span 6;
+  }
+  .page-content .products {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 16px;
+  }
+  .page-content .products .product-container {
+    grid-column: span 3;
   }
 }
 @media screen and (min-width: 1280px) {
-  body {
-    background-color: aqua;
+  .page-content {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 16px;
+  }
+  .page-content .page1 {
+    grid-column: span 12;
+  }
+  .page-content .products {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 16px;
+  }
+  .page-content .products .product-container {
+    grid-column: span 3;
   }
 }/*# sourceMappingURL=style.css.map */

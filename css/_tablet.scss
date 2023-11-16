@@ -1,3 +1,16 @@
-body {
-    background-color: pink;
+.page-content {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 16px;   
+    .page1 {
+        grid-column: span 6;
+    }
+    .products {
+        display: grid;
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+        gap: 16px;
+        .product-container {
+            grid-column: span 3;
+        }
+    }
 }

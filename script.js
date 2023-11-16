@@ -18,9 +18,8 @@ function toggleMenu() {
 // toggle theme, dark theme
 
 if (
-    window.matchMedia && 
-    window.matchMedia('(prefers-color-scheme: dark)').matches) 
-{
+    window.matchMedia &&
+    window.matchMedia('(prefers-color-scheme: dark)').matches) {
     document.body.classList.add('dark-theme');
 }
 
@@ -30,9 +29,9 @@ themeToggle.addEventListener('click', toggleTheme);
 
 function toggleTheme() {
     if (document.body.classList.contains('dark-theme')) {
-    document.body.classList.remove('dark-theme');
+        document.body.classList.remove('dark-theme');
     } else {
-    document.body.classList.add('dark-theme');
+        document.body.classList.add('dark-theme');
     }
 }
 
@@ -60,7 +59,7 @@ const products = [
         category: "choklad",
         imageUrl: "assets/chokladboll-chokladdragerad.png",
         amount: 0,
-    },  
+    },
     {
         name: "Chokladboll - hallon",
         price: 15,
@@ -76,7 +75,7 @@ const products = [
         category: "kaffe",
         imageUrl: "assets/chokladboll-kaffe.png",
         amount: 0,
-    },  
+    },
     {
         name: "Chokladboll - kokos",
         price: 10,
@@ -131,7 +130,9 @@ const productsContainer = document.querySelector('#products');
 
 for (let i = 0; i < products.length; i++) {
     productsContainer.innerHTML +=
-        `<div id="product-${i}">
+        `<div class="product-container">
+            <div id="product-${i}">
+            
             <img src="${products[i].imageUrl}" alt="${products[i].name}">
             <div class="product-details">
                 Rating: ${products[i].rating}
@@ -144,6 +145,7 @@ for (let i = 0; i < products.length; i++) {
                     <button class="add" id="add-${i}">+</button>
                 </div>
                 <button class="addProduct" id="addProduct-${i}">Lägg till</button>
+            </div>
             </div>
         </div>`;
 }
@@ -159,14 +161,16 @@ function addAmount(e) {
     // Siffran = platsen för chokladbollen i arrayen
     const index = e.target.id.replace('add-', '');
     console.log(index);
-    
+
     products[index].amount += 1;
 
     productsContainer.innerHTML = '';
 
     for (let i = 0; i < products.length; i++) {
         productsContainer.innerHTML +=
-            `<div id="product-${i}">
+            `<div class="product-container">
+                <div id="product-${i}">
+                <div class="product-container">
                 <img src="${products[i].imageUrl}" alt="${products[i].name}">
                 <div class="product-details">
                     Rating: ${products[i].rating}
@@ -180,6 +184,7 @@ function addAmount(e) {
                     </div>
                     <button class="addProduct" id="addProduct-${i}">Lägg till</button>
                 </div>
+                </div
             </div>`;
     }
 
@@ -209,7 +214,9 @@ function updateProductsContainer() {
 
     for (let i = 0; i < products.length; i++) {
         productsContainer.innerHTML +=
-            `<div id="product-${i}">
+            `<div class="product-container">
+                <div id="product-${i}">
+                <div class="product-container"> 
                 <img src="${products[i].imageUrl}" alt="${products[i].name}">
                 <div class="product-details">
                     Rating: ${products[i].rating}
@@ -222,6 +229,7 @@ function updateProductsContainer() {
                         <button class="add" id="add-${i}">+</button>
                     </div>
                     <button class="addProduct" id="addProduct-${i}">Lägg till</button>
+                </div>
                 </div>
             </div>`;
     }
