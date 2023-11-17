@@ -132,8 +132,9 @@ for (let i = 0; i < products.length; i++) {
     productsContainer.innerHTML +=
         `<div class="product-container">
             <div id="product-${i}">
-            
-            <img src="${products[i].imageUrl}" alt="${products[i].name}">
+            <div class="image-container">
+                <img src="${products[i].imageUrl}" alt="${products[i].name}">
+            </div>
             <div class="product-details">
                 Rating: ${products[i].rating}
                 <strong>${products[i].name}</strong>
@@ -171,7 +172,9 @@ function addAmount(e) {
             `<div class="product-container">
                 <div id="product-${i}">
                 <div class="product-container">
-                <img src="${products[i].imageUrl}" alt="${products[i].name}">
+                <div class="image-container">
+                    <img src="${products[i].imageUrl}" alt="${products[i].name}">
+                </div>
                 <div class="product-details">
                     Rating: ${products[i].rating}
                     <strong>${products[i].name}</strong>
@@ -217,7 +220,9 @@ function updateProductsContainer() {
             `<div class="product-container">
                 <div id="product-${i}">
                 <div class="product-container"> 
-                <img src="${products[i].imageUrl}" alt="${products[i].name}">
+                <div class="image-container">
+                    <img src="${products[i].imageUrl}" alt="${products[i].name}">
+                </div>
                 <div class="product-details">
                     Rating: ${products[i].rating}
                     <strong>${products[i].name}</strong>
