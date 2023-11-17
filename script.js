@@ -6,21 +6,21 @@ const menu = document.querySelector('#menu');
 menuBtn.addEventListener('click', toggleMenu);
 
 function toggleMenu() {
-    const isOpen = menu.classList.toggle('open');
-    menuBtn.classList.toggle('open');
-    if (isOpen) {
-        menuBtn.setAttribute('aria-label', 'Close menu');
-    } else {
-        menuBtn.setAttribute('aria-label', 'Open menu');
-    }
+	const isOpen = menu.classList.toggle('open');
+	menuBtn.classList.toggle('open');
+	if (isOpen) {
+		menuBtn.setAttribute('aria-label', 'Close menu');
+	} else {
+		menuBtn.setAttribute('aria-label', 'Open menu');
+	}
 }
 
 // MÖRKT TEMA
 
 if (
-    window.matchMedia &&
-    window.matchMedia('(prefers-color-scheme: dark)').matches) {
-    document.body.classList.add('dark-theme');
+	window.matchMedia &&
+	window.matchMedia('(prefers-color-scheme: dark)').matches) {
+	document.body.classList.add('dark-theme');
 }
 
 const themeToggle = document.querySelector("#themeToggle");
@@ -28,11 +28,11 @@ const themeToggle = document.querySelector("#themeToggle");
 themeToggle.addEventListener('click', toggleTheme);
 
 function toggleTheme() {
-    if (document.body.classList.contains('dark-theme')) {
-        document.body.classList.remove('dark-theme');
-    } else {
-        document.body.classList.add('dark-theme');
-    }
+	if (document.body.classList.contains('dark-theme')) {
+		document.body.classList.remove('dark-theme');
+	} else {
+		document.body.classList.add('dark-theme');
+	}
 }
 
 
@@ -45,94 +45,104 @@ function toggleTheme() {
 4. koppla ihop plus och minus med varje chokladboll
  */
 
+// UPPDATERA VARUKORGEN
+/*
+	Koppla ihop varukorgen i headern med knappen addProduct 
+	och plus/minus-knapparna så när man trycker på Lägg till
+	(i varukorgen) så ska den varukorgen i headern uppdateras
+	med antal och/eller kronor.
+ */
+
+// NOTE TO SELF: Försök förstå all denna kod, ish.
+
 const products = [
-    {
-        name: "Chokladboll - cappuccino",
-        price: 10,
-        rating: 4.5,
-        category: "kaffe",
-        imageUrl: "assets/chokladboll-cappuccino.png",
-        amount: 0,
-    },
-    {
-        name: "Chokladboll - chokladdragerad",
-        price: 12,
-        rating: 4.8,
-        category: "choklad",
-        imageUrl: "assets/chokladboll-chokladdragerad.png",
-        amount: 0,
-    },
-    {
-        name: "Chokladboll - hallon",
-        price: 15,
-        rating: 4.6,
-        category: "fruktig",
-        imageUrl: "assets/chokladboll-hallon.png",
-        amount: 0,
-    },
-    {
-        name: "Chokladboll - kaffe",
-        price: 12,
-        rating: 4.3,
-        category: "kaffe",
-        imageUrl: "assets/chokladboll-kaffe.png",
-        amount: 0,
-    },
-    {
-        name: "Chokladboll - kokos",
-        price: 10,
-        rating: 4.8,
-        category: "choklad",
-        imageUrl: "assets/chokladboll-kokos.png",
-        amount: 0,
-    },
-    {
-        name: "Chokladboll - pärlsocker",
-        price: 10,
-        rating: 4.4,
-        category: "choklad",
-        imageUrl: "assets/chokladboll-parlsocker.png",
-        amount: 0,
-    },
-    {
-        name: "Chokladboll - raw",
-        price: 13,
-        rating: 4.2,
-        category: "choklad",
-        imageUrl: "assets/chokladboll-raw.png",
-        amount: 0,
-    },
-    {
-        name: "Chokladboll - sockerfri",
-        price: 12,
-        rating: 4,
-        category: "choklad",
-        imageUrl: "assets/chokladboll-sockerfri.png",
-        amount: 0,
-    },
-    {
-        name: "Chokladboll - strössel",
-        price: 10,
-        rating: 4.4,
-        category: "fruktig",
-        imageUrl: "assets/chokladboll-strossel.png",
-        amount: 0,
-    },
-    {
-        name: "Havreboll",
-        price: 15,
-        rating: 4.9,
-        category: "havre",
-        imageUrl: "assets/havreboll.png",
-        amount: 0,
-    },
+	{
+		name: "Chokladboll - cappuccino",
+		price: 10,
+		rating: 4.5,
+		category: "kaffe",
+		imageUrl: "assets/chokladboll-cappuccino.png",
+		amount: 0,
+	},
+	{
+		name: "Chokladboll - chokladdragerad",
+		price: 12,
+		rating: 4.8,
+		category: "choklad",
+		imageUrl: "assets/chokladboll-chokladdragerad.png",
+		amount: 0,
+	},
+	{
+		name: "Chokladboll - hallon",
+		price: 15,
+		rating: 4.6,
+		category: "fruktig",
+		imageUrl: "assets/chokladboll-hallon.png",
+		amount: 0,
+	},
+	{
+		name: "Chokladboll - kaffe",
+		price: 12,
+		rating: 4.3,
+		category: "kaffe",
+		imageUrl: "assets/chokladboll-kaffe.png",
+		amount: 0,
+	},
+	{
+		name: "Chokladboll - kokos",
+		price: 10,
+		rating: 4.8,
+		category: "choklad",
+		imageUrl: "assets/chokladboll-kokos.png",
+		amount: 0,
+	},
+	{
+		name: "Chokladboll - pärlsocker",
+		price: 10,
+		rating: 4.4,
+		category: "choklad",
+		imageUrl: "assets/chokladboll-parlsocker.png",
+		amount: 0,
+	},
+	{
+		name: "Chokladboll - raw",
+		price: 13,
+		rating: 4.2,
+		category: "choklad",
+		imageUrl: "assets/chokladboll-raw.png",
+		amount: 0,
+	},
+	{
+		name: "Chokladboll - sockerfri",
+		price: 12,
+		rating: 4,
+		category: "choklad",
+		imageUrl: "assets/chokladboll-sockerfri.png",
+		amount: 0,
+	},
+	{
+		name: "Chokladboll - strössel",
+		price: 10,
+		rating: 4.4,
+		category: "fruktig",
+		imageUrl: "assets/chokladboll-strossel.png",
+		amount: 0,
+	},
+	{
+		name: "Havreboll",
+		price: 15,
+		rating: 4.9,
+		category: "havre",
+		imageUrl: "assets/havreboll.png",
+		amount: 0,
+	},
 ];
 
 const productsContainer = document.querySelector('#products');
 
 // Funktion för att skapa produktHTML
 function createProductHTML(product, index) {
-    return `
+	return `
         <div class="product-container">
             <div id="product-${index}">
                 <div class="product-container">
@@ -149,7 +159,6 @@ function createProductHTML(product, index) {
                             ${product.amount}
                             <button class="add" id="add-${index}">+</button>
                         </div>
-                        <button class="addProduct" id="addProduct-${index}">Lägg till</button>
                     </div>
                 </div>
             </div>
@@ -158,44 +167,60 @@ function createProductHTML(product, index) {
 
 // Funktion för att uppdatera productsContainer
 function updateProductsContainer() {
-    productsContainer.innerHTML = '';
+	productsContainer.innerHTML = '';
 
-    for (let i = 0; i < products.length; i++) {
-        productsContainer.innerHTML += createProductHTML(products[i], i);
-    }
+	for (let i = 0; i < products.length; i++) {
+		productsContainer.innerHTML += createProductHTML(products[i], i);
+	}
 
-    addEventListeners();
+	addEventListeners();
 }
 
 // Funktion för att adda event listeners för add och subtract buttons
 function addEventListeners() {
-    const addButtons = Array.from(document.querySelectorAll('.add'));
-    for (let i = 0; i < addButtons.length; i++) {
-        addButtons[i].addEventListener('click', addAmount);
-    }
+	const addButtons = Array.from(document.querySelectorAll('.add'));
+	for (let i = 0; i < addButtons.length; i++) {
+		addButtons[i].addEventListener('click', addAmount);
+	}
 
-    const subtractButtons = Array.from(document.querySelectorAll('.subtract'));
-    for (let i = 0; i < subtractButtons.length; i++) {
-        subtractButtons[i].addEventListener('click', subtractAmount);
-    }
+	const subtractButtons = Array.from(document.querySelectorAll('.subtract'));
+	for (let i = 0; i < subtractButtons.length; i++) {
+		subtractButtons[i].addEventListener('click', subtractAmount);
+	}
 }
+
 
 // Funktion för att hantera addAmount
 function addAmount(e) {
-    const index = e.target.id.replace('add-', '');
-    products[index].amount += 1;
-    updateProductsContainer();
+	const index = e.target.id.replace('add-', '');
+	products[index].amount += 1;
+	updateProductsContainer();
+	updateTotalPrice();
 }
 
 // Funktion för att hantera subtractAmount
 function subtractAmount(e) {
-    const index = e.target.id.replace('subtract-', '');
-    if (products[index].amount > 0) {
-        products[index].amount -= 1;
-        updateProductsContainer();
-    }
+	const index = e.target.id.replace('subtract-', '');
+	if (products[index].amount > 0) {
+		products[index].amount -= 1;
+		updateProductsContainer();
+		updateTotalPrice();
+
+	}
 }
 
 updateProductsContainer();
 
 
+const totalPriceSpan = document.getElementById('price');
+let totalPrice = 0;
+
+function updateTotalPrice() {
+	totalPrice = products.reduce((sum, product) => sum + product.amount * product.price, 0);
+	totalPriceSpan.textContent = totalPrice + ' kr';
+}
+
+updateTotalPrice();
+
+// NOTE TO SELF: Läs igenom all denna kod flera gånger och försök förstå.
+// Försök skriv det igen utan att kolla! 
