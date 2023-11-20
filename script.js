@@ -136,18 +136,19 @@ const productsContainer = document.querySelector('#products');
 
 printProducts();
 
+
 function decreaseAmount(e) {
 	let index = e.target.id.replace('decrease-', '');
 	if (products[index].amount > 0) {
 		products[index].amount -= 1;
-	index = Number(index);
+		index = Number(index);
 
-	printProducts();
+		printProducts();
 	}
 }
 
 function increaseAmount(e) {
-	let index= e.target.id.replace('increase-', '');
+	let index = e.target.id.replace('increase-', '');
 	index = Number(index);
 	products[index].amount += 1;
 
@@ -199,13 +200,9 @@ function printProducts() {
 
 
 /*
-	Koppla ihop varukorgen i headern med knappen addProduct 
-	och plus/minus-knapparna så när man trycker på Lägg till
-	(i varukorgen) så ska den varukorgen i headern uppdateras
-	med antal och/eller kronor.
- */
-
-
+	Koppla ihop varukorgen i headern med 
+	plus/minus-knapparna, så totalsumman uppdateras..
+*/
 
 
 
