@@ -63,6 +63,35 @@
             <section class="page page1">
                 <h2 id="page1-link">Produkter</h2>
                 <!--sortera efter:-->
+                <div class="category-radio">
+                    <label>
+                        <input type="radio" name="categoryFilter" value="chocolate">Choklad
+                    </label>
+                    <label>
+                        <input type="radio" name="categoryFilter" value="coffee">Kaffe
+                    </label>
+                    <label>
+                        <input type="radio" name="categoryFilter" value="fruit">Fruktig
+                    </label>
+                    <label>
+                        <input type="radio" name="categoryFilter" value="oat">Havre
+                    </label>
+                    <label>
+                        <input type="radio" name="categoryFilter" value="all" checked>Visa alla
+                    </label>
+                </div>
+                
+
+                <label>
+                    <span>Prisklass</span>
+                    <div class="price-range">   
+                        <span>0 kr</span>
+                        <input type="range" min="0" max="15" value="15"  id="priceRange">
+                        <span>15 kr</span>
+                    </div>
+                    <span id="currentRangeValue">15</span> kr
+                </label>
+
                 <div class="products" id="products"></div>
             </section>
 

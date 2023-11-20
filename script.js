@@ -45,13 +45,7 @@ function toggleTheme() {
 4. koppla ihop plus och minus med varje chokladboll
  */
 
-// UPPDATERA VARUKORGEN
-/*
-	Koppla ihop varukorgen i headern med knappen addProduct 
-	och plus/minus-knapparna så när man trycker på Lägg till
-	(i varukorgen) så ska den varukorgen i headern uppdateras
-	med antal och/eller kronor.
- */
+
 
 // NOTE TO SELF: Försök förstå all denna kod, ish.
 
@@ -140,87 +134,97 @@ const products = [
 
 const productsContainer = document.querySelector('#products');
 
-// Funktion för att skapa produktHTML
-function createProductHTML(product, index) {
-	return `
-        <div class="product-container">
-            <div id="product-${index}">
+printProducts();
+
+function decreaseAmount(e) {
+	let index = e.target.id.replace('decrease-', '');
+	if (products[index].amount > 0) {
+		products[index].amount -= 1;
+	index = Number(index);
+
+	printProducts();
+	}
+}
+
+function increaseAmount(e) {
+	let index= e.target.id.replace('increase-', '');
+	index = Number(index);
+	products[index].amount += 1;
+
+	printProducts();
+}
+
+function printProducts() {
+	productsContainer.innerHTML = '';
+
+	for (let i = 0; i < products.length; i++) {
+		productsContainer.innerHTML += `
+		<div class="product-container">
+            <div id="product-${i}}">
                 <div class="product-container">
                     <div class="image-container">
-                        <img src="${product.imageUrl}" alt="${product.name}" width="300" height="300" loading="lazy">
+                        <img src="${products[i].imageUrl}" alt="${products[i].name}" width="300" height="300" loading="lazy">
                     </div>
                     <div class="product-details">
-                        Rating: ${product.rating}
-                        <strong>${product.name}</strong>
-                        Pris: ${product.price} kr
+                        Rating: ${products[i].rating}
+                        <strong>${products[i].name}</strong>
+                        Pris: ${products[i].price} kr
 
                         <div class="buttons-container">
-                            <button class="subtract" id="subtract-${index}">-</button>
-                            ${product.amount}
-                            <button class="add" id="add-${index}">+</button>
+                            <button class="decrease" id="decrease-${i}">-</button>
+                            ${products[i].amount}
+                            <button class="increase" id="increase-${i}">+</button>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>`;
-}
-
-// Funktion för att uppdatera productsContainer
-function updateProductsContainer() {
-	productsContainer.innerHTML = '';
-
-	for (let i = 0; i < products.length; i++) {
-		productsContainer.innerHTML += createProductHTML(products[i], i);
+        </div>
+		`;
 	}
 
-	addEventListeners();
+	const increaseButtons = document.querySelectorAll('.increase');
+	increaseButtons.forEach(btn => {
+		btn.addEventListener('click', increaseAmount);
+	});
+
+	const decreaseButtons = document.querySelectorAll('.decrease');
+	decreaseButtons.forEach(btn => {
+		btn.addEventListener('click', decreaseAmount);
+	});
 }
 
-// Funktion för att adda event listeners för add och subtract buttons
-function addEventListeners() {
-	const addButtons = Array.from(document.querySelectorAll('.add'));
-	for (let i = 0; i < addButtons.length; i++) {
-		addButtons[i].addEventListener('click', addAmount);
-	}
-
-	const subtractButtons = Array.from(document.querySelectorAll('.subtract'));
-	for (let i = 0; i < subtractButtons.length; i++) {
-		subtractButtons[i].addEventListener('click', subtractAmount);
-	}
-}
-
-
-// Funktion för att hantera addAmount
-function addAmount(e) {
-	const index = e.target.id.replace('add-', '');
-	products[index].amount += 1;
-	updateProductsContainer();
-	updateTotalPrice();
-}
-
-// Funktion för att hantera subtractAmount
-function subtractAmount(e) {
-	const index = e.target.id.replace('subtract-', '');
-	if (products[index].amount > 0) {
-		products[index].amount -= 1;
-		updateProductsContainer();
-		updateTotalPrice();
-
-	}
-}
-
-updateProductsContainer();
-
-
-const totalPriceSpan = document.getElementById('price');
-let totalPrice = 0;
-
-function updateTotalPrice() {
-	totalPrice = products.reduce((sum, product) => sum + product.amount * product.price, 0);
-	totalPriceSpan.textContent = totalPrice + ' kr';
-}
-
-updateTotalPrice();
 
 // NOTE TO SELF: Läs igenom all denna kod flera gånger och försök förstå.
 // Försök skriv det igen utan att kolla! 
+
+
+/*
+	Koppla ihop varukorgen i headern med knappen addProduct 
+	och plus/minus-knapparna så när man trycker på Lägg till
+	(i varukorgen) så ska den varukorgen i headern uppdateras
+	med antal och/eller kronor.
+ */
+
+
+
+
+
+// sortera efter pris
+
+const priceRangeSlider = document.querySelector('#priceRange');
+const currentPrice = document.querySelector('#currentRangeValue');
+
+let productsInPriceRange = [...products];
+
+function changePriceRange() {
+	const currentPrice = priceRangeSlider.value;
+	currentRangeValue.innerHTML = currentPrice;
+
+	productsInPriceRange = products.filter((product) => product.price <= currentPrice);
+	updateProductsContainer();
+}
+
+
+priceRangeSlider.addEventListener('input', changePriceRange);
+
+// NOTE TO SELF: fortsätt denna
