@@ -47,7 +47,7 @@ function toggleTheme() {
 
 
 
-// NOTE TO SELF: Försök förstå all denna kod, ish.
+// NOTE TO SELF: Försök förstå all denna kod.
 
 const products = [
 	{
@@ -181,17 +181,21 @@ function printProducts() {
             </div>
         </div>
 		`;
+
 	}
 
 	const increaseButtons = document.querySelectorAll('.increase');
 	increaseButtons.forEach(btn => {
 		btn.addEventListener('click', increaseAmount);
+		updateTotalPrice();
 	});
 
 	const decreaseButtons = document.querySelectorAll('.decrease');
 	decreaseButtons.forEach(btn => {
 		btn.addEventListener('click', decreaseAmount);
+		updateTotalPrice();
 	});
+	updateTotalPrice();
 }
 
 
@@ -201,27 +205,15 @@ function printProducts() {
 
 /*
 	Koppla ihop varukorgen i headern med 
-	plus/minus-knapparna, så totalsumman uppdateras..
+	plus/minus-knapparna, så totalsumman uppdateras
 */
-
-
-
-// sortera efter pris
-
-const priceRangeSlider = document.querySelector('#priceRange');
-const currentPrice = document.querySelector('#currentRangeValue');
-
-let productsInPriceRange = [...products];
-
-function changePriceRange() {
-	const currentPrice = priceRangeSlider.value;
-	currentRangeValue.innerHTML = currentPrice;
-
-	productsInPriceRange = products.filter((product) => product.price <= currentPrice);
-	updateProductsContainer();
+function updateTotalPrice() {
+	const totalPriceSpan = document.querySelector('#price');
+	const totalPrice = products.reduce((total, product) => total + product.amount * product.price, 0); 
+	totalPriceSpan.textContent = `${totalPrice} kr`
 }
 
 
-priceRangeSlider.addEventListener('input', changePriceRange);
 
-// NOTE TO SELF: fortsätt denna
+
+
