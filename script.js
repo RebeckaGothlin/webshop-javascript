@@ -139,6 +139,8 @@ const currentPrice = document.querySelector('#currentRangeValue');
 
 let filteredProduct = [...products];
 let productsInPriceRange = [...products];
+let totalOrderSum = 0;
+
 
 printProducts();
 
@@ -225,6 +227,8 @@ function updateTotalPrice() {
 Sort by price
 */
 
+
+
 function changePriceRange() {
 	const currentPrice = priceRangeSlider.value;
 	currentRangeValue.innerHTML = currentPrice;
@@ -259,6 +263,14 @@ function updateCategoryFilter(e) {
 priceRangeSlider.addEventListener('input', changePriceRange);
 
 updateTotalPrice();
+
+
+const today = new Date();
+if (today.getDay() === 1 && today.getHours() < 10) { 
+  console.log('Det är måndag morgon, så du får 10 % rabatt på din beställning:', totalOrderSum * 0.1, 'kr. Totalsumman blir:', totalOrderSum * 0.9, 'kr.');
+} else if ((today.getDay() === 6 && today.getHours() > 15) && today.getDay() === 1 && today.getHours < 3) {
+	console.log('Det är helg, du får femton procent rabatt på din beställning:', totalOrderSum * 0.15, 'kr. Totalsumman blir:', totalOrderSum * 0.85, 'kr.');
+}
 
 
 
