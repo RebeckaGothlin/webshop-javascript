@@ -49,7 +49,7 @@ function toggleTheme() {
 
 // NOTE TO SELF: Försök förstå all denna kod.
 
-const products = [
+let products = [
 	{
 		name: "Chokladboll - cappuccino",
 		price: 10,
@@ -133,6 +133,12 @@ const products = [
 ];
 
 const productsContainer = document.querySelector('#products');
+const categoryFilterRadios = document.querySelectorAll('[name="categoryFilter"]');
+const priceRangeSlider = document.querySelector('#priceRange');
+const currentPrice = document.querySelector('#currentRangeValue');
+
+let filteredProduct = [...products];
+let productsInPriceRange = [...products];
 
 printProducts();
 
@@ -157,23 +163,23 @@ function increaseAmount(e) {
 
 function printProducts() {
 	productsContainer.innerHTML = '';
-
-	for (let i = 0; i < products.length; i++) {
+	
+	productsInPriceRange.forEach((product, i) => {
 		productsContainer.innerHTML += `
 		<div class="product-container">
             <div id="product-${i}}">
                 <div class="product-container">
                     <div class="image-container">
-                        <img src="${products[i].imageUrl}" alt="${products[i].name}" width="300" height="300" loading="lazy">
+                        <img src="${product.imageUrl}" alt="${products[i].name}" width="300" height="300" loading="lazy">
                     </div>
                     <div class="product-details">
-                        Rating: ${products[i].rating}
-                        <strong>${products[i].name}</strong>
-                        Pris: ${products[i].price} kr
+                        Rating: ${product.rating}
+                        <strong>${product.name}</strong>
+                        Pris: ${product.price} kr
 
                         <div class="buttons-container">
                             <button class="decrease" id="decrease-${i}">-</button>
-                            ${products[i].amount}
+                            ${product.amount}
                             <button class="increase" id="increase-${i}">+</button>
                         </div>
                     </div>
@@ -181,8 +187,10 @@ function printProducts() {
             </div>
         </div>
 		`;
+	});
 
-	}
+	
+
 
 	const increaseButtons = document.querySelectorAll('.increase');
 	increaseButtons.forEach(btn => {
@@ -212,6 +220,46 @@ function updateTotalPrice() {
 	const totalPrice = products.reduce((total, product) => total + product.amount * product.price, 0); 
 	totalPriceSpan.textContent = `${totalPrice} kr`
 }
+
+/* 
+Sort by price
+*/
+
+function changePriceRange() {
+	const currentPrice = priceRangeSlider.value;
+	currentRangeValue.innerHTML = currentPrice;
+
+	productsInPriceRange = products.filter((product) => product.price <= currentPrice);
+	updateTotalPrice();
+}
+
+function updateCategoryFilter(e) {
+	const selectedCategory = e.currentTarget.value;
+
+	if (selectedCategory === 'Visa alla') {
+		filteredProducts = [...products];
+	} else {
+		filteredProducts = [];
+
+		for (let i = 0; i < products.length; i++) {
+			const prod = products[i];
+
+			const catsInLowercase = [];
+			for (let j = 0; j < prod.category.length; j++) {
+				catsInLowercase.push(prod.category[j].toLowerCase());
+			}
+			if (catsInLowercase.indexOf(selectedCategory) > -1) {
+				products.push(prod);
+			}
+		}
+	}
+	changePriceRange();
+}
+
+priceRangeSlider.addEventListener('input', changePriceRange);
+
+updateTotalPrice();
+
 
 
 
