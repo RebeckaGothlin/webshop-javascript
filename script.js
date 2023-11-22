@@ -138,11 +138,11 @@ let filteredProduct = [...products];
 let productsInPriceRange = [...products];
 let totalOrderSum = 0;
 
-let slownessTimeout = setTimeout(stupidCustomerMessage, 5000 * 60 * 15);
+let slownessTimeout = setTimeout(slowCustomerMessage, 1000 * 60 * 15);
 
 
 
-function stupidCustomerMessage() {
+function slowCustomerMessage() {
 	if (slownessTimeout) {
 		alert('Du är för långsam på att beställa!');
 	}
@@ -230,7 +230,7 @@ function printProducts() {
 
 
 /*
-	Varukorgen i headern
+	Varukorgen i headern (bredvid ikonen)
 */
 function updateTotalPrice() {
 	const totalPriceSpan = document.querySelector('#price');
@@ -238,7 +238,7 @@ function updateTotalPrice() {
 	totalPriceSpan.textContent = `${totalPrice} kr`
 }
 
-
+// printar produkterna i varukorgen (inte i headern)
 function printCartProducts() {
 	cartHtmlContainer.innerHTML = '';
 
