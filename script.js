@@ -38,16 +38,6 @@ function toggleTheme() {
 
 
 // PRODUKTERNA
-/*
-1. Skapa array med chokladbollarna (products) som objekt
-2. loopa ut arrayen på sidan så alla chokladbollar (products) visas
-3. skapa unika id:n för knapparna för plus och minus
-4. koppla ihop plus och minus med varje chokladboll
- */
-
-
-
-// NOTE TO SELF: Försök förstå all denna kod.
 
 let products = [
 	{
@@ -134,8 +124,8 @@ let products = [
 
 const productsContainer = document.querySelector('#products');
 const cartHtmlContainer = document.querySelector('#cart');
-const today = new Date();
 
+const today = new Date();
 const isFriday = today.getDay() === 6;
 const isMonday = today.getDay() === 1;
 const currentHour = today.getHours();
@@ -148,12 +138,14 @@ let filteredProduct = [...products];
 let productsInPriceRange = [...products];
 let totalOrderSum = 0;
 
-let slownessTimeout = setTimeout(stupidCustomerMessage, 1000 * 60 * 15);
+let slownessTimeout = setTimeout(stupidCustomerMessage, 5000 * 60 * 15);
 
 
 
 function stupidCustomerMessage() {
-	alert('Du är för långsam på att beställa!');
+	if (slownessTimeout) {
+		alert('Du är för långsam på att beställa!');
+	}
 }
 
 printProducts();
@@ -221,9 +213,6 @@ function printProducts() {
 		`;
 	});
 
-
-
-
 	const increaseButtons = document.querySelectorAll('.increase');
 	increaseButtons.forEach(btn => {
 		btn.addEventListener('click', increaseAmount);
@@ -240,15 +229,8 @@ function printProducts() {
 }
 
 
-// NOTE TO SELF: Läs igenom all denna kod flera gånger och försök förstå.
-// Försök skriv det igen utan att kolla! 
-
-
-
-
 /*
-	Koppla ihop varukorgen i headern med 
-	plus/minus-knapparna, så totalsumman uppdateras
+	Varukorgen i headern
 */
 function updateTotalPrice() {
 	const totalPriceSpan = document.querySelector('#price');
@@ -281,8 +263,8 @@ function printCartProducts() {
 			sum += product.amount * adjustedProductPrice;
 
 			cartHtmlContainer.innerHTML += `
-			<div>
-			<img src="${product.imageUrl}"> | <span>${product.name}</span> | <span>${product.amount}</span> | <span>${product.amount * adjustedProductPrice} kr</span>
+			<div class="cart-summary">
+			<img src="${product.imageUrl}"> <span class="cart-name">${product.name}</span> <span class="cart-amount">${product.amount}</span> <span class="cart-sum">${product.amount * adjustedProductPrice} kr</span>
 			</div>
 			`;
 		}
@@ -292,7 +274,7 @@ function printCartProducts() {
 		return;
 	}
 
-	if (today.getDay() === 4 && today.getHours() < 10) { 
+	if (today.getDay() === 1 && today.getHours() < 10) { 
 		sum += 0.9;
 		msg += `<p>Måndagsrabatt: 10 % på hela beställningen</p>`
 	}

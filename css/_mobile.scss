@@ -166,10 +166,6 @@ h1 {
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 16px;
     margin-top: 50px;
-
-    .page {
-        min-height: 100vh;
-    }
     h2 {
         text-align: center;
     }
@@ -215,15 +211,27 @@ h1 {
     .page2 {
         grid-column: span 4;
         text-align: center;
-        .cart-container {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            img {
-                width: 100px;
-            }
-            span {
-                padding: 10px;
+        .cart-container {            
+            .cart-summary {
+                display: grid;
+                grid-template-columns: repeat(6, minmax(0, 1fr));
+                gap: 16px;
+                align-items: center;
+                justify-content: center;
+                img {
+                    width: 100px;
+                    grid-column: span 2;
+                }
+                .cart-name {
+                    grid-column: 3 / span 2;
+                    font-weight: bold;
+                }
+                .cart-amount {
+                    grid-column: span 1;
+                }
+                .cart-sum {
+                    grid-column:  span 1;
+                }
             }
         }
     }

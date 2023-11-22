@@ -1,3 +1,17 @@
+header {
+    font-size: 2rem;
+    h1 {
+        font-size: 2rem;
+    }
+    .theme-toggle-button {
+        margin-right: 40px;
+        margin-left: 20px;
+    }
+    .material-symbols-outlined {
+        font-size: 2.3rem;
+    }
+}
+
 .page-content {
     display: grid;
     grid-template-columns: repeat(6, minmax(0, 1fr));
@@ -5,12 +19,64 @@
     .page1 {
         grid-column: span 6;
     }
+    h2 {
+        font-size: 3rem;
+    }
+    .category-radio {
+        font-size: 1.5rem;
+    }
+    .price-range {
+        font-size: 1.5rem;
+    }
+    span {
+        font-size: 1.5rem;
+    }
     .products {
         display: grid;
         grid-template-columns: repeat(6, minmax(0, 1fr));
         gap: 16px;
+        font-size: 1.5rem;
         .product-container {
             grid-column: span 3;
+        }
+    }
+    .page2 {
+        grid-column: span 6;
+        text-align: center;
+        .cart-container { 
+            font-size: 2rem;           
+            .cart-summary {
+                display: grid;
+                grid-template-columns: repeat(6, minmax(0, 1fr));
+                gap: 16px;
+                align-items: center;
+                justify-content: center;
+                img {
+                    width: 200px;
+                    grid-column: span 2;
+                }
+                .cart-name {
+                    grid-column: 3 / span 2;
+                    font-weight: bold;
+                    font-size: 2rem;
+                }
+                .cart-amount {
+                    grid-column: span 1;
+                    font-size: 2rem;
+                }
+                .cart-sum {
+                    grid-column:  span 1;
+                    font-size: 2rem;
+                }
+            }
+        }
+    }
+    .page3 {
+        grid-column: span 6;
+        form {
+            span {
+                font-size: 1.3rem;
+            }
         }
     }
 }
