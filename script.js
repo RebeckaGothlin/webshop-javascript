@@ -194,6 +194,7 @@ let slownessTimeout = setTimeout(slowCustomerMessage, 1000 * 60 * 15);
 
 function slowCustomerMessage() {
 	if (slownessTimeout) {
+		cartHtmlContainer.innerHTML = '';
 		alert('Du är för långsam på att beställa!');
 	}
 }
