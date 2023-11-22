@@ -45,7 +45,12 @@ let products = [
 		price: 10,
 		rating: 4.5,
 		category: "kaffe",
-		imageUrl: "assets/chokladboll-cappuccino.png",
+		image: {
+			src: 'assets/chokladboll-cappuccino.png',
+			alt: 'chocolate ball with cappuccino taste',
+			widht: 456,
+			height: 418,
+		},
 		amount: 0,
 	},
 	{
@@ -53,7 +58,12 @@ let products = [
 		price: 12,
 		rating: 4.8,
 		category: "choklad",
-		imageUrl: "assets/chokladboll-chokladdragerad.png",
+		image: {
+			src: 'assets/chokladboll-chokladdragerad.png',
+			alt: 'chocolate ball covered in chocolate and coconut flakes',
+			widht: 540,
+			height: 540,
+		},
 		amount: 0,
 	},
 	{
@@ -61,7 +71,12 @@ let products = [
 		price: 15,
 		rating: 4.6,
 		category: "fruktig",
-		imageUrl: "assets/chokladboll-hallon.png",
+		image: {
+			src: 'assets/chokladboll-hallon.png',
+			alt: 'chocolate ball covered in freeze-dried raspberry',
+			widht: 600,
+			height: 607,
+		},
 		amount: 0,
 	},
 	{
@@ -69,7 +84,12 @@ let products = [
 		price: 12,
 		rating: 4.3,
 		category: "kaffe",
-		imageUrl: "assets/chokladboll-kaffe.png",
+		image: {
+			src: 'assets/chokladboll-kaffe.png',
+			alt: 'chocolate ball with taste of coffee covered in coconut flakes',
+			widht: 800,
+			height: 800,
+		},
 		amount: 0,
 	},
 	{
@@ -77,7 +97,12 @@ let products = [
 		price: 10,
 		rating: 4.8,
 		category: "choklad",
-		imageUrl: "assets/chokladboll-kokos.png",
+		image: {
+			src: 'assets/chokladboll-kokos.png',
+			alt: 'chocolate ball covered in coconut flakes',
+			widht: 800,
+			height: 800,
+		},
 		amount: 0,
 	},
 	{
@@ -85,7 +110,12 @@ let products = [
 		price: 10,
 		rating: 4.4,
 		category: "choklad",
-		imageUrl: "assets/chokladboll-parlsocker.png",
+		image: {
+			src: 'assets/chokladboll-parlsocker.png',
+			alt: 'chocolate ball covered in nib sugar',
+			widht: 2048,
+			height: 1637,
+		},
 		amount: 0,
 	},
 	{
@@ -93,7 +123,12 @@ let products = [
 		price: 13,
 		rating: 4.2,
 		category: "choklad",
-		imageUrl: "assets/chokladboll-raw.png",
+		image: {
+			src: 'assets/chokladboll-raw.png',
+			alt: 'a raw chocolate ball covered in coconut flakes',
+			widht: 800,
+			height: 800,
+		},
 		amount: 0,
 	},
 	{
@@ -101,7 +136,12 @@ let products = [
 		price: 12,
 		rating: 4,
 		category: "choklad",
-		imageUrl: "assets/chokladboll-sockerfri.png",
+		image: {
+			src: 'assets/chokladboll-sockerfri.png',
+			alt: 'sugar free chocolate ball covered in coconut flakes',
+			widht: 1000,
+			height: 816,
+		},
 		amount: 0,
 	},
 	{
@@ -109,7 +149,12 @@ let products = [
 		price: 10,
 		rating: 4.4,
 		category: "fruktig",
-		imageUrl: "assets/chokladboll-strossel.png",
+		image: {
+			src: 'assets/chokladboll-strossel.png',
+			alt: 'chocolate ball covered in colorful sprinkles',
+			widht: 1034,
+			height: 980,
+		},
 		amount: 0,
 	},
 	{
@@ -117,7 +162,12 @@ let products = [
 		price: 15,
 		rating: 4.9,
 		category: "havre",
-		imageUrl: "assets/havreboll.png",
+		image: {
+			src: 'assets/havreboll.png',
+			alt: 'light outmeal ball covered in coconut flakes',
+			widht: 2048,
+			height: 1637,
+		},
 		amount: 0,
 	},
 ];
@@ -194,7 +244,7 @@ function printProducts() {
             <div id="product-${i}}">
                 <div class="product-container">
                     <div class="image-container">
-                        <img src="${product.imageUrl}" alt="${products[i].name}" width="300" height="300" loading="lazy">
+                        <img src="${product.image.src}" alt="${product.image.alt}" width="${product.image.width}" height="${product.image.height}" loading="lazy">
                     </div>
                     <div class="product-details">
                         Rating: ${product.rating}
@@ -264,7 +314,7 @@ function printCartProducts() {
 
 			cartHtmlContainer.innerHTML += `
 			<div class="cart-summary">
-			<img src="${product.imageUrl}"> <span class="cart-name">${product.name}</span> <span class="cart-amount">${product.amount}</span> <span class="cart-sum">${product.amount * adjustedProductPrice} kr</span>
+			<img src="${product.image.src}"> <span class="cart-name">${product.name}</span> <span class="cart-amount">${product.amount}</span> <span class="cart-sum">${product.amount * adjustedProductPrice} kr</span>
 			</div>
 			`;
 		}
