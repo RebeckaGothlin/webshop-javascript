@@ -133,6 +133,13 @@ let products = [
 ];
 
 const productsContainer = document.querySelector('#products');
+const cartHtmlContainer = document.querySelector('#cart');
+const today = new Date();
+
+const isFriday = today.getDay() === 6;
+const isMonday = today.getDay() === 1;
+const currentHour = today.getHours();
+
 const categoryFilterRadios = document.querySelectorAll('[name="categoryFilter"]');
 const priceRangeSlider = document.querySelector('#priceRange');
 const currentPrice = document.querySelector('#currentRangeValue');
@@ -141,6 +148,13 @@ let filteredProduct = [...products];
 let productsInPriceRange = [...products];
 let totalOrderSum = 0;
 
+let slownessTimeout = setTimeout(stupidCustomerMessage, 1000 * 60 * 15);
+
+
+
+function stupidCustomerMessage() {
+	alert('Du är för långsam på att beställa!');
+}
 
 printProducts();
 
@@ -163,9 +177,25 @@ function increaseAmount(e) {
 	printProducts();
 }
 
+
+
+function getPriceMultiplier() {
+	if ((isFriday && currentHour >= 15) || (isMonday && currentHour <= 3)) {
+		return 1.15;
+	}
+	return 1;
+}
+
+
+
+// print products
 function printProducts() {
 	productsContainer.innerHTML = '';
-	
+
+	let priceIncrease = getPriceMultiplier();
+
+
+
 	productsInPriceRange.forEach((product, i) => {
 		productsContainer.innerHTML += `
 		<div class="product-container">
@@ -177,7 +207,7 @@ function printProducts() {
                     <div class="product-details">
                         Rating: ${product.rating}
                         <strong>${product.name}</strong>
-                        Pris: ${product.price} kr
+                        Pris: ${product.price * priceIncrease} kr
 
                         <div class="buttons-container">
                             <button class="decrease" id="decrease-${i}">-</button>
@@ -191,7 +221,7 @@ function printProducts() {
 		`;
 	});
 
-	
+
 
 
 	const increaseButtons = document.querySelectorAll('.increase');
@@ -206,11 +236,14 @@ function printProducts() {
 		updateTotalPrice();
 	});
 	updateTotalPrice();
+	printCartProducts();
 }
 
 
 // NOTE TO SELF: Läs igenom all denna kod flera gånger och försök förstå.
 // Försök skriv det igen utan att kolla! 
+
+
 
 
 /*
@@ -219,9 +252,64 @@ function printProducts() {
 */
 function updateTotalPrice() {
 	const totalPriceSpan = document.querySelector('#price');
-	const totalPrice = products.reduce((total, product) => total + product.amount * product.price, 0); 
+	const totalPrice = products.reduce((total, product) => total + product.amount * product.price, 0);
 	totalPriceSpan.textContent = `${totalPrice} kr`
 }
+
+
+function printCartProducts() {
+	cartHtmlContainer.innerHTML = '';
+
+	let sum = 0;
+	let orderedProductAmount = 0;
+	let msg = '';
+	let priceIncrease = getPriceMultiplier();
+
+
+
+	// cart
+	products.forEach(product => {
+		orderedProductAmount += product.amount;
+
+		if (product.amount > 0) {
+			let productPrice = product.price;
+			if (product.amount >= 10) {
+				productPrice *= 0.9;
+			}
+			const adjustedProductPrice = productPrice * priceIncrease;
+
+			sum += product.amount * adjustedProductPrice;
+
+			cartHtmlContainer.innerHTML += `
+			<div>
+			<img src="${product.imageUrl}"> | <span>${product.name}</span> | <span>${product.amount}</span> | <span>${product.amount * adjustedProductPrice} kr</span>
+			</div>
+			`;
+		}
+	});
+
+	if (sum <= 0) {
+		return;
+	}
+
+	if (today.getDay() === 4 && today.getHours() < 10) { 
+		sum += 0.9;
+		msg += `<p>Måndagsrabatt: 10 % på hela beställningen</p>`
+	}
+
+	cartHtmlContainer.innerHTML += `<p>Summa: ${sum} kr</p>`;
+	cartHtmlContainer.innerHTML += `<div>${msg}</div`;
+
+	if (orderedProductAmount > 15) {
+		cartHtmlContainer.innerHTML += '<p>Frakt: 0 kr</p>';
+	} else 
+		cartHtmlContainer.innerHTML += `<p>Frakt: ${Math.round(25 + (0.1 * sum))} kr</p>`;
+}
+
+
+
+
+
 
 /* 
 Sort by price
@@ -265,12 +353,7 @@ priceRangeSlider.addEventListener('input', changePriceRange);
 updateTotalPrice();
 
 
-const today = new Date();
-if (today.getDay() === 1 && today.getHours() < 10) { 
-  console.log('Det är måndag morgon, så du får 10 % rabatt på din beställning:', totalOrderSum * 0.1, 'kr. Totalsumman blir:', totalOrderSum * 0.9, 'kr.');
-} else if ((today.getDay() === 6 && today.getHours() > 15) && today.getDay() === 1 && today.getHours < 3) {
-	console.log('Det är helg, du får femton procent rabatt på din beställning:', totalOrderSum * 0.15, 'kr. Totalsumman blir:', totalOrderSum * 0.85, 'kr.');
-}
+
 
 
 

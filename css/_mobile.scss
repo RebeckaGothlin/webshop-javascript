@@ -215,6 +215,17 @@ h1 {
     .page2 {
         grid-column: span 4;
         text-align: center;
+        .cart-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            img {
+                width: 100px;
+            }
+            span {
+                padding: 10px;
+            }
+        }
     }
     .page3 {
         margin: 20px;
