@@ -19,8 +19,7 @@
         .cart-container { 
             font-size: 2rem;           
             .cart-summary {
-                background-color: #282727;
-                border: #1E1E1E solid 2px;
+                border: #282727 solid 2px;
                 height: 300px;
                 display: grid;
                 grid-template-columns: repeat(12, minmax(0, 1fr));
@@ -41,8 +40,12 @@
                     font-size: 2rem;
                 }
                 .cart-sum {
-                    grid-column:  span 2;
+                    grid-column:  span 1;
                     font-size: 2rem;
+                }
+                .material-symbols-outlined {
+                    grid-column: span 1;
+                    font-size: 3rem;
                 }
             }
         }

@@ -12,10 +12,6 @@ body,
 body:not(.dark-theme) {
     background-color: white;
     color: black;
-    .subtract, .add, .addProduct {
-        background-color: black;
-        color: white;
-    }
 }
 
 body.dark-theme {
@@ -31,6 +27,10 @@ body.dark-theme {
     body {
         background-color: #1E1E1E;
         color: white;
+    }
+    .add, .subtract, .addProduct {
+        background-color: white;
+        color: black;
     }
 }
 main {
@@ -213,9 +213,8 @@ h1 {
         text-align: center;
         .cart-container {            
             .cart-summary {
-                background-color: #282727;
-                border: #1E1E1E solid 2px;
-                height: 100px;
+                border: #282727 solid 2px;
+                height: 170px;
                 display: grid;
                 grid-template-columns: repeat(6, minmax(0, 1fr));
                 gap: 16px;
@@ -227,7 +226,7 @@ h1 {
                     grid-column: span 2;
                 }
                 .cart-name {
-                    grid-column: 3 / span 2;
+                    grid-column: 3 / span 1;
                     font-weight: bold;
                 }
                 .cart-amount {
@@ -235,6 +234,12 @@ h1 {
                 }
                 .cart-sum {
                     grid-column:  span 1;
+                }
+                .material-symbols-outlined {
+                    grid-column: span 1;
+                    background-color: #1E1E1E;
+                    border: none;
+                    cursor: pointer;
                 }
             }
         }

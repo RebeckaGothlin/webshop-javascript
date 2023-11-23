@@ -46,8 +46,7 @@ header {
         .cart-container { 
             font-size: 2rem;           
             .cart-summary {
-                background-color: #282727;
-                border: #1E1E1E solid 2px;
+                border: #282727 solid 2px;
                 height: 200px;
                 display: grid;
                 grid-template-columns: repeat(6, minmax(0, 1fr));
@@ -56,10 +55,10 @@ header {
                 justify-content: center;
                 img {
                     width: 200px;
-                    grid-column: span 2;
+                    grid-column: span 1;
                 }
                 .cart-name {
-                    grid-column: 3 / span 2;
+                    grid-column: span 2;
                     font-weight: bold;
                     font-size: 2rem;
                 }
@@ -69,6 +68,10 @@ header {
                 }
                 .cart-sum {
                     grid-column:  span 1;
+                    font-size: 2rem;
+                }
+                .material-symbols-outlined {
+                    grid-column: span 1;
                     font-size: 2rem;
                 }
             }

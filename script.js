@@ -314,11 +314,12 @@ function printCartProducts() {
 
 			cartHtmlContainer.innerHTML += `
 			<div class="cart-summary">
-			<img src="${product.image.src}"> <span class="cart-name">${product.name}</span> <span class="cart-amount">${product.amount}</span> <span class="cart-sum">${product.amount * adjustedProductPrice} kr</span>
+			<img src="${product.image.src}"> <span class="cart-name">${product.name}</span> <span class="cart-amount">${product.amount}</span> <span class="cart-sum">${product.amount * adjustedProductPrice} kr</span> <button class="material-symbols-outlined">delete</button>
 			</div>
 			`;
 		}
 	});
+
 
 	if (sum <= 0) {
 		return;
@@ -336,12 +337,17 @@ function printCartProducts() {
 		cartHtmlContainer.innerHTML += '<p>Frakt: 0 kr</p>';
 	} else 
 		cartHtmlContainer.innerHTML += `<p>Frakt: ${Math.round(25 + (0.1 * sum))} kr</p>`;
+
+	cartHtmlContainer.innerHTML += `<button id="continue">Beställ</button>`
+
+	const continueBtn = document.querySelector('#continue');
+	continueBtn.addEventListener('click', confirmationPopUp);
 }
 
 
-
-
-
+function confirmationPopUp(e) {
+	confirm('Bekräftelse');
+}
 /* 
 Sort by price
 */
