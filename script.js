@@ -191,7 +191,6 @@ let totalOrderSum = 0;
 let slownessTimeout = setTimeout(slowCustomerMessage, 1000 * 60 * 15);
 
 
-
 function slowCustomerMessage() {
 	if (slownessTimeout) {
 		cartHtmlContainer.innerHTML = '';
@@ -343,7 +342,6 @@ function printCartProducts() {
 
 
 
-
 /* 
 Sort by price
 */
@@ -358,6 +356,7 @@ function changePriceRange() {
 	updateTotalPrice();
 }
 
+// sort by category
 function updateCategoryFilter(e) {
 	const selectedCategory = e.currentTarget.value;
 
@@ -378,13 +377,12 @@ function updateCategoryFilter(e) {
 			}
 		}
 	}
-	changePriceRange();
 }
+
 
 priceRangeSlider.addEventListener('input', changePriceRange);
 
 updateTotalPrice();
-
 
 
 
