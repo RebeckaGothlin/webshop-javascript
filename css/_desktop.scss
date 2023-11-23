@@ -19,6 +19,9 @@
         .cart-container { 
             font-size: 2rem;           
             .cart-summary {
+                background-color: #282727;
+                border: #1E1E1E solid 2px;
+                height: 300px;
                 display: grid;
                 grid-template-columns: repeat(12, minmax(0, 1fr));
                 gap: 16px;
