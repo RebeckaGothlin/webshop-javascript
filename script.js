@@ -38,8 +38,7 @@ function toggleTheme() {
 
 
 
-// PRODUKTERNA
-
+// PRODUKTERNA i array
 let products = [
 	{
 		name: "Chokladboll - cappuccino",
@@ -53,6 +52,7 @@ let products = [
 			height: 418,
 		},
 		amount: 0,
+		productNo: 111,
 	},
 	{
 		name: "Chokladboll - chokladdragerad",
@@ -66,6 +66,7 @@ let products = [
 			height: 540,
 		},
 		amount: 0,
+		productNo: 222,
 	},
 	{
 		name: "Chokladboll - hallon",
@@ -79,6 +80,7 @@ let products = [
 			height: 607,
 		},
 		amount: 0,
+		productNo: 333,
 	},
 	{
 		name: "Chokladboll - kaffe",
@@ -92,6 +94,7 @@ let products = [
 			height: 800,
 		},
 		amount: 0,
+		productNo: 444,
 	},
 	{
 		name: "Chokladboll - kokos",
@@ -105,6 +108,7 @@ let products = [
 			height: 800,
 		},
 		amount: 0,
+		productNo: 555,
 	},
 	{
 		name: "Chokladboll - pärlsocker",
@@ -118,6 +122,7 @@ let products = [
 			height: 1637,
 		},
 		amount: 0,
+		productNo: 666,
 	},
 	{
 		name: "Chokladboll - raw",
@@ -131,6 +136,7 @@ let products = [
 			height: 800,
 		},
 		amount: 0,
+		productNo: 777,
 	},
 	{
 		name: "Chokladboll - sockerfri",
@@ -144,6 +150,7 @@ let products = [
 			height: 816,
 		},
 		amount: 0,
+		productNo: 888,
 	},
 	{
 		name: "Chokladboll - strössel",
@@ -157,6 +164,7 @@ let products = [
 			height: 980,
 		},
 		amount: 0,
+		productNo: 999,
 	},
 	{
 		name: "Havreboll",
@@ -170,17 +178,22 @@ let products = [
 			height: 1637,
 		},
 		amount: 0,
+		productNo: 1010,
 	},
 ];
 
+// div products från HTML 
 const productsContainer = document.querySelector('#products');
+// div cart från HTML
 const cartHtmlContainer = document.querySelector('#cart');
 
+// datum för rabatter/helgpåslag
 const today = new Date();
 const isFriday = today.getDay() === 6;
 const isMonday = today.getDay() === 1;
 const currentHour = today.getHours();
 
+// sortering, kategori och pris (EJ KLAR!!)
 const categoryFilterRadios = document.querySelectorAll('[name="categoryFilter"]');
 const priceRangeSlider = document.querySelector('#priceRange');
 const currentPrice = document.querySelector('#currentRangeValue');
@@ -189,19 +202,21 @@ let filteredProduct = [...products];
 let productsInPriceRange = [...products];
 let totalOrderSum = 0;
 
+// långsam kund 
 let slownessTimeout = setTimeout(slowCustomerMessage, 1000 * 60 * 15);
 
 
+// långsam kund 
 function slowCustomerMessage() {
 	if (slownessTimeout) {
 		cartHtmlContainer.innerHTML = '';
 		alert('Du är för långsam på att beställa!');
 	}
 }
-
+// printar ut produkterna på sidan
 printProducts();
 
-
+// minus-knappen 
 function decreaseAmount(e) {
 	let index = e.target.id.replace('decrease-', '');
 	if (products[index].amount > 0) {
@@ -212,6 +227,7 @@ function decreaseAmount(e) {
 	}
 }
 
+// plus-knappen
 function increaseAmount(e) {
 	let index = e.target.id.replace('increase-', '');
 	index = Number(index);
@@ -221,7 +237,7 @@ function increaseAmount(e) {
 }
 
 
-
+// rabatt/ HELGPÅSLAG
 function getPriceMultiplier() {
 	if ((isFriday && currentHour >= 15) || (isMonday && currentHour <= 3)) {
 		return 1.15;
@@ -231,13 +247,12 @@ function getPriceMultiplier() {
 
 
 
-// print products
+// PRODUKTERNA print products
 function printProducts() {
 	productsContainer.innerHTML = '';
 
-	let priceIncrease = getPriceMultiplier();
-
-
+	// helgpåslag
+	let priceIncrease = getPriceMultiplier(); 
 
 	productsInPriceRange.forEach((product, i) => {
 		productsContainer.innerHTML += `
@@ -264,12 +279,14 @@ function printProducts() {
 		`;
 	});
 
+	// plus-knapp eventlyssnare
 	const increaseButtons = document.querySelectorAll('.increase');
 	increaseButtons.forEach(btn => {
 		btn.addEventListener('click', increaseAmount);
 		updateTotalPrice();
 	});
 
+	// minus-knapp eventlyssnare
 	const decreaseButtons = document.querySelectorAll('.decrease');
 	decreaseButtons.forEach(btn => {
 		btn.addEventListener('click', decreaseAmount);
@@ -280,30 +297,30 @@ function printProducts() {
 }
 
 
-/*
-	Varukorgen i headern (bredvid ikonen)
-*/
+// Varukorgen i headern (ikonen + summan)
 function updateTotalPrice() {
 	const totalPriceSpan = document.querySelector('#price');
 	const totalPrice = products.reduce((total, product) => total + product.amount * product.price, 0);
 	totalPriceSpan.textContent = `${totalPrice} kr`
+
+	// UPPDATERA PRISET ÄVEN EFTER RABATTER OCH HELGPÅSLAG HÄR
 }
 
 // printar produkterna i varukorgen (inte i headern)
 function printCartProducts() {
 	cartHtmlContainer.innerHTML = '';
 
+	// rabatt/helgpåslag
 	let sum = 0;
 	let orderedProductAmount = 0;
 	let msg = '';
-	let priceIncrease = getPriceMultiplier();
-
-
+	let priceIncrease = getPriceMultiplier(); 
 
 	// cart
 	products.forEach(product => {
 		orderedProductAmount += product.amount;
 
+		// rabatt/helgpåslag
 		if (product.amount > 0) {
 			let productPrice = product.price;
 			if (product.amount >= 10) {
@@ -315,10 +332,13 @@ function printCartProducts() {
 
 			cartHtmlContainer.innerHTML += `
 			<div class="cart-summary">
-			<img src="${product.image.src}"> <span class="cart-name">${product.name}</span> <span class="cart-amount">${product.amount}</span> <span class="cart-sum">${product.amount * adjustedProductPrice} kr</span> <button id="deleteBtn" class="material-symbols-outlined">delete</button>
+			<img src="${product.image.src}"> 
+			<span class="cart-name">${product.name}</span> 
+			<span class="cart-amount">${product.amount}</span> 
+			<span class="cart-sum">${product.amount * adjustedProductPrice} kr</span> 
+			<button id="delete-${product.productNo}" class="delete material-symbols-outlined">delete</button>
 			</div>
 			`;
-			
 		}
 	});
 
@@ -327,42 +347,52 @@ function printCartProducts() {
 		return;
 	}
 
+	// rabatt måndag
 	if (today.getDay() === 1 && today.getHours() < 10) { 
 		sum += 0.9;
 		msg += `<p>Måndagsrabatt: 10 % på hela beställningen</p>`
 	}
 
+	// summan i varukorgen (och meddelande om måndagsrabatt)
 	cartHtmlContainer.innerHTML += `<p>Summa: ${sum} kr</p>`;
 	cartHtmlContainer.innerHTML += `<div>${msg}</div`;
 
+	// frakt i varukorgen (över 15 varor: frakt=0kr)
 	if (orderedProductAmount > 15) {
 		cartHtmlContainer.innerHTML += '<p>Frakt: 0 kr</p>';
 	} else 
 		cartHtmlContainer.innerHTML += `<p>Frakt: ${Math.round(25 + (0.1 * sum))} kr</p>`;
 
+	// beställ-knapp (continue)
 	cartHtmlContainer.innerHTML += `<button id="continue">Beställ</button>`
 
+	// beställ-knappen (continue) eventlyssnare
 	const continueBtn = document.querySelector('#continue');
 	continueBtn.addEventListener('click', confirmationPopUp);
-
-	deleteBtn.addEventListener('click', removeItem);
+	
+	// remove/delete-knapp eventlyssnare (EJ KLAR!!!)
+	Array.from(document.querySelectorAll('.delete')).forEach(btn => {
+		btn.addEventListener('click', removeFromCart);
+	});
 }
 
+// remove/delete-knapp (EJ KLAR!!!)
+function removeFromCart(e) {
+	const productNumber = Number(e.target.id.replace('delete-', ''));
 
+	const index = cart.findIndex(product => product.productNo === productNumber);
+	if (index > -1 ) {
+		cart.splice(index, 1);
+		printCartProducts();
+	}
+}
+
+// beställknappen (continue) popup
 function confirmationPopUp(e) {
-	confirm('Bekräftelse');
+	alert('Bekräftelse');
 }
 
-function removeItem(e) {
-	cartHtmlContainer.splice(index, 1);
-	printCartProducts();
-}
-/* 
-Sort by price
-*/
-
-
-
+// sortering efter pris (EJ KLAR!!)
 function changePriceRange() {
 	const currentPrice = priceRangeSlider.value;
 	currentRangeValue.innerHTML = currentPrice;
@@ -371,7 +401,7 @@ function changePriceRange() {
 	updateTotalPrice();
 }
 
-// sort by category
+// sortering efter kategori (EJ KLAR!!!)
 function updateCategoryFilter(e) {
 	const selectedCategory = e.currentTarget.value;
 
@@ -394,15 +424,6 @@ function updateCategoryFilter(e) {
 	}
 }
 
-
+// sortering av pris (EJ KLAR!!!)
 priceRangeSlider.addEventListener('input', changePriceRange);
-
-updateTotalPrice();
-
-
-
-
-
-
-
 
