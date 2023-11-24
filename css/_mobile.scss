@@ -12,6 +12,9 @@ body,
 body:not(.dark-theme) {
     background-color: white;
     color: black;
+    .cart-summary .material-symbols-outlined {
+        color: black;
+    }
 }
 
 body.dark-theme {
@@ -20,6 +23,9 @@ body.dark-theme {
     .add, .subtract, .addProduct {
         background-color: white;
         color: black;
+    }
+    .cart-summary .material-symbols-outlined {
+        color: white;
     }
 }
 
@@ -237,7 +243,7 @@ h1 {
                 }
                 .material-symbols-outlined {
                     grid-column: span 1;
-                    background-color: #1E1E1E;
+                    background: none;
                     border: none;
                     cursor: pointer;
                 }

@@ -4,6 +4,7 @@ const menuBtn = document.querySelector('#toggleMenu');
 const menu = document.querySelector('#menu');
 
 menuBtn.addEventListener('click', toggleMenu);
+menu.addEventListener('click', toggleMenu);
 
 function toggleMenu() {
 	const isOpen = menu.classList.toggle('open');
@@ -314,9 +315,10 @@ function printCartProducts() {
 
 			cartHtmlContainer.innerHTML += `
 			<div class="cart-summary">
-			<img src="${product.image.src}"> <span class="cart-name">${product.name}</span> <span class="cart-amount">${product.amount}</span> <span class="cart-sum">${product.amount * adjustedProductPrice} kr</span> <button class="material-symbols-outlined">delete</button>
+			<img src="${product.image.src}"> <span class="cart-name">${product.name}</span> <span class="cart-amount">${product.amount}</span> <span class="cart-sum">${product.amount * adjustedProductPrice} kr</span> <button id="deleteBtn" class="material-symbols-outlined">delete</button>
 			</div>
 			`;
+			
 		}
 	});
 
@@ -342,11 +344,18 @@ function printCartProducts() {
 
 	const continueBtn = document.querySelector('#continue');
 	continueBtn.addEventListener('click', confirmationPopUp);
+
+	deleteBtn.addEventListener('click', removeItem);
 }
 
 
 function confirmationPopUp(e) {
 	confirm('Bekräftelse');
+}
+
+function removeItem(e) {
+	cartHtmlContainer.splice(index, 1);
+	printCartProducts();
 }
 /* 
 Sort by price
