@@ -198,10 +198,10 @@ const currentHour = today.getHours();
 // sortering, kategori och pris (EJ KLAR!!)
 const categoryFilterRadios = document.querySelectorAll('[name="categoryFilter"]');
 const priceRangeSlider = document.querySelector('#priceRange');
-const currentPrice = document.querySelector('#currentRangeValue');
+const currentRangeValue = document.querySelector('#currentRangeValue');
 
 let filteredProduct = [...products];
-let productsInPriceRange = [...products];
+let filteredProductsInPriceRange = [...products];
 let totalOrderSum = 0;
 
 // långsam kund 
@@ -259,7 +259,7 @@ function printProducts() {
 	// helgpåslag
 	let priceIncrease = getPriceMultiplier();
 
-	productsInPriceRange.forEach((product, i) => {
+	filteredProductsInPriceRange.forEach((product, i) => {
 		productsContainer.innerHTML += `
 		<div class="product-container">
             <div id="product-${i}}">
@@ -378,23 +378,21 @@ function printCartProducts() {
 	} else
 		cartHtmlContainer.innerHTML += `<p>Frakt: ${Math.round(25 + (0.1 * sum))} kr</p>`;
 
-	// beställ-knapp (continue)
-	cartHtmlContainer.innerHTML += `<button id="continue">Beställ</button>`
+	// fortsätt-knapp (continue)
+	cartHtmlContainer.innerHTML += `<button id="continue">Fortsätt</button>`
 
-	// beställ-knappen (continue) eventlyssnare
+	// fortsätt-knappen (continue) eventlyssnare
 	const continueBtn = document.querySelector('#continue');
 	continueBtn.addEventListener('click', confirmationPopUp);
 
-	// delete product-knappen i varukorgen
+	// delete product-knappen cart
 	const deleteBtn = document.querySelectorAll('.delete');
 	deleteBtn.forEach(btn => {
 		btn.addEventListener('click', removeItem);
 	});
 }
 
-// remove/delete-knapp (EJ KLAR!!!)
-
-
+// remove/delete-knapp cart
 function removeItem(e) {
 	const productNumber = Number(e.target.id.replace('delete-', ''));
 
@@ -412,19 +410,23 @@ function removeItem(e) {
 	}
 }
 
-// beställknappen (continue) popup
+// fortsättknappen (continue) popup (SKRIV MEDDELANDE)
 function confirmationPopUp(e) {
 	alert('Bekräftelse');
 }
+
 
 // sortering efter pris (EJ KLAR!!)
 function changePriceRange() {
 	const currentPrice = priceRangeSlider.value;
 	currentRangeValue.innerHTML = currentPrice;
 
-	productsInPriceRange = products.filter((product) => product.price <= currentPrice);
-	updateTotalAmount();
+	filteredProductsInPriceRange = products.filter((product) => product.price <= currentPrice);
+	console.log(filteredProductsInPriceRange);
+	printProducts();
 }
+
+// sortering efter namn (EJ KLAR!!)
 
 // sortering efter kategori (EJ KLAR!!!)
 function updateCategoryFilter(e) {
@@ -443,10 +445,15 @@ function updateCategoryFilter(e) {
 				catsInLowercase.push(prod.category[j].toLowerCase());
 			}
 			if (catsInLowercase.indexOf(selectedCategory) > -1) {
-				products.push(prod);
+				filteredProducts.push(prod);
 			}
 		}
 	}
+	changePriceRange();
+}
+
+for (let i = 0; i < categoryFilterRadios.length; i++) {
+	categoryFilterRadios[i].addEventListener('click', updateCategoryFilter);
 }
 
 // sortering av pris (EJ KLAR!!!)
