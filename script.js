@@ -187,6 +187,8 @@ const productsContainer = document.querySelector('#products');
 // div cart från HTML
 const cartHtmlContainer = document.querySelector('#cart');
 
+let cart = [...products];
+
 // datum för rabatter/helgpåslag
 const today = new Date();
 const isFriday = today.getDay() === 6;
@@ -224,6 +226,7 @@ function decreaseAmount(e) {
 		index = Number(index);
 
 		printProducts();
+		printCartProducts();
 	}
 }
 
@@ -232,8 +235,10 @@ function increaseAmount(e) {
 	let index = e.target.id.replace('increase-', '');
 	index = Number(index);
 	products[index].amount += 1;
+	cart = products.filter(product => product.amount > 0);
 
 	printProducts();
+	printCartProducts();
 }
 
 
@@ -252,7 +257,7 @@ function printProducts() {
 	productsContainer.innerHTML = '';
 
 	// helgpåslag
-	let priceIncrease = getPriceMultiplier(); 
+	let priceIncrease = getPriceMultiplier();
 
 	productsInPriceRange.forEach((product, i) => {
 		productsContainer.innerHTML += `
@@ -314,7 +319,7 @@ function printCartProducts() {
 	let sum = 0;
 	let orderedProductAmount = 0;
 	let msg = '';
-	let priceIncrease = getPriceMultiplier(); 
+	let priceIncrease = getPriceMultiplier();
 
 	// cart
 	products.forEach(product => {
@@ -332,15 +337,25 @@ function printCartProducts() {
 
 			cartHtmlContainer.innerHTML += `
 			<div class="cart-summary">
-			<img src="${product.image.src}"> 
-			<span class="cart-name">${product.name}</span> 
-			<span class="cart-amount">${product.amount}</span> 
-			<span class="cart-sum">${product.amount * adjustedProductPrice} kr</span> 
-			<button id="delete-${product.productNo}" class="delete material-symbols-outlined">delete</button>
+				<img src="${product.image.src}"> 
+				<span class="cart-name">${product.name}</span> 
+				<span class="cart-amount">${product.amount}</span> 
+				<span class="cart-sum">${product.amount * adjustedProductPrice} kr</span> 
+				<button id="delete-${product.productNo}" class="delete material-symbols-outlined">delete</button>
 			</div>
 			`;
 		}
 	});
+
+	/*
+	när man trycker på knappen ska varan tas bort:
+	- koppla ihop knappen med produkten
+	- klickevent när man trycker
+	- funktion ta bort 
+	*/
+
+	// remove/delete-knapp eventlyssnare (EJ KLAR!!!)
+
 
 
 	if (sum <= 0) {
@@ -348,7 +363,7 @@ function printCartProducts() {
 	}
 
 	// rabatt måndag
-	if (today.getDay() === 1 && today.getHours() < 10) { 
+	if (today.getDay() === 1 && today.getHours() < 10) {
 		sum += 0.9;
 		msg += `<p>Måndagsrabatt: 10 % på hela beställningen</p>`
 	}
@@ -360,7 +375,7 @@ function printCartProducts() {
 	// frakt i varukorgen (över 15 varor: frakt=0kr)
 	if (orderedProductAmount > 15) {
 		cartHtmlContainer.innerHTML += '<p>Frakt: 0 kr</p>';
-	} else 
+	} else
 		cartHtmlContainer.innerHTML += `<p>Frakt: ${Math.round(25 + (0.1 * sum))} kr</p>`;
 
 	// beställ-knapp (continue)
@@ -369,19 +384,31 @@ function printCartProducts() {
 	// beställ-knappen (continue) eventlyssnare
 	const continueBtn = document.querySelector('#continue');
 	continueBtn.addEventListener('click', confirmationPopUp);
-	
-	// remove/delete-knapp eventlyssnare (EJ KLAR!!!)
-	
+
+	// delete product-knappen i varukorgen
+	const deleteBtn = document.querySelectorAll('.delete');
+	deleteBtn.forEach(btn => {
+		btn.addEventListener('click', removeItem);
+	});
 }
 
 // remove/delete-knapp (EJ KLAR!!!)
-function removeFromCart(e) {
+
+
+function removeItem(e) {
 	const productNumber = Number(e.target.id.replace('delete-', ''));
 
-	const index = cart.findIndex(product => product.productNo === productNumber);
-	if (index > -1 ) {
-		cart.splice(index, 1);
+	const indexInCart = cart.findIndex(product => product.productNo === productNumber);
+
+	const indexInProducts = products.findIndex(product => product.productNo === productNumber);
+
+	if (indexInCart > -1) {
+		cart.splice(indexInCart, 1);
+
+		products[indexInProducts].amount = 0;
+
 		printCartProducts();
+		printProducts();
 	}
 }
 
