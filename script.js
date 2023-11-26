@@ -283,25 +283,25 @@ function printProducts() {
 	const increaseButtons = document.querySelectorAll('.increase');
 	increaseButtons.forEach(btn => {
 		btn.addEventListener('click', increaseAmount);
-		updateTotalPrice();
+		updateTotalAmount();
 	});
 
 	// minus-knapp eventlyssnare
 	const decreaseButtons = document.querySelectorAll('.decrease');
 	decreaseButtons.forEach(btn => {
 		btn.addEventListener('click', decreaseAmount);
-		updateTotalPrice();
+		updateTotalAmount();
 	});
-	updateTotalPrice();
+	updateTotalAmount();
 	printCartProducts();
 }
 
 
 // Varukorgen i headern (ikonen + summan)
-function updateTotalPrice() {
-	const totalPriceSpan = document.querySelector('#price');
-	const totalPrice = products.reduce((total, product) => total + product.amount * product.price, 0);
-	totalPriceSpan.textContent = `${totalPrice} kr`
+function updateTotalAmount() {
+	const totalAmountSpan = document.querySelector('#amount');
+	const totalAmount = products.reduce((total, product) => total + product.amount, 0);
+	totalAmountSpan.textContent = `${totalAmount}`
 
 	// UPPDATERA PRISET ÄVEN EFTER RABATTER OCH HELGPÅSLAG HÄR
 }
@@ -371,9 +371,7 @@ function printCartProducts() {
 	continueBtn.addEventListener('click', confirmationPopUp);
 	
 	// remove/delete-knapp eventlyssnare (EJ KLAR!!!)
-	Array.from(document.querySelectorAll('.delete')).forEach(btn => {
-		btn.addEventListener('click', removeFromCart);
-	});
+	
 }
 
 // remove/delete-knapp (EJ KLAR!!!)
@@ -398,7 +396,7 @@ function changePriceRange() {
 	currentRangeValue.innerHTML = currentPrice;
 
 	productsInPriceRange = products.filter((product) => product.price <= currentPrice);
-	updateTotalPrice();
+	updateTotalAmount();
 }
 
 // sortering efter kategori (EJ KLAR!!!)
