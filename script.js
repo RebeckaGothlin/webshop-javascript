@@ -455,14 +455,14 @@ for (let i = 0; i < categoryFilterRadios.length; i++) {
 	categoryFilterRadios[i].addEventListener('click', updateCategoryFilter);
 }
 
-// sortering av pris (EJ KLAR!!!)
+// sortering av pris 
 priceRangeSlider.addEventListener('input', changePriceRange);
 
 
 
 
 
-// faktura
+// FAKTURA ELLER KORT
 
 // gör till array
 const cardInvoiceRadios = Array.from(document.querySelectorAll('input[name="payment-option"]'));

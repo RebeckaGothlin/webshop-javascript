@@ -12,6 +12,7 @@ body,
 body:not(.dark-theme) {
     background-color: white;
     color: black;
+
     .cart-summary .material-symbols-outlined {
         color: black;
     }
@@ -20,10 +21,14 @@ body:not(.dark-theme) {
 body.dark-theme {
     background-color: #1E1E1E;
     color: white;
-    .add, .subtract, .addProduct {
+
+    .add,
+    .subtract,
+    .addProduct {
         background-color: white;
         color: black;
     }
+
     .cart-summary .material-symbols-outlined {
         color: white;
     }
@@ -34,11 +39,15 @@ body.dark-theme {
         background-color: #1E1E1E;
         color: white;
     }
-    .add, .subtract, .addProduct {
+
+    .add,
+    .subtract,
+    .addProduct {
         background-color: white;
         color: black;
     }
 }
+
 main {
     font-family: 'Roboto', sans-serif;
 }
@@ -47,7 +56,8 @@ main {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 16px;
-} 
+}
+
 header {
     grid-column: span 4;
     display: flex;
@@ -75,6 +85,7 @@ nav.open {
 nav:not(.open) {
     @include visually-hidden;
 }
+
 ul {
     margin-top: 50%;
     list-style: none;
@@ -90,6 +101,7 @@ ul {
 li {
     font-size: 2rem;
     margin: 30px;
+
     a {
         text-decoration: none;
         color: white;
@@ -139,13 +151,14 @@ h1 {
     align-items: center;
     text-transform: uppercase;
 }
+
 .material-symbols-outlined {
     color: white;
-  font-variation-settings:
-  'FILL' 0,
-  'wght' 400,
-  'GRAD' 0,
-  'opsz' 24
+    font-variation-settings:
+        'FILL' 0,
+        'wght' 400,
+        'GRAD' 0,
+        'opsz' 24
 }
 
 .theme-toggle-button {
@@ -155,13 +168,14 @@ h1 {
     width: 35px;
     height: 35px;
 }
+
 .material-symbols-outlined {
     color: white;
-  font-variation-settings:
-  'FILL' 0,
-  'wght' 400,
-  'GRAD' 0,
-  'opsz' 24
+    font-variation-settings:
+        'FILL' 0,
+        'wght' 400,
+        'GRAD' 0,
+        'opsz' 24
 }
 
 .page-content {
@@ -169,6 +183,7 @@ h1 {
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 16px;
     margin-top: 50px;
+
     h2 {
         text-align: center;
     }
@@ -176,26 +191,32 @@ h1 {
     .page1 {
         grid-column: span 4;
         text-align: center;
+
         .product-details {
             display: flex;
             flex-direction: column;
             align-items: center;
         }
+
         .image-container {
             width: 300px;
             height: 300px;
             margin: 0 auto;
             overflow: hidden;
+
             img {
                 max-width: 100%;
                 height: auto;
                 object-fit: cover;
             }
         }
+
         .buttons-container {
             display: inline-block;
         }
-        .add, .subtract {
+
+        .add,
+        .subtract {
             width: 35px;
             height: 35px;
             font-size: 1.8rem;
@@ -203,6 +224,7 @@ h1 {
             display: inline-block;
             margin-bottom: 4px;
         }
+
         .addProduct {
             width: 110px;
             height: 35px;
@@ -211,10 +233,12 @@ h1 {
             text-transform: uppercase;
         }
     }
+
     .page2 {
         grid-column: span 4;
         text-align: center;
-        .cart-container {            
+
+        .cart-container {
             .cart-summary {
                 border: #282727 solid 2px;
                 height: 170px;
@@ -223,21 +247,26 @@ h1 {
                 gap: 16px;
                 align-items: center;
                 justify-content: center;
+
                 img {
                     max-width: 100%;
                     height: auto;
                     grid-column: span 2;
                 }
+
                 .cart-name {
                     grid-column: 3 / span 1;
                     font-weight: bold;
                 }
+
                 .cart-amount {
                     grid-column: span 1;
                 }
+
                 .cart-sum {
-                    grid-column:  span 1;
+                    grid-column: span 1;
                 }
+
                 .material-symbols-outlined {
                     grid-column: span 1;
                     background: none;
@@ -247,10 +276,13 @@ h1 {
             }
         }
     }
+
     .page3 {
-        height: 200vh; /*Ta bort sen*/
+        height: 200vh;
+        /*Ta bort sen*/
         margin: 20px;
         grid-column: span 4;
+
         input[type=text] {
             width: 100%;
             padding: 10px;
@@ -259,7 +291,7 @@ h1 {
             margin-bottom: 14px;
             box-sizing: border-box;
         }
-        
+
         input[type=submit],
         input[type=reset] {
             background-color: lightgray;
@@ -269,26 +301,32 @@ h1 {
             border-radius: 15px;
             cursor: pointer;
         }
-        
+
         input[type=reset]:hover {
             background-color: rgb(217, 108, 108);
         }
-        
+
         input[type=submit]:hover {
             background-color: gray;
         }
-        .payment-options {
-            input[type=number] {
-                width: 100%;
-                padding: 10px;
-                border-radius: 2px;
-                margin-top: 5px;
-                margin-bottom: 14px;
-                box-sizing: border-box;
+
+        input[type=number] {
+            width: 100%;
+            padding: 10px;
+            border-radius: 2px;
+            margin-top: 5px;
+            margin-bottom: 14px;
+            box-sizing: border-box;
+        }
+        .card-date {
+            display: block;
+            input.small {
+                width: 80px;
             }
-            .hidden {
-                display: none;
-            }
+        }
+
+        .hidden {
+            display: none;
         }
     }
 }
