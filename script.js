@@ -200,7 +200,7 @@ const categoryFilterRadios = document.querySelectorAll('[name="categoryFilter"]'
 const priceRangeSlider = document.querySelector('#priceRange');
 const currentRangeValue = document.querySelector('#currentRangeValue');
 
-let filteredProduct = [...products];
+let filteredProducts = [...products];
 let filteredProductsInPriceRange = [...products];
 let totalOrderSum = 0;
 
@@ -262,7 +262,7 @@ function printProducts() {
 	filteredProductsInPriceRange.forEach((product, i) => {
 		productsContainer.innerHTML += `
 		<div class="product-container">
-            <div id="product-${i}}">
+            <div id="product-${i}">
                 <div class="product-container">
                     <div class="image-container">
                         <img src="${product.image.src}" alt="${product.image.alt}" width="${product.image.width}" height="${product.image.height}" loading="lazy">
@@ -422,11 +422,8 @@ function changePriceRange() {
 	currentRangeValue.innerHTML = currentPrice;
 
 	filteredProductsInPriceRange = products.filter((product) => product.price <= currentPrice);
-	console.log(filteredProductsInPriceRange);
 	printProducts();
 }
-
-// sortering efter namn (EJ KLAR!!)
 
 // sortering efter kategori (EJ KLAR!!!)
 function updateCategoryFilter(e) {
@@ -452,6 +449,8 @@ function updateCategoryFilter(e) {
 	changePriceRange();
 }
 
+// sortering efter namn (EJ KLAR!!)
+
 for (let i = 0; i < categoryFilterRadios.length; i++) {
 	categoryFilterRadios[i].addEventListener('click', updateCategoryFilter);
 }
@@ -459,3 +458,104 @@ for (let i = 0; i < categoryFilterRadios.length; i++) {
 // sortering av pris (EJ KLAR!!!)
 priceRangeSlider.addEventListener('input', changePriceRange);
 
+
+
+
+
+// faktura
+
+// gör till array
+const cardInvoiceRadios = Array.from(document.querySelectorAll('input[name="payment-option"]'));
+const inputs = [
+	document.querySelector('#creditCardNumber'),
+	document.querySelector('#creditCardYear'),
+	document.querySelector('#creditCardMonth'),
+	document.querySelector('#creditCardCvc'),
+	document.querySelector('#personalId'),
+];
+
+const invoiceOption = document.querySelector('#invoice');
+const cardOption = document.querySelector('#card');
+
+// Default options
+let selectedPaymentOption = 'card';
+
+const orderBtn = document.querySelector('#orderBtn');
+
+//REGEX
+//personnummer
+const personalIdRegEx = new RegExp(/^(\d{10}|\d{12}|\d{6}-\d{4}|\d{8}-\d{4}|\d{8} \d{4}|\d{6} \d{4})/);
+// kort 
+const creditCardNumberRegEx = new RegExp(/^(5[1-5][0-9]{14}|2(22[1-9][0-9]{12}|2[3-9][0-9]{13}|[3-6][0-9]{14}|7[0-1][0-9]{13}|720[0-9]{12}))$/); // MasterCard
+
+
+//Add event listeners
+inputs.forEach(input => {
+	input.addEventListener('focusout', activateOrderButton);
+	input.addEventListener('change', activateOrderButton);
+});
+// loopa igenom arrayen för att lägga på ett klickevent på båda
+cardInvoiceRadios.forEach(radioBtn => {
+	radioBtn.addEventListener('change', switchPaymentMethod);
+})
+
+
+/**
+ * Switches between invoice payment method 
+ * and card payment method. Toggles their visibility.
+ */
+function switchPaymentMethod(e) {
+	invoiceOption.classList.toggle('hidden'); //göm faktura
+	cardOption.classList.toggle('hidden'); //göm kort
+
+	selectedPaymentOption = e.target.value;
+	console.log(selectedPaymentOption);
+}
+
+//personnummer 
+
+
+function isPersonalIdNumberValid() {
+	return personalIdRegEx.exec(personalId.value);
+	// return early = koncept, helst avbryta funktioner så fort som möjligt (slipper köra onödig kod)
+	
+
+	//console.log(personalIdRegEx.exec(personalId.value));
+}
+
+//kort
+
+function activateOrderButton() {
+	orderBtn.setAttribute('disabled', ''); // knappen ska vara disabled som default, och först när användaren skrivit rätt då tas attributet (disabled) bort
+
+	if (selectedPaymentOption === 'invoice' && !isPersonalIdNumberValid()) {
+		return;
+	} 
+	if (selectedPaymentOption === 'card') {
+		//check card number
+		if (creditCardNumberRegEx.exec(creditCardNumber.value === null)) {
+			console.log('credit card number not valid');
+			return;
+		}
+
+		// check card year
+		let year = Number(creditCardYear.value);
+		const today = new Date();
+		const shortYear = Number(String(today.getFullYear()).substring(2));
+		console.log(shortYear);
+
+		if (year > shortYear + 2 || year < shortYear) {
+			console.warn('credit card month not valid');
+			return;
+		}
+
+		// fixa månad. Padstart med 0.
+
+		// Check card CVC
+		if (creditCardCvc.value.length !== 3) {
+			console.warn('cvc not valid.');
+			return;
+		}
+	}
+	orderBtn.removeAttribute('disabled');
+}

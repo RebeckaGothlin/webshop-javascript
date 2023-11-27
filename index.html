@@ -143,6 +143,45 @@
                     </label>
                     <label>
                         <span>Betalsätt:</span>
+                        <div class="payment-options">
+                            <div class="selector">
+                                <label>
+                                    <input type="radio" name="payment-option" value="invoice">
+                                    <span>Faktura</span>
+                                </label>
+                                <label>
+                                    <input type="radio" name="payment-option" value="card" checked>
+                                    <span>Kort</span>
+                                </label>
+                            </div>
+
+                            <div class="invoice hidden" id="invoice">
+                                <label>
+                                    <span>Personnummer</span>
+                                    <input type="text" name="personal-id" id="personalId" value="19940714-1337">
+                                </label>
+                            </div>
+
+                            <div class="card" id="card">
+                                <label>
+                                    <span>Kortnummer</span>
+                                    <input type="number" id="creditCardNumber" value="5100080000000000">
+                                </label>
+                                <label>
+                                    <span>Datum</span>
+                                    <span>
+                                        <input type="number" class="small" placeholder="YY" id="creditCardYear">/<input type="number" class="small" placeholder="MM" id="creditCardMonth">
+                                    </span>
+                                </label>
+                                <label>
+                                    <span>CVC</span>
+                                    <input type="number" placeholder="123" id="creditCardCvc">
+                                </label>
+                            </div>
+
+                            <button id="orderBtn" disabled>Beställ</button>
+
+                        </div>
 
                     </label>
                     <div class="checkboxes">
