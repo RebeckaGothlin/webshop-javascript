@@ -44,7 +44,7 @@ let products = [
 		name: "Chokladboll - cappuccino",
 		price: 10,
 		rating: 4.5,
-		category: "kaffe",
+		category: "Coffee",
 		image: {
 			src: 'assets/chokladboll-cappuccino.png',
 			alt: 'chocolate ball with cappuccino taste',
@@ -58,7 +58,7 @@ let products = [
 		name: "Chokladboll - chokladdragerad",
 		price: 12,
 		rating: 4.8,
-		category: "choklad",
+		category: "Chocolate",
 		image: {
 			src: 'assets/chokladboll-chokladdragerad.png',
 			alt: 'chocolate ball covered in chocolate and coconut flakes',
@@ -72,7 +72,7 @@ let products = [
 		name: "Chokladboll - hallon",
 		price: 15,
 		rating: 4.6,
-		category: "fruktig",
+		category: "Fruity",
 		image: {
 			src: 'assets/chokladboll-hallon.png',
 			alt: 'chocolate ball covered in freeze-dried raspberry',
@@ -86,7 +86,7 @@ let products = [
 		name: "Chokladboll - kaffe",
 		price: 12,
 		rating: 4.3,
-		category: "kaffe",
+		category: "Coffee",
 		image: {
 			src: 'assets/chokladboll-kaffe.png',
 			alt: 'chocolate ball with taste of coffee covered in coconut flakes',
@@ -100,7 +100,7 @@ let products = [
 		name: "Chokladboll - kokos",
 		price: 10,
 		rating: 4.8,
-		category: "choklad",
+		category: "Chocolate",
 		image: {
 			src: 'assets/chokladboll-kokos.png',
 			alt: 'chocolate ball covered in coconut flakes',
@@ -114,7 +114,7 @@ let products = [
 		name: "Chokladboll - pärlsocker",
 		price: 10,
 		rating: 4.4,
-		category: "choklad",
+		category: "Chocolate",
 		image: {
 			src: 'assets/chokladboll-parlsocker.png',
 			alt: 'chocolate ball covered in nib sugar',
@@ -128,7 +128,7 @@ let products = [
 		name: "Chokladboll - raw",
 		price: 13,
 		rating: 4.2,
-		category: "choklad",
+		category: "Chocolate",
 		image: {
 			src: 'assets/chokladboll-raw.png',
 			alt: 'a raw chocolate ball covered in coconut flakes',
@@ -142,7 +142,7 @@ let products = [
 		name: "Chokladboll - sockerfri",
 		price: 12,
 		rating: 4,
-		category: "choklad",
+		category: "Chocolate",
 		image: {
 			src: 'assets/chokladboll-sockerfri.png',
 			alt: 'sugar free chocolate ball covered in coconut flakes',
@@ -156,7 +156,7 @@ let products = [
 		name: "Chokladboll - strössel",
 		price: 10,
 		rating: 4.4,
-		category: "fruktig",
+		category: "Fruity",
 		image: {
 			src: 'assets/chokladboll-strossel.png',
 			alt: 'chocolate ball covered in colorful sprinkles',
@@ -170,10 +170,10 @@ let products = [
 		name: "Havreboll",
 		price: 15,
 		rating: 4.9,
-		category: "havre",
+		category: "Oat",
 		image: {
 			src: 'assets/havreboll.png',
-			alt: 'light outmeal ball covered in coconut flakes',
+			alt: 'light oatmeal ball covered in coconut flakes',
 			widht: 2048,
 			height: 1637,
 		},
@@ -198,23 +198,12 @@ const currentHour = today.getHours();
 // sortering, kategori och pris (EJ KLAR!!)
 const categoryFilterRadios = document.querySelectorAll('[name="categoryFilter"]');
 const priceRangeSlider = document.querySelector('#priceRange');
-const currentRangeValue = document.querySelector('#currentRangeValue');
+const currentRangeValue = document.querySelector('#currentRangeValue'); // sparad som variabel för återanvändning
 
-let filteredProducts = [...products];
-let filteredProductsInPriceRange = [...products];
+let filteredProducts = [...products]; // för kategorifiltreringen
+let filteredProductsInPriceRange = [...products]; // används för att filtrera produkterna
 let totalOrderSum = 0;
 
-// långsam kund 
-let slownessTimeout = setTimeout(slowCustomerMessage, 1000 * 60 * 15);
-
-
-// långsam kund 
-function slowCustomerMessage() {
-	if (slownessTimeout) {
-		cartHtmlContainer.innerHTML = '';
-		alert('Du är för långsam på att beställa!');
-	}
-}
 // printar ut produkterna på sidan
 printProducts();
 
@@ -259,6 +248,7 @@ function printProducts() {
 	// helgpåslag
 	let priceIncrease = getPriceMultiplier();
 
+	// skriv ut baserat på prisfiltret
 	filteredProductsInPriceRange.forEach((product, i) => {
 		productsContainer.innerHTML += `
 		<div class="product-container">
@@ -307,8 +297,6 @@ function updateTotalAmount() {
 	const totalAmountSpan = document.querySelector('#amount');
 	const totalAmount = products.reduce((total, product) => total + product.amount, 0);
 	totalAmountSpan.textContent = `${totalAmount}`
-
-	// UPPDATERA PRISET ÄVEN EFTER RABATTER OCH HELGPÅSLAG HÄR
 }
 
 // printar produkterna i varukorgen (inte i headern)
@@ -320,6 +308,8 @@ function printCartProducts() {
 	let orderedProductAmount = 0;
 	let msg = '';
 	let priceIncrease = getPriceMultiplier();
+	// långsam kund 
+	let slownessTimeout = setTimeout(slowCustomerMessage, 1000 * 60 * 15);
 
 	// cart
 	products.forEach(product => {
@@ -347,15 +337,14 @@ function printCartProducts() {
 		}
 	});
 
-	/*
-	när man trycker på knappen ska varan tas bort:
-	- koppla ihop knappen med produkten
-	- klickevent när man trycker
-	- funktion ta bort 
-	*/
 
-	// remove/delete-knapp eventlyssnare (EJ KLAR!!!)
-
+	// långsam kund 
+	function slowCustomerMessage() {
+		if (slownessTimeout) {
+			cartHtmlContainer.innerHTML = '';
+			alert('Du är för långsam på att beställa!');
+		}
+	}
 
 
 	if (sum <= 0) {
@@ -416,47 +405,46 @@ function confirmationPopUp(e) {
 }
 
 
-// sortering efter pris (EJ KLAR!!)
+// sortering efter pris
 function changePriceRange() {
-	const currentPrice = priceRangeSlider.value;
-	currentRangeValue.innerHTML = currentPrice;
+	const currentPrice = priceRangeSlider.value; // läser av värdet i priceRangeSlidern
+	currentRangeValue.innerHTML = currentPrice; // skriver ut på sidan = värdet i kronor som blir när man drar i range slidern
 
-	filteredProductsInPriceRange = products.filter((product) => product.price <= currentPrice);
+	// loopar igenom varje produkt och kolla att priset är mindre än eller lika som currentPrice (värdet som blir i range slidern).
+	filteredProductsInPriceRange = filteredProducts.filter((product) => product.price <= currentPrice);
 	printProducts();
 }
 
-// sortering efter kategori (EJ KLAR!!!)
+
+// sortering efter kategori
 function updateCategoryFilter(e) {
+	// Hantera värdet på vald radio button
 	const selectedCategory = e.currentTarget.value;
 
-	if (selectedCategory === 'Visa alla') {
+	if (selectedCategory === 'All') {
 		filteredProducts = [...products];
 	} else {
-		filteredProducts = [];
-
-		for (let i = 0; i < products.length; i++) {
-			const prod = products[i];
-
-			const catsInLowercase = [];
-			for (let j = 0; j < prod.category.length; j++) {
-				catsInLowercase.push(prod.category[j].toLowerCase());
-			}
-			if (catsInLowercase.indexOf(selectedCategory) > -1) {
-				filteredProducts.push(prod);
-			}
-		}
+		// Filtrera produkter baserat på vald kategori
+		filteredProducts = products.filter(product => product.category.toLowerCase() === selectedCategory.toLowerCase());
 	}
+
+	// Sortera produkterna efter kategori
+	filteredProducts.sort((a, b) => a.category.localeCompare(b.category));
+
 	changePriceRange();
 }
 
-// sortering efter namn (EJ KLAR!!)
-
+// sortering av kategori
 for (let i = 0; i < categoryFilterRadios.length; i++) {
 	categoryFilterRadios[i].addEventListener('click', updateCategoryFilter);
 }
 
 // sortering av pris 
 priceRangeSlider.addEventListener('input', changePriceRange);
+
+printProducts();
+
+
 
 
 
@@ -518,9 +506,6 @@ function switchPaymentMethod(e) {
 function isPersonalIdNumberValid() {
 	return personalIdRegEx.exec(personalId.value);
 	// return early = koncept, helst avbryta funktioner så fort som möjligt (slipper köra onödig kod)
-	
-
-	//console.log(personalIdRegEx.exec(personalId.value));
 }
 
 //kort
@@ -530,7 +515,7 @@ function activateOrderButton() {
 
 	if (selectedPaymentOption === 'invoice' && !isPersonalIdNumberValid()) {
 		return;
-	} 
+	}
 	if (selectedPaymentOption === 'card') {
 		//check card number
 		if (creditCardNumberRegEx.exec(creditCardNumber.value === null)) {
@@ -545,11 +530,13 @@ function activateOrderButton() {
 		console.log(shortYear);
 
 		if (year > shortYear + 2 || year < shortYear) {
-			console.warn('credit card month not valid');
+			console.warn('credit card year not valid');
 			return;
 		}
 
 		// fixa månad. Padstart med 0.
+
+
 
 		// Check card CVC
 		if (creditCardCvc.value.length !== 3) {
@@ -559,3 +546,7 @@ function activateOrderButton() {
 	}
 	orderBtn.removeAttribute('disabled');
 }
+
+
+
+
