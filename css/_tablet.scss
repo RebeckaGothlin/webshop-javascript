@@ -18,6 +18,26 @@ header {
     gap: 16px;   
     .page1 {
         grid-column: span 6;
+    }   
+    .sort-container.open {
+        display: block;
+        text-align: left;
+        padding-left: 10px;
+        border: #282727 solid 2px;
+        margin-top: 50px;
+        font-size: 1.5rem;
+    }
+    .filter-button {
+        background-color: white;
+        border: black 1px solid;
+        border-radius: 7px;
+        padding: 8px 12px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        text-transform: uppercase;
+        float: left;
+        margin-left: 5px;
+        margin-top: 10px;
     }
     h2 {
         font-size: 3rem;
@@ -80,8 +100,26 @@ header {
     .page3 {
         grid-column: span 6;
         form {
+            font-size: 1.5rem;
             span {
-                font-size: 1.3rem;
+                font-size: 1.5rem;
+            }
+        }
+        input[type=number] {
+            width: 100%;
+            padding: 10px;
+            border-radius: 2px;
+            margin-top: 5px;
+            margin-bottom: 14px;
+            box-sizing: border-box;
+            font-size: 1.5rem;
+        }
+
+        .card-date {
+            display: block;
+
+            input.small {
+                width: 80px;
             }
         }
     }

@@ -207,7 +207,7 @@ h1 {
         .filter-button {
             background-color: white;
             border: black 1px solid;
-            border-radius: 7px;
+            border-radius: 15px;
             padding: 8px 12px;
             font-weight: bold;
             text-transform: uppercase;
@@ -320,7 +320,7 @@ h1 {
 
         input[type=submit],
         input[type=reset] {
-            background-color: lightgray;
+            background-color: white;
             border: 1px solid black;
             color: black;
             padding: 10px 15px;
@@ -355,6 +355,13 @@ h1 {
 
         .hidden {
             display: none;
+        }
+        .order-button {
+            border: 1px solid black;
+            color: black;
+            padding: 10px 15px;
+            border-radius: 15px;
+            cursor: pointer;
         }
     }
 }

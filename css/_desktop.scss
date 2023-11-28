@@ -5,7 +5,40 @@
     .page1 {
         grid-column: span 12;
     }
+    .sort-container.open {
+        display: block;
+        text-align: left;
+        padding-left: 10px;
+        border: #282727 solid 2px;
+        margin-top: 50px;
+        font-size: 1.8rem;
+    }
+    .filter-button {
+        background-color: white;
+        border: black 1px solid;
+        border-radius: 7px;
+        padding: 8px 12px;
+        font-size: 1.8rem;
+        font-weight: bold;
+        text-transform: uppercase;
+        float: left;
+        margin-left: 5px;
+        margin-top: 10px;
+    }
+    h2 {
+        font-size: 3rem;
+    }
+    .category-radio {
+        font-size: 1.8rem;
+    }
+    .price-range {
+        font-size: 1.8rem;
+    }
+    span {
+        font-size: 1.8rem;
+    }
     .products {
+        font-size: 1.8rem;
         display: grid;
         grid-template-columns: repeat(12, minmax(0, 1fr));
         gap: 16px;
@@ -53,6 +86,7 @@
     .page3 {
         grid-column: span 12;
         form {
+            font-size: 2rem;
             span {
                 font-size: 2rem;
             }
@@ -63,13 +97,13 @@
                 margin-top: 5px;
                 margin-bottom: 14px;
                 box-sizing: border-box;
-                font-size: 1.5rem;
+                font-size: 2rem;
             }
             .checkboxes {
-                font-size: 1.5rem;
+                font-size: 2rem;
             }
             .form-buttons {
-                font-size: 1.5rem;
+                font-size: 2rem;
             }
         }
     }
