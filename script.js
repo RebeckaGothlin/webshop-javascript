@@ -475,17 +475,16 @@ function sortByRating(e) {
     const selectedRating = e.currentTarget.value;
 
     if (selectedRating === 'All') {
-        // If "All" is selected, show all products without filtering by rating
+        // Om 'All' väljs, visa produkterna utan ratingfilter
         filteredProductsInPriceRange = [...products];
     } else {
-        // Filter products based on the selected rating
+        // Filtrera produkterna baserat på valda ratingen
         filteredProductsInPriceRange = products.filter(product => product.rating.toString() === selectedRating);
 
-        // Sort the filtered products by rating
+        // Sortera de filtrerade produkterna efter rating
         filteredProductsInPriceRange.sort((a, b) => b.rating - a.rating);
     }
 
-    // Print the updated products
     printProducts();
 }
 
@@ -596,10 +595,6 @@ function activateOrderButton() {
 			console.warn('credit card year not valid');
 			return;
 		}
-
-		// fixa månad. Padstart med 0.
-
-
 
 		// Check card CVC
 		if (creditCardCvc.value.length !== 3) {
