@@ -19,12 +19,15 @@
     <meta property="og:image" content="http://www.rebeckagothlin.com/images/rebecka-gothlin.png">
 
     <link rel="stylesheet" href="css/style.css" type="text/css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0">
 
 
 </head>
@@ -59,37 +62,76 @@
         <div class="page-content">
             <!-- Page 1-->
             <section class="page page1">
-                <h2 id="page1-link">Produkter</h2>
-                <!--sortera efter:-->
-                <div class="category-radio">
-                    <label>
-                        <input type="radio" name="categoryFilter" value="Chocolate">Chocolate
-                    </label>
-                    <label>
-                        <input type="radio" name="categoryFilter" value="Coffee">Coffee
-                    </label>
-                    <label>
-                        <input type="radio" name="categoryFilter" value="Fruity">Fruity
-                    </label>
-                    <label>
-                        <input type="radio" name="categoryFilter" value="Oat">Oat
-                    </label>
-                    <label>
-                        <input type="radio" name="categoryFilter" value="All" checked>Visa alla
-                    </label>
-                </div>
+                <button class="filter-button" id="filterBtn">Filter</button>
                 
 
-                <div>
-                    <span>Prisklass</span>
-                    <div class="price-range">   
-                        <span>0 kr</span>
-                        <input type="range" min="0" max="15" value="15"  id="priceRange">
-                        <span>15 kr</span>
+                <!--sortera efter:-->
+
+                <div class="sort-container" id="sortContainer">
+                    <div class="category-radio">
+                        <h3>Kategori</h3>
+                        <label>
+                            <input type="radio" name="categoryFilter" value="Chocolate">Chocolate
+                        </label>
+                        <label>
+                            <input type="radio" name="categoryFilter" value="Coffee">Coffee
+                        </label>
+                        <label>
+                            <input type="radio" name="categoryFilter" value="Fruity">Fruity
+                        </label>
+                        <label>
+                            <input type="radio" name="categoryFilter" value="Oat">Oat
+                        </label>
+                        <label>
+                            <input type="radio" name="categoryFilter" value="All" checked>Visa alla
+                        </label>
                     </div>
-                    <span id="currentRangeValue">15</span> kr
+
+
+                    <div>
+                        <h3>Prisklass</h3>
+                        <div class="price-range">
+                            <span>0 kr</span>
+                            <input type="range" min="0" max="15" value="15" id="priceRange">
+                            <span>15 kr</span>
+                        </div>
+                        <span id="currentRangeValue">15</span> kr
+                    </div>
+                    <div>
+                        <h3>Namn</h3>
+                        <label>
+                            <input type="radio" name="nameFilter" value="Ascending">A-Ö
+                        </label>
+                        <label>
+                            <input type="radio" name="nameFilter" value="Descending">Ö-A
+                        </label>
+                    </div>
+
+                    <div>
+                        <h3>Rating</h3>
+                        <label>
+                            <input type="radio" name="ratingFilter" value="1">1
+                        </label>
+                        <label>
+                            <input type="radio" name="ratingFilter" value="2">2
+                        </label>
+                        <label>
+                            <input type="radio" name="ratingFilter" value="3">3
+                        </label>
+                        <label>
+                            <input type="radio" name="ratingFilter" value="4">4
+                        </label>
+                        <label>
+                            <input type="radio" name="ratingFilter" value="5">5
+                        </label>
+                        <label>
+                            <input type="radio" name="ratingFilter" value="All" checked>Visa alla
+                        </label>
+                    </div>
+
                 </div>
 
+                <h2 id="page1-link">Produkter</h2>
                 <div class="products" id="products"></div>
             </section>
 
@@ -167,7 +209,8 @@
                                 <div>
                                     <span>Datum</span>
                                     <span class="card-date">
-                                        <input type="number" class="small" placeholder="YY" id="creditCardYear">/<input type="number" class="small" placeholder="MM" id="creditCardMonth">
+                                        <input type="number" class="small" placeholder="YY" id="creditCardYear">/<input
+                                            type="number" class="small" placeholder="MM" id="creditCardMonth">
                                     </span>
                                 </div>
                                 <label>
@@ -197,7 +240,7 @@
                             <input type="submit" value="Fortsätt">
                         </label>
                     </div>
-                    
+
                 </form>
             </section>
 

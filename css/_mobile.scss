@@ -186,12 +186,38 @@ h1 {
 
     h2 {
         text-align: center;
+        margin-top: 50px;
     }
 
     .page1 {
         grid-column: span 4;
-        text-align: center;
-
+        text-align: center; 
+        .sort-container {
+            width: 100%;
+            height: auto;
+            display: none;
+        }       
+        .sort-container.open {
+            display: block;
+            text-align: left;
+            padding-left: 10px;
+            border: #282727 solid 2px;
+            margin-top: 50px;
+        }
+        .filter-button {
+            background-color: white;
+            border: black 1px solid;
+            border-radius: 7px;
+            padding: 8px 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+            float: left;
+            margin-left: 5px;
+            margin-top: 10px;
+        }
+        .products {
+            margin-top: 70px;
+        }
         .product-details {
             display: flex;
             flex-direction: column;
@@ -318,8 +344,10 @@ h1 {
             margin-bottom: 14px;
             box-sizing: border-box;
         }
+
         .card-date {
             display: block;
+
             input.small {
                 width: 80px;
             }

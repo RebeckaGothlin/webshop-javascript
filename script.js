@@ -37,13 +37,30 @@ function toggleTheme() {
 }
 
 
+// FILTER-KNAPPEN (SORTERING AV PRODUKTERNA)
+const filterBtn = document.querySelector('#filterBtn');
+const sortContainer = document.querySelector('#sortContainer');
+
+filterBtn.addEventListener('click', toggleContainerOpenState);
+sortContainer.addEventListener('click', toggleContainerOpenState);
+
+function toggleContainerOpenState(e) {
+	
+	console.log(e);
+	if (e.target.nodeName == 'INPUT') {
+		return;
+	}
+	sortContainer.classList.toggle('open');
+}
+
+
 
 // PRODUKTERNA i array
 let products = [
 	{
 		name: "Chokladboll - cappuccino",
 		price: 10,
-		rating: 4.5,
+		rating: 4,
 		category: "Coffee",
 		image: {
 			src: 'assets/chokladboll-cappuccino.png',
@@ -57,7 +74,7 @@ let products = [
 	{
 		name: "Chokladboll - chokladdragerad",
 		price: 12,
-		rating: 4.8,
+		rating: 5,
 		category: "Chocolate",
 		image: {
 			src: 'assets/chokladboll-chokladdragerad.png',
@@ -71,7 +88,7 @@ let products = [
 	{
 		name: "Chokladboll - hallon",
 		price: 15,
-		rating: 4.6,
+		rating: 4,
 		category: "Fruity",
 		image: {
 			src: 'assets/chokladboll-hallon.png',
@@ -85,7 +102,7 @@ let products = [
 	{
 		name: "Chokladboll - kaffe",
 		price: 12,
-		rating: 4.3,
+		rating: 3,
 		category: "Coffee",
 		image: {
 			src: 'assets/chokladboll-kaffe.png',
@@ -99,7 +116,7 @@ let products = [
 	{
 		name: "Chokladboll - kokos",
 		price: 10,
-		rating: 4.8,
+		rating: 2,
 		category: "Chocolate",
 		image: {
 			src: 'assets/chokladboll-kokos.png',
@@ -113,7 +130,7 @@ let products = [
 	{
 		name: "Chokladboll - pärlsocker",
 		price: 10,
-		rating: 4.4,
+		rating: 3,
 		category: "Chocolate",
 		image: {
 			src: 'assets/chokladboll-parlsocker.png',
@@ -127,7 +144,7 @@ let products = [
 	{
 		name: "Chokladboll - raw",
 		price: 13,
-		rating: 4.2,
+		rating: 2,
 		category: "Chocolate",
 		image: {
 			src: 'assets/chokladboll-raw.png',
@@ -141,7 +158,7 @@ let products = [
 	{
 		name: "Chokladboll - sockerfri",
 		price: 12,
-		rating: 4,
+		rating: 1,
 		category: "Chocolate",
 		image: {
 			src: 'assets/chokladboll-sockerfri.png',
@@ -155,7 +172,7 @@ let products = [
 	{
 		name: "Chokladboll - strössel",
 		price: 10,
-		rating: 4.4,
+		rating: 2,
 		category: "Fruity",
 		image: {
 			src: 'assets/chokladboll-strossel.png',
@@ -169,7 +186,7 @@ let products = [
 	{
 		name: "Havreboll",
 		price: 15,
-		rating: 4.9,
+		rating: 5,
 		category: "Oat",
 		image: {
 			src: 'assets/havreboll.png',
@@ -195,10 +212,15 @@ const isFriday = today.getDay() === 6;
 const isMonday = today.getDay() === 1;
 const currentHour = today.getHours();
 
-// sortering, kategori och pris (EJ KLAR!!)
+// sortering, kategori och pris
 const categoryFilterRadios = document.querySelectorAll('[name="categoryFilter"]');
 const priceRangeSlider = document.querySelector('#priceRange');
 const currentRangeValue = document.querySelector('#currentRangeValue'); // sparad som variabel för återanvändning
+// sortering namn
+const ascendingRadio = document.querySelector('input[value="Ascending"]');
+const descendingRadio = document.querySelector('input[value="Descending"]');
+// sortering rating
+const ratingRadio = document.querySelectorAll('[name="ratingFilter"]'); 
 
 let filteredProducts = [...products]; // för kategorifiltreringen
 let filteredProductsInPriceRange = [...products]; // används för att filtrera produkterna
@@ -434,6 +456,39 @@ function updateCategoryFilter(e) {
 	changePriceRange();
 }
 
+// Sortering av namn
+
+function sortProducts(order) {
+    if (order === 'Ascending') {
+        // Sortera produkterna i alfabetiska ordning
+        filteredProductsInPriceRange.sort((a, b) => a.name.localeCompare(b.name));
+    } else if (order === 'Descending') {
+        // Sortera produkterna i omvänd alfabetisk ordning
+        filteredProductsInPriceRange.sort((a, b) => b.name.localeCompare(a.name));
+    }
+
+    printProducts();
+}
+
+// Sortering av rating
+function sortByRating(e) {
+    const selectedRating = e.currentTarget.value;
+
+    if (selectedRating === 'All') {
+        // If "All" is selected, show all products without filtering by rating
+        filteredProductsInPriceRange = [...products];
+    } else {
+        // Filter products based on the selected rating
+        filteredProductsInPriceRange = products.filter(product => product.rating.toString() === selectedRating);
+
+        // Sort the filtered products by rating
+        filteredProductsInPriceRange.sort((a, b) => b.rating - a.rating);
+    }
+
+    // Print the updated products
+    printProducts();
+}
+
 // sortering av kategori
 for (let i = 0; i < categoryFilterRadios.length; i++) {
 	categoryFilterRadios[i].addEventListener('click', updateCategoryFilter);
@@ -442,9 +497,17 @@ for (let i = 0; i < categoryFilterRadios.length; i++) {
 // sortering av pris 
 priceRangeSlider.addEventListener('input', changePriceRange);
 
+
+// sortering av namn
+ascendingRadio.addEventListener('click', () => sortProducts('Ascending'));
+descendingRadio.addEventListener('click', () => sortProducts('Descending'));
+
+// sortering av rating
+for (let i = 0; i < ratingRadio.length; i++) {
+    ratingRadio[i].addEventListener('click', sortByRating);
+}
+
 printProducts();
-
-
 
 
 
