@@ -339,6 +339,7 @@ function printCartProducts() {
 	products.forEach(product => {
 		orderedProductAmount += product.amount;
 
+
 		// rabatt/helgpåslag
 		if (product.amount > 0) {
 			let productPrice = product.price;
@@ -361,8 +362,9 @@ function printCartProducts() {
 		}
 	});
 
+	// Om inga produkter finns i varukorgen:
 	if (sum <= 0) {
-		cartHtmlContainer.innerHTML = '<p>Your cart is empty.</p>';
+		cartHtmlContainer.innerHTML = '<p>Din varukorg är tom.</p>';
 		return;
 	}
 
@@ -372,6 +374,10 @@ function printCartProducts() {
 		msg += `<p>Måndagsrabatt: 10 % på hela beställningen</p>`
 	}
 
+
+	// rabattkodsfält
+	cartHtmlContainer.innerHTML += `<p>Rabattkod: </p> <input type="text" id="discountCode" placeholder="Rabattkod">`
+	
 	// summan i varukorgen (och meddelande om måndagsrabatt)
 	cartHtmlContainer.innerHTML += `<p>Summa: ${sum} kr</p>`;
 	cartHtmlContainer.innerHTML += `<div>${msg}</div`;
@@ -395,6 +401,7 @@ function printCartProducts() {
 		btn.addEventListener('click', removeItem);
 	});
 }
+
 
 // långsam kund 
 function slowCustomerMessage() {
@@ -546,11 +553,11 @@ const creditCardNumberRegEx = new RegExp(/^(5[1-5][0-9]{14}|2(22[1-9][0-9]{12}|2
 //Add event listeners
 inputs.forEach(input => {
 	input.addEventListener('focusout', activateOrderButton);
-	input.addEventListener('change', activateOrderButton);
+	input.addEventListener('input', activateOrderButton);
 });
 // loopa igenom arrayen för att lägga på ett klickevent på båda
 cardInvoiceRadios.forEach(radioBtn => {
-	radioBtn.addEventListener('change', switchPaymentMethod);
+	radioBtn.addEventListener('input', switchPaymentMethod);
 })
 
 
@@ -625,7 +632,7 @@ const city = document.querySelector('#city');
 const phonenumber = document.querySelector('#phonenumber');
 const submitBtn = document.querySelector('#submitBtn');
 const resetBtn = document.querySelector('#resetBtn');
-
+const agreementGDPRcheckbox = document.querySelector('#agreementGDPR');
 
 const textRegex = new RegExp(/^[A-Za-zåäöÅÄÖ\s]+$/);
 const emailRegex = new RegExp(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/);
@@ -635,19 +642,36 @@ const numberRegex = new RegExp(/^[0-9][A-Za-z0-9 -]*$/);
 const zipRegex = new RegExp(/^\d{3}\s?\d{2}$/);
 
 
-firstName.addEventListener('change', activateSubmitBtn);
-lastName.addEventListener('change', activateSubmitBtn);
-address.addEventListener('change', activateSubmitBtn);
-housenumber.addEventListener('change', activateSubmitBtn);
-zipcode.addEventListener('change', activateSubmitBtn);
-city.addEventListener('change', activateSubmitBtn);
-phonenumber.addEventListener('change', activateSubmitBtn);
+firstName.addEventListener('input', activateSubmitBtn);
+lastName.addEventListener('input', activateSubmitBtn);
+address.addEventListener('input', activateSubmitBtn);
+housenumber.addEventListener('input', activateSubmitBtn);
+zipcode.addEventListener('input', activateSubmitBtn);
+city.addEventListener('input', activateSubmitBtn);
+phonenumber.addEventListener('input', activateSubmitBtn);
+agreementGDPRcheckbox.addEventListener('click', activateSubmitBtn);
 
 resetBtn.addEventListener('click', resetFormAndCart);
 
 function resetFormAndCart() {
-	cart = [];
-	printCartProducts();
+    // Reset form fields
+    form.reset();
+
+    // Reset product amounts in the products array
+    products.forEach(product => {
+        product.amount = 0;
+    });
+
+    // Reset cart
+    cart = [];
+    printCartProducts();
+
+    // Reset form validation (if needed)
+    activateSubmitBtn();
+
+	// Update total amount in the header
+    updateTotalAmount();
+	printProducts();
 }
 
 
@@ -675,18 +699,20 @@ function isPhonenumberValid() {
 
 
 function activateSubmitBtn() {
-	if (
-	isFirstNameValid() && 
-	isLastNameValid() && 
-	isAddressValid() && 
-	isHouseNumberValid() &&
-	isZipcodeValid() && 
-	isCityValid() && 
-	isPhonenumberValid()) {
-		submitBtn.removeAttribute('disabled');
-	} else {
-		submitBtn.setAttribute('disabled', '');
-	}
+    if (
+        isFirstNameValid() &&
+        isLastNameValid() &&
+        isAddressValid() &&
+        isHouseNumberValid() &&
+        isZipcodeValid() &&
+        isCityValid() &&
+        isPhonenumberValid() &&
+        agreementGDPRcheckbox.checked
+    ) {
+        submitBtn.removeAttribute('disabled');
+    } else {
+        submitBtn.setAttribute('disabled', '');
+    }
 }
 
 
