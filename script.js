@@ -217,14 +217,17 @@ const categoryFilterRadios = document.querySelectorAll('[name="categoryFilter"]'
 const priceRangeSlider = document.querySelector('#priceRange');
 const currentRangeValue = document.querySelector('#currentRangeValue'); // sparad som variabel för återanvändning
 // sortering namn
-const ascendingRadio = document.querySelector('input[value="Ascending"]');
-const descendingRadio = document.querySelector('input[value="Descending"]');
+const ascendingRadio = document.querySelector('input[value="ascending"]');
+const descendingRadio = document.querySelector('input[value="descending"]');
 // sortering rating
 const ratingRadio = document.querySelectorAll('[name="ratingFilter"]'); 
 
 let filteredProducts = [...products]; // för kategorifiltreringen
 let filteredProductsInPriceRange = [...products]; // används för att filtrera produkterna
 let totalOrderSum = 0;
+
+// långsam kund 
+let slownessTimeout;
 
 // printar ut produkterna på sidan
 printProducts();
@@ -250,6 +253,7 @@ function increaseAmount(e) {
 
 	printProducts();
 	printCartProducts();
+	resetSlowCustomerTimeout();
 }
 
 
@@ -330,8 +334,6 @@ function printCartProducts() {
 	let orderedProductAmount = 0;
 	let msg = '';
 	let priceIncrease = getPriceMultiplier();
-	// långsam kund 
-	let slownessTimeout = setTimeout(slowCustomerMessage, 1000 * 60 * 15);
 
 	// cart
 	products.forEach(product => {
@@ -359,17 +361,8 @@ function printCartProducts() {
 		}
 	});
 
-
-	// långsam kund 
-	function slowCustomerMessage() {
-		if (slownessTimeout) {
-			cartHtmlContainer.innerHTML = '';
-			alert('Du är för långsam på att beställa!');
-		}
-	}
-
-
 	if (sum <= 0) {
+		cartHtmlContainer.innerHTML = '<p>Your cart is empty.</p>';
 		return;
 	}
 
@@ -401,6 +394,17 @@ function printCartProducts() {
 	deleteBtn.forEach(btn => {
 		btn.addEventListener('click', removeItem);
 	});
+}
+
+// långsam kund 
+function slowCustomerMessage() {
+	alert('Du är för långsam på att beställa!');
+	cart = [];
+	printCartProducts();
+}
+function resetSlowCustomerTimeout() {
+	clearTimeout(slownessTimeout);
+	slownessTimeout = setTimeout(slowCustomerMessage, 1000 * 60 * 15);
 }
 
 // remove/delete-knapp cart
@@ -459,10 +463,10 @@ function updateCategoryFilter(e) {
 // Sortering av namn
 
 function sortProducts(order) {
-    if (order === 'Ascending') {
+    if (order === 'ascending') {
         // Sortera produkterna i alfabetiska ordning
         filteredProductsInPriceRange.sort((a, b) => a.name.localeCompare(b.name));
-    } else if (order === 'Descending') {
+    } else if (order === 'descending') {
         // Sortera produkterna i omvänd alfabetisk ordning
         filteredProductsInPriceRange.sort((a, b) => b.name.localeCompare(a.name));
     }
@@ -498,8 +502,8 @@ priceRangeSlider.addEventListener('input', changePriceRange);
 
 
 // sortering av namn
-ascendingRadio.addEventListener('click', () => sortProducts('Ascending'));
-descendingRadio.addEventListener('click', () => sortProducts('Descending'));
+ascendingRadio.addEventListener('click', () => sortProducts('ascending'));
+descendingRadio.addEventListener('click', () => sortProducts('descending'));
 
 // sortering av rating
 for (let i = 0; i < ratingRadio.length; i++) {
@@ -606,5 +610,83 @@ function activateOrderButton() {
 }
 
 
+
+/*-----------------------------------------------------
+---------------------FORMULÄR--------------------------
+-----------------------------------------------------*/
+
+const form = document.querySelector('#contactForm');
+const firstName = document.querySelector('#firstname');
+const lastName = document.querySelector('#lastname');
+const address = document.querySelector('#address');
+const housenumber = document.querySelector('#housenumber');
+const zipcode = document.querySelector('#zipcode');
+const city = document.querySelector('#city');
+const phonenumber = document.querySelector('#phonenumber');
+const submitBtn = document.querySelector('#submitBtn');
+const resetBtn = document.querySelector('#resetBtn');
+
+
+const textRegex = new RegExp(/^[A-Za-zåäöÅÄÖ\s]+$/);
+const emailRegex = new RegExp(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/);
+const telephoneRegex = new RegExp(/^([+]46)\s*(7[0236])\s*(\d{4})\s*(\d{3})$/);
+const addressRegex = new RegExp(/^[A-Za-zåäöÅÄÖ\s]+$/);
+const numberRegex = new RegExp(/^[0-9][A-Za-z0-9 -]*$/);
+const zipRegex = new RegExp(/^\d{3}\s?\d{2}$/);
+
+
+firstName.addEventListener('change', activateSubmitBtn);
+lastName.addEventListener('change', activateSubmitBtn);
+address.addEventListener('change', activateSubmitBtn);
+housenumber.addEventListener('change', activateSubmitBtn);
+zipcode.addEventListener('change', activateSubmitBtn);
+city.addEventListener('change', activateSubmitBtn);
+phonenumber.addEventListener('change', activateSubmitBtn);
+
+resetBtn.addEventListener('click', resetFormAndCart);
+
+function resetFormAndCart() {
+	cart = [];
+	printCartProducts();
+}
+
+
+function isFirstNameValid() {
+	return textRegex.test(firstName.value);
+}
+function isLastNameValid() {
+	return textRegex.test(lastName.value);
+}
+function isAddressValid() {
+	return addressRegex.test(address.value);
+}
+function isHouseNumberValid () {
+	return numberRegex.test(housenumber.value);
+}
+function isZipcodeValid() {
+	return zipRegex.test(zipcode.value);
+}
+function isCityValid() {
+	return textRegex.test(city.value);
+}
+function isPhonenumberValid() {
+	return telephoneRegex.test(phonenumber.value);
+}
+
+
+function activateSubmitBtn() {
+	if (
+	isFirstNameValid() && 
+	isLastNameValid() && 
+	isAddressValid() && 
+	isHouseNumberValid() &&
+	isZipcodeValid() && 
+	isCityValid() && 
+	isPhonenumberValid()) {
+		submitBtn.removeAttribute('disabled');
+	} else {
+		submitBtn.setAttribute('disabled', '');
+	}
+}
 
 

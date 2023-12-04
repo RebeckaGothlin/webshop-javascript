@@ -306,6 +306,7 @@ h1 {
     .page3 {
         margin: 20px;
         grid-column: span 4;
+        height: 200vh;
 
         input[type=text] {
             width: 100%;
@@ -354,7 +355,7 @@ h1 {
         .hidden {
             display: none;
         }
-        .order-button {
+        .submit-button, .order-button {
             border: 1px solid black;
             color: black;
             padding: 10px 15px;

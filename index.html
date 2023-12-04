@@ -100,10 +100,10 @@
                     <div>
                         <h3>Namn</h3>
                         <label>
-                            <input type="radio" name="nameFilter" value="Ascending">A-Ö
+                            <input type="radio" name="nameFilter" value="ascending">A-Ö
                         </label>
                         <label>
-                            <input type="radio" name="nameFilter" value="Descending">Ö-A
+                            <input type="radio" name="nameFilter" value="descending">Ö-A
                         </label>
                     </div>
 
@@ -151,7 +151,7 @@
                     checkbox: nyhetsbrev och godkänn behandling av personuppgifter
                     knappar: rensa och beställ
                 -->
-                <form>
+                <form id="contactForm">
                     <label>
                         <span>Förnamn:</span>
                         <input type="text" placeholder="Förnamn" id="firstname">
@@ -163,6 +163,10 @@
                     <label>
                         <span>Adress:</span>
                         <input type="text" placeholder="Adress" id="address">
+                    </label>
+                    <label>
+                        <span>Husnummer:</span>
+                        <input type="text" placeholder="Husnummer" id="housenumber">
                     </label>
                     <label>
                         <span>Postnummer:</span>
@@ -219,7 +223,7 @@
                                 </label>
                             </div>
 
-                            <button class="order-button" id="orderBtn" disabled>Beställ</button>
+                            <button class="order-button" id="orderBtn" disabled>Fortsätt</button>
 
                         </div>
 
@@ -234,11 +238,10 @@
                     </div>
                     <div class="form-buttons">
                         <label>
-                            <input type="reset" value="Rensa">
+                            <input type="reset" id="resetBtn" value="Reset">
                         </label>
-                        <label>
-                            <input type="submit" value="Fortsätt">
-                        </label>
+                        <button class="submit-button" id="submitBtn" disabled>Order</button>
+                        
                     </div>
 
                 </form>
