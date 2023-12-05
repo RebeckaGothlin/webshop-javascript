@@ -626,6 +626,11 @@ function updateTotalOrderAndInvoiceOption() {
         invoiceOption.style.display = 'block'; // Show the invoice option
     }
 
+	if (cart.length === 0) {
+		invoiceOption.removeAttribute('disabled');
+		invoiceOption.style.display = 'block';
+	}
+
     printProducts();
     printCartProducts();
 }
