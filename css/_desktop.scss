@@ -85,14 +85,21 @@
     }
     .page3 {
         grid-column: span 12;
+        display: grid;
+        grid-template-columns: repeat(12, minmax(0, 1fr));
+        gap: 16px;
+        h2 {
+            grid-column: span 12;
+        }
         form {
+            grid-column: 4 / span 6;
             font-size: 2rem;
             span {
                 font-size: 2rem;
             }
             input[type=text] {
                 width: 100%;
-                padding: 20px;
+                padding: 8px;
                 border-radius: 2px;
                 margin-top: 5px;
                 margin-bottom: 14px;
