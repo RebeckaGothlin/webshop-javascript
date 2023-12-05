@@ -45,7 +45,7 @@ filterBtn.addEventListener('click', toggleContainerOpenState);
 sortContainer.addEventListener('click', toggleContainerOpenState);
 
 function toggleContainerOpenState(e) {
-	
+
 	console.log(e);
 	if (e.target.nodeName == 'INPUT') {
 		return;
@@ -185,7 +185,7 @@ let products = [
 	},
 	{
 		name: "Havreboll",
-		price: 15,
+		price: 805,
 		rating: 5,
 		category: "Oat",
 		image: {
@@ -220,17 +220,25 @@ const currentRangeValue = document.querySelector('#currentRangeValue'); // spara
 const ascendingRadio = document.querySelector('input[value="ascending"]');
 const descendingRadio = document.querySelector('input[value="descending"]');
 // sortering rating
-const ratingRadio = document.querySelectorAll('[name="ratingFilter"]'); 
+const ratingRadio = document.querySelectorAll('[name="ratingFilter"]');
+
+const invoiceOption = document.querySelector('#invoice');
+const cardOption = document.querySelector('#card');
 
 let filteredProducts = [...products]; // för kategorifiltreringen
 let filteredProductsInPriceRange = [...products]; // används för att filtrera produkterna
 let totalOrderSum = 0;
 
+
 // långsam kund 
 let slownessTimeout;
 
+
+invoiceOption.removeAttribute('disabled');
+invoiceOption.disabled = false;
 // printar ut produkterna på sidan
 printProducts();
+
 
 // minus-knappen 
 function decreaseAmount(e) {
@@ -238,9 +246,13 @@ function decreaseAmount(e) {
 	if (products[index].amount > 0) {
 		products[index].amount -= 1;
 		index = Number(index);
+		cart = products.filter(product => product.amount > 0);
+
+		totalOrderSum = cart.reduce((sum, product) => sum + product.amount * product.price, 0);
 
 		printProducts();
 		printCartProducts();
+		updateTotalOrderAndInvoiceOption();
 	}
 }
 
@@ -251,9 +263,11 @@ function increaseAmount(e) {
 	products[index].amount += 1;
 	cart = products.filter(product => product.amount > 0);
 
+	totalOrderSum = cart.reduce((sum, product) => sum + product.amount * product.price, 0);
 	printProducts();
 	printCartProducts();
 	resetSlowCustomerTimeout();
+	updateTotalOrderAndInvoiceOption();
 }
 
 
@@ -377,7 +391,7 @@ function printCartProducts() {
 
 	// rabattkodsfält
 	cartHtmlContainer.innerHTML += `<p>Rabattkod: </p> <input type="text" id="discountCode" placeholder="Rabattkod">`
-	
+
 	// summan i varukorgen (och meddelande om måndagsrabatt)
 	cartHtmlContainer.innerHTML += `<p>Summa: ${sum} kr</p>`;
 	cartHtmlContainer.innerHTML += `<div>${msg}</div`;
@@ -426,6 +440,8 @@ function removeItem(e) {
 		cart.splice(indexInCart, 1);
 
 		products[indexInProducts].amount = 0;
+
+		totalOrderSum = cart.reduce((sum, product) => sum + product.amount * product.price, 0);
 
 		printCartProducts();
 		printProducts();
@@ -482,33 +498,33 @@ function updateCategoryFilter(e) {
 // Sortering av namn
 
 function sortProducts(order) {
-    if (order === 'ascending') {
-        // Sortera produkterna i alfabetiska ordning
-        filteredProductsInPriceRange.sort((a, b) => a.name.localeCompare(b.name));
-    } else if (order === 'descending') {
-        // Sortera produkterna i omvänd alfabetisk ordning
-        filteredProductsInPriceRange.sort((a, b) => b.name.localeCompare(a.name));
-    }
+	if (order === 'ascending') {
+		// Sortera produkterna i alfabetiska ordning
+		filteredProductsInPriceRange.sort((a, b) => a.name.localeCompare(b.name));
+	} else if (order === 'descending') {
+		// Sortera produkterna i omvänd alfabetisk ordning
+		filteredProductsInPriceRange.sort((a, b) => b.name.localeCompare(a.name));
+	}
 
-    printProducts();
+	printProducts();
 }
 
 // Sortering av rating
 function sortByRating(e) {
-    const selectedRating = e.currentTarget.value;
+	const selectedRating = e.currentTarget.value;
 
-    if (selectedRating === 'All') {
-        // Om 'All' väljs, visa produkterna utan ratingfilter
-        filteredProductsInPriceRange = [...products];
-    } else {
-        // Filtrera produkterna baserat på valda ratingen
-        filteredProductsInPriceRange = products.filter(product => product.rating.toString() === selectedRating);
+	if (selectedRating === 'All') {
+		// Om 'All' väljs, visa produkterna utan ratingfilter
+		filteredProductsInPriceRange = [...products];
+	} else {
+		// Filtrera produkterna baserat på valda ratingen
+		filteredProductsInPriceRange = products.filter(product => product.rating.toString() === selectedRating);
 
-        // Sortera de filtrerade produkterna efter rating
-        filteredProductsInPriceRange.sort((a, b) => b.rating - a.rating);
-    }
+		// Sortera de filtrerade produkterna efter rating
+		filteredProductsInPriceRange.sort((a, b) => b.rating - a.rating);
+	}
 
-    printProducts();
+	printProducts();
 }
 
 // sortering av kategori
@@ -526,7 +542,7 @@ descendingRadio.addEventListener('click', () => sortProducts('descending'));
 
 // sortering av rating
 for (let i = 0; i < ratingRadio.length; i++) {
-    ratingRadio[i].addEventListener('click', sortByRating);
+	ratingRadio[i].addEventListener('click', sortByRating);
 }
 
 printProducts();
@@ -547,8 +563,7 @@ const inputs = [
 	document.querySelector('#personalId'),
 ];
 
-const invoiceOption = document.querySelector('#invoice');
-const cardOption = document.querySelector('#card');
+
 
 // Default options
 let selectedPaymentOption = 'card';
@@ -578,16 +593,19 @@ cardInvoiceRadios.forEach(radioBtn => {
  * and card payment method. Toggles their visibility.
  */
 function switchPaymentMethod(e) {
-	invoiceOption.classList.toggle('hidden'); //göm faktura
-	cardOption.classList.toggle('hidden'); //göm kort
+	// togglar synligheten av betalningsmetoder
+	console.log('Switching payment method:', e.target.value);
 
-	selectedPaymentOption = e.target.value;
-	console.log(selectedPaymentOption);
+    // Toggle visibility of payment options
+    invoiceOption.classList.toggle('hidden');
+    cardOption.classList.toggle('hidden');
+
+    selectedPaymentOption = e.target.value;
+
+    console.log(selectedPaymentOption);
 }
 
 //personnummer 
-
-
 function isPersonalIdNumberValid() {
 	return personalIdRegEx.exec(personalId.value);
 	// return early = koncept, helst avbryta funktioner så fort som möjligt (slipper köra onödig kod)
@@ -595,8 +613,27 @@ function isPersonalIdNumberValid() {
 
 //kort
 
+// Function to update total order sum and check invoice option
+function updateTotalOrderAndInvoiceOption() {
+    totalOrderSum = cart.reduce((sum, product) => sum + product.amount * product.price, 0);
+
+    // Disable invoice option if the total order sum is over 800 kr
+    if (totalOrderSum > 800) {
+        invoiceOption.setAttribute('disabled', 'true');
+        invoiceOption.style.display = 'none'; // Hide the invoice option
+    } else {
+        invoiceOption.removeAttribute('disabled');
+        invoiceOption.style.display = 'block'; // Show the invoice option
+    }
+
+    printProducts();
+    printCartProducts();
+}
+
 function activateOrderButton() {
-	orderBtn.setAttribute('disabled', ''); // knappen ska vara disabled som default, och först när användaren skrivit rätt då tas attributet (disabled) bort
+	// knappen ska vara disabled som default, och först när 
+	// användaren skrivit rätt då tas attributet (disabled) bort
+	orderBtn.setAttribute('disabled', '');
 
 	if (selectedPaymentOption === 'invoice' && !isPersonalIdNumberValid()) {
 		return;
@@ -627,6 +664,7 @@ function activateOrderButton() {
 	}
 	orderBtn.removeAttribute('disabled');
 }
+
 
 
 
@@ -666,23 +704,23 @@ agreementGDPRcheckbox.addEventListener('click', activateSubmitBtn);
 resetBtn.addEventListener('click', resetFormAndCart);
 
 function resetFormAndCart() {
-    // Reset form fields
-    form.reset();
+	// Reset form fields
+	form.reset();
 
-    // Reset product amounts in the products array
-    products.forEach(product => {
-        product.amount = 0;
-    });
+	// Reset product amounts in the products array
+	products.forEach(product => {
+		product.amount = 0;
+	});
 
-    // Reset cart
-    cart = [];
-    printCartProducts();
+	// Reset cart
+	cart = [];
+	printCartProducts();
 
-    // Reset form validation (if needed)
-    activateSubmitBtn();
+	// Reset form validation (if needed)
+	activateSubmitBtn();
 
 	// Update total amount in the header
-    updateTotalAmount();
+	updateTotalAmount();
 	printProducts();
 }
 
@@ -696,7 +734,7 @@ function isLastNameValid() {
 function isAddressValid() {
 	return addressRegex.test(address.value);
 }
-function isHouseNumberValid () {
+function isHouseNumberValid() {
 	return numberRegex.test(housenumber.value);
 }
 function isZipcodeValid() {
@@ -711,20 +749,20 @@ function isPhonenumberValid() {
 
 
 function activateSubmitBtn() {
-    if (
-        isFirstNameValid() &&
-        isLastNameValid() &&
-        isAddressValid() &&
-        isHouseNumberValid() &&
-        isZipcodeValid() &&
-        isCityValid() &&
-        isPhonenumberValid() &&
-        agreementGDPRcheckbox.checked
-    ) {
-        submitBtn.removeAttribute('disabled');
-    } else {
-        submitBtn.setAttribute('disabled', '');
-    }
+	if (
+		isFirstNameValid() &&
+		isLastNameValid() &&
+		isAddressValid() &&
+		isHouseNumberValid() &&
+		isZipcodeValid() &&
+		isCityValid() &&
+		isPhonenumberValid() &&
+		agreementGDPRcheckbox.checked
+	) {
+		submitBtn.removeAttribute('disabled');
+	} else {
+		submitBtn.setAttribute('disabled', '');
+	}
 }
 
 
