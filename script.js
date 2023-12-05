@@ -433,8 +433,20 @@ function removeItem(e) {
 }
 
 // fortsättknappen (continue) popup (SKRIV MEDDELANDE)
-function confirmationPopUp(e) {
-	alert('Bekräftelse');
+function confirmationPopUp() {
+	// Lagra infon om ordern
+	let orderDetails = 'Orderdetaljer:\n\n';
+	// går igenom produkterna i varukorgen
+	cart.forEach(product => {
+		orderDetails += `${product.name} - Antal: ${product.amount} - Pris: ${product.amount * product.price} kr\n Leveranstid: 2-5 arbetsdagar.`;
+	});
+
+	// beräknar och visar totala priset på ordern
+	const totalOrderSum = cart.reduce((sum, product) => sum + product.amount * product.price, 0);
+	orderDetails += `\nSumma: ${totalOrderSum} kr`;
+
+	// bekräftelse på ordern med en popup.
+	alert(orderDetails);
 }
 
 
