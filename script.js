@@ -243,7 +243,7 @@ function decreaseAmount(e) {
 		products[index].amount -= 1;
 		index = Number(index);
 		cart = products.filter(product => product.amount > 0);
-		totalOrderSum = cart.reduce((sum, product) => sum + product.amount * product.price, 0);
+		totalOrderSum = cart.reduce((sum, product) => sum + product.amount * (product.discountedPrice || product.price), 0);
 		printProducts();
 		printCartProducts();
 		updateTotalOrderAndInvoiceOption();
@@ -255,8 +255,13 @@ function increaseAmount(e) {
 	let index = e.target.id.replace('increase-', '');
 	index = Number(index);
 	products[index].amount += 1;
+
+	const discountedPrice = products[index].discount ? products[index].price - (products[index].price * products[index].discount / 100) : products[index].price;
+    
+    products[index].discountedPrice = discountedPrice;
+
 	cart = products.filter(product => product.amount > 0);
-	totalOrderSum = cart.reduce((sum, product) => sum + product.amount * product.price, 0);
+	totalOrderSum = cart.reduce((sum, product) => sum + product.amount * (product.discountedPrice || product.price), 0);
 	printProducts();
 	printCartProducts();
 	resetSlowCustomerTimeout();
@@ -377,8 +382,8 @@ function printCartProducts() {
 	cartHtmlContainer.innerHTML += `<button id="continue">Fortsätt</button>`
 	
 	// fortsätt-knappen (continue) eventlyssnare
-	const continueBtn = document.querySelector('#continue');
-	continueBtn.addEventListener('click', confirmationPopUp);
+	/*const continueBtn = document.querySelector('#continue');
+	continueBtn.addEventListener('click', confirmationPopUp);*/
 
 
 	// delete product-knappen cart
@@ -415,17 +420,31 @@ function removeItem(e) {
 }
 // fortsättknappen (continue) popup (SKRIV MEDDELANDE)
 function confirmationPopUp() {
-	// Lagra infon om ordern
-	let orderDetails = 'Orderdetaljer:\n\n';
-	// går igenom produkterna i varukorgen
-	cart.forEach(product => {
-		orderDetails += `${product.name} - Antal: ${product.amount} - Pris: ${product.amount * product.price} kr\n Leveranstid: 2-5 arbetsdagar.`;
-	});
-	// beräknar och visar totala priset på ordern
-	const totalOrderSum = cart.reduce((sum, product) => sum + product.amount * product.price, 0);
-	orderDetails += `\nSumma: ${totalOrderSum} kr`;
-	// bekräftelse på ordern med en popup.
-	alert(orderDetails);
+    // Lagra infon om ordern
+    let orderDetails = 'Orderdetaljer:\n\n';
+    // går igenom produkterna i varukorgen
+    cart.forEach(product => {
+        const price = product.discountedPrice || product.price;  // Use discounted price if available
+        orderDetails += `${product.name} - Antal: ${product.amount} - Pris: ${price * product.amount} kr\n Leveranstid: 2-5 arbetsdagar.`;
+    });
+    // beräknar och visar totala priset på ordern
+    const totalOrderSum = cart.reduce((sum, product) => sum + (product.discountedPrice || product.price) * product.amount, 0);
+    orderDetails += `\nSumma: ${totalOrderSum} kr`;
+    // bekräftelse på ordern med en popup.
+    /*alert(orderDetails);*/
+
+    // bekräftlse med modal
+    const confirmationText = document.querySelector('#confirmationModal .modal-content p');
+    confirmationText.textContent = orderDetails;
+
+    // visa modal
+    const confirmationModal = document.querySelector('#confirmationModal');
+    confirmationModal.style.display = 'block';
+
+    const confirmBtn = document.querySelector('#confirmationModal #confirmBtn');
+    confirmBtn.addEventListener('click', () => {
+        confirmationModal.style.display = 'none';
+    });
 }
 // sortering efter pris
 function changePriceRange() {
@@ -676,7 +695,7 @@ function isPhonenumberValid() {
 	return telephoneRegex.test(phonenumber.value);
 }
 function activateSubmitBtn() {
-	const errorMessage = document.querySelectorAll('.error');
+	console.log('Checking form validity...');
 	let isValid = true;
 
 	errorMessages.forEach((error) => {
@@ -706,6 +725,8 @@ function displayError(inputField, errorMessage) {
     const errorElement = inputField.parentElement.querySelector('.error');
     errorElement.textContent = errorMessage;
 }
+
+const errorMessages = document.querySelectorAll('.error');
 
 firstName.addEventListener('input', () => {
 	if (!isFirstNameValid()) {
@@ -778,4 +799,6 @@ personalId.addEventListener('input', () => {
 	}
 	activateSubmitBtn();
 });
+
+submitBtn.addEventListener('click', confirmationPopUp);
 
