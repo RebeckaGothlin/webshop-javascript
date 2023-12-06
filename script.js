@@ -65,7 +65,7 @@ let products = [
 		image: {
 			src: 'assets/chokladboll-cappuccino.png',
 			alt: 'chocolate ball with cappuccino taste',
-			widht: 456,
+			width: 456,
 			height: 418,
 		},
 		amount: 0,
@@ -79,7 +79,7 @@ let products = [
 		image: {
 			src: 'assets/chokladboll-chokladdragerad.png',
 			alt: 'chocolate ball covered in chocolate and coconut flakes',
-			widht: 540,
+			width: 540,
 			height: 540,
 		},
 		amount: 0,
@@ -93,7 +93,7 @@ let products = [
 		image: {
 			src: 'assets/chokladboll-hallon.png',
 			alt: 'chocolate ball covered in freeze-dried raspberry',
-			widht: 600,
+			width: 600,
 			height: 607,
 		},
 		amount: 0,
@@ -107,7 +107,7 @@ let products = [
 		image: {
 			src: 'assets/chokladboll-kaffe.png',
 			alt: 'chocolate ball with taste of coffee covered in coconut flakes',
-			widht: 800,
+			width: 800,
 			height: 800,
 		},
 		amount: 0,
@@ -121,7 +121,7 @@ let products = [
 		image: {
 			src: 'assets/chokladboll-kokos.png',
 			alt: 'chocolate ball covered in coconut flakes',
-			widht: 800,
+			width: 800,
 			height: 800,
 		},
 		amount: 0,
@@ -135,7 +135,7 @@ let products = [
 		image: {
 			src: 'assets/chokladboll-parlsocker.png',
 			alt: 'chocolate ball covered in nib sugar',
-			widht: 2048,
+			width: 2048,
 			height: 1637,
 		},
 		amount: 0,
@@ -149,7 +149,7 @@ let products = [
 		image: {
 			src: 'assets/chokladboll-raw.png',
 			alt: 'a raw chocolate ball covered in coconut flakes',
-			widht: 800,
+			width: 800,
 			height: 800,
 		},
 		amount: 0,
@@ -163,7 +163,7 @@ let products = [
 		image: {
 			src: 'assets/chokladboll-sockerfri.png',
 			alt: 'sugar free chocolate ball covered in coconut flakes',
-			widht: 1000,
+			width: 1000,
 			height: 816,
 		},
 		amount: 0,
@@ -177,7 +177,7 @@ let products = [
 		image: {
 			src: 'assets/chokladboll-strossel.png',
 			alt: 'chocolate ball covered in colorful sprinkles',
-			widht: 1034,
+			width: 1034,
 			height: 980,
 		},
 		amount: 0,
@@ -191,7 +191,7 @@ let products = [
 		image: {
 			src: 'assets/havreboll.png',
 			alt: 'light oatmeal ball covered in coconut flakes',
-			widht: 2048,
+			width: 2048,
 			height: 1637,
 		},
 		amount: 0,
@@ -222,7 +222,6 @@ const invoiceOption = document.querySelector('#invoice');
 const cardOption = document.querySelector('#card');
 // rabattkod
 const discountCodeField = document.querySelector('#discountCode');
-const applyDiscountBtn = document.querySelector('#applyDiscountBtn');
 
 let filteredProducts = [...products]; // för kategorifiltreringen
 let filteredProductsInPriceRange = [...products]; // används för att filtrera produkterna
@@ -235,6 +234,7 @@ invoiceOption.disabled = false;
 // printar ut produkterna på sidan
 printProducts();
 
+discountCodeField.addEventListener('input', applyDiscount);
 
 // minus-knappen 
 function decreaseAmount(e) {
@@ -336,7 +336,7 @@ function printCartProducts() {
 		orderedProductAmount += product.amount;
 		// rabatt/helgpåslag
 		if (product.amount > 0) {
-			let productPrice = product.price;
+			let productPrice = product.discountedPrice || product.price;
 			if (product.amount >= 10) {
 				productPrice *= 0.9;
 			}
@@ -487,8 +487,6 @@ descendingRadio.addEventListener('click', () => sortProducts('descending'));
 for (let i = 0; i < ratingRadio.length; i++) {
 	ratingRadio[i].addEventListener('click', sortByRating);
 }
-// rabattkod
-applyDiscountBtn.addEventListener('click', applyDiscount);
 
 function applyDiscount() {
     const discountCode = discountCodeField.value.toLowerCase();
@@ -506,8 +504,6 @@ function applyDiscount() {
         updateTotalOrderAndInvoiceOption();
 
         alert('Discount applied! Your order prices have been reduced.');
-    } else {
-        alert('Invalid discount code. Please try again.');
     }
 }
 
