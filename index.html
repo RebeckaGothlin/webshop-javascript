@@ -46,13 +46,14 @@
                     <ul>
                         <li><a href="#header-home-link">Hem</a></li>
                         <li><a href="#page1-link">Produkter</a></li>
-                        <li><a href="#page2-link">Varukorg</a></li> <!--ankarlänka-->
+                        <li><a href="#page2-link">Varukorg</a></li>
+                        <li><a href="#page3-link">Kontaktuppgifter</a></li>
                     </ul>
                 </nav>
 
                 <h1>Gottlins choklad</h1>
-                <a href="#page2-link"><span
-                        class="material-symbols-outlined">shopping_cart</span></a><!--ankarlänk till varukorgen-->
+                <a href="#page2-link">
+                    <span class="material-symbols-outlined">shopping_cart</span></a>
                 <div class="header-cart-amount"><span id="amount">0</span></div>
                 <button class="theme-toggle-button" id="themeToggle"><i
                         class="material-symbols-outlined">contrast</i></button>
@@ -63,9 +64,6 @@
             <!-- Page 1-->
             <section class="page page1">
                 <button class="filter-button" id="filterBtn">Filter</button>
-                
-
-                <!--sortera efter:-->
 
                 <div class="sort-container" id="sortContainer">
                     <div class="category-radio">
@@ -138,43 +136,40 @@
             <section class="page page2">
                 <h2 id="page2-link">Varukorg</h2>
                 <div class="cart-container" id="cart"></div>
-                <!--varukorg: med bilder, styckpriser, summa mm.-->
-
-                <!--knapp: fortsätt-->
             </section>
 
             <section class="page page3">
-                <h2>Kontaktuppgifter</h2>
-                <!--
-                    Formulär
-                    kunduppgifter
-                    checkbox: nyhetsbrev och godkänn behandling av personuppgifter
-                    knappar: rensa och beställ
-                -->
+                <h2 id="page3-link">Kontaktuppgifter</h2>
                 <form id="contactForm">
                     <label>
                         <span>Förnamn:</span>
                         <input type="text" placeholder="Förnamn" id="firstname">
+                        <span class="error" id="firstnameError"></span>
                     </label>
                     <label>
                         <span>Efternamn:</span>
                         <input type="text" placeholder="Efternamn" id="lastname">
+                        <span class="error" id="lastnameError"></span>
                     </label>
                     <label>
                         <span>Adress:</span>
                         <input type="text" placeholder="Adress" id="address">
+                        <span class="error" id="addressError"></span>
                     </label>
                     <label>
                         <span>Husnummer:</span>
                         <input type="text" placeholder="Husnummer" id="housenumber">
+                        <span class="error" id="housenumberError"></span>
                     </label>
                     <label>
                         <span>Postnummer:</span>
                         <input type="text" placeholder="Postnummer" id="zipcode">
+                        <span class="error" id="zipcodeError"></span>
                     </label>
                     <label>
                         <span>Postort:</span>
                         <input type="text" placeholder="Postort" id="city">
+                        <span class="error" id="cityError"></span>
                     </label>
                     <label>
                         <span>Portkod:</span>
@@ -183,6 +178,7 @@
                     <label>
                         <span>Telefonnummer:</span>
                         <input type="text" placeholder="Telefonnummer" id="phonenumber">
+                        <span class="error" id="phonenumberError"></span>
                     </label>
                     <div>
                         <span>Betalsätt:</span>
@@ -202,13 +198,16 @@
                                 <label>
                                     <span>Personnummer</span>
                                     <input type="text" name="personal-id" id="personalId" value="19940714-1337">
+                                    <span class="error" id="personalIdError"></span>
                                 </label>
                             </div>
+
 
                             <div class="card" id="card">
                                 <label>
                                     <span>Kortnummer</span>
                                     <input type="number" id="creditCardNumber" value="5100080000000000">
+                                    <span class="error" id="creditCardNumberError"></span>
                                 </label>
                                 <div>
                                     <span>Datum</span>
@@ -227,6 +226,11 @@
 
                         </div>
 
+                    </div>
+                    <div>
+                        <label for="discountCode">Rabattkod</label>
+                        <input type="text" id="discountCode" placeholder="Rabattkod">
+                        <button id="applyDiscountBtn">Lägg till</button>
                     </div>
                     <div class="checkboxes">
                         <label>
