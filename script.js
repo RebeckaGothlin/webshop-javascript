@@ -228,6 +228,8 @@ let filteredProductsInPriceRange = [...products]; // används för att filtrera 
 let totalOrderSum = 0;
 // långsam kund 
 let slownessTimeout;
+
+
 invoiceOption.removeAttribute('disabled');
 invoiceOption.disabled = false;
 
@@ -321,7 +323,7 @@ function printProducts() {
 	printCartProducts();
 }
 
-// Varukorgen i headern (ikonen + summan)
+// Varukorgen i headern (ikonen + antal)
 function updateTotalAmount() {
 	const totalAmountSpan = document.querySelector('#amount');
 	const totalAmount = products.reduce((total, product) => total + product.amount, 0);
@@ -368,8 +370,9 @@ function printCartProducts() {
 		sum += 0.9;
 		msg += `<p>Måndagsrabatt: 10 % på hela beställningen</p>`
 	}
-	// summan i varukorgen (och meddelande om måndagsrabatt)
+	// summan i varukorgen 
 	cartHtmlContainer.innerHTML += `<p>Summa: ${sum} kr</p>`;
+	//  meddelande om måndagsrabatt i varukorgen
 	cartHtmlContainer.innerHTML += `<div>${msg}</div`;
 
 	// frakt i varukorgen (över 15 varor: frakt=0kr)
@@ -379,12 +382,7 @@ function printCartProducts() {
 		cartHtmlContainer.innerHTML += `<p>Frakt: ${Math.round(25 + (0.1 * sum))} kr</p>`;
 
 	// fortsätt-knapp (continue)
-	cartHtmlContainer.innerHTML += `<button id="continue">Fortsätt</button>`
-	
-	// fortsätt-knappen (continue) eventlyssnare
-	/*const continueBtn = document.querySelector('#continue');
-	continueBtn.addEventListener('click', confirmationPopUp);*/
-
+	cartHtmlContainer.innerHTML += `<button id="continue"><a style="text-decoration: none;" href="#page3-link">Fortsätt</a></button>`
 
 	// delete product-knappen cart
 	const deleteBtn = document.querySelectorAll('.delete');
@@ -392,8 +390,6 @@ function printCartProducts() {
 		btn.addEventListener('click', removeItem);
 	});
 }
-
-
 
 // långsam kund 
 function slowCustomerMessage() {
@@ -405,7 +401,8 @@ function resetSlowCustomerTimeout() {
 	clearTimeout(slownessTimeout);
 	slownessTimeout = setTimeout(slowCustomerMessage, 1000 * 60 * 15);
 }
-// remove/delete-knapp cart
+
+// remove product/delete-knapp cart
 function removeItem(e) {
 	const productNumber = Number(e.target.id.replace('delete-', ''));
 	const indexInCart = cart.findIndex(product => product.productNo === productNumber);
@@ -424,14 +421,12 @@ function confirmationPopUp() {
     let orderDetails = 'Orderdetaljer:\n\n';
     // går igenom produkterna i varukorgen
     cart.forEach(product => {
-        const price = product.discountedPrice || product.price;  // Use discounted price if available
+        const price = product.discountedPrice || product.price;  // använd nedsatt pris om det finns
         orderDetails += `${product.name} - Antal: ${product.amount} - Pris: ${price * product.amount} kr\n Leveranstid: 2-5 arbetsdagar.`;
     });
     // beräknar och visar totala priset på ordern
     const totalOrderSum = cart.reduce((sum, product) => sum + (product.discountedPrice || product.price) * product.amount, 0);
     orderDetails += `\nSumma: ${totalOrderSum} kr`;
-    // bekräftelse på ordern med en popup.
-    /*alert(orderDetails);*/
 
     // bekräftlse med modal
     const confirmationText = document.querySelector('#confirmationModal .modal-content p');
@@ -441,11 +436,14 @@ function confirmationPopUp() {
     const confirmationModal = document.querySelector('#confirmationModal');
     confirmationModal.style.display = 'block';
 
+	// när man klickat på ok ska modal-fönstret försvinna
     const confirmBtn = document.querySelector('#confirmationModal #confirmBtn');
     confirmBtn.addEventListener('click', () => {
         confirmationModal.style.display = 'none';
     });
 }
+
+// SORTERING AV PRODUKTERNA
 // sortering efter pris
 function changePriceRange() {
 	const currentPrice = priceRangeSlider.value; // läser av värdet i priceRangeSlidern
@@ -454,6 +452,7 @@ function changePriceRange() {
 	filteredProductsInPriceRange = filteredProducts.filter((product) => product.price <= currentPrice);
 	printProducts();
 }
+
 // sortering efter kategori
 function updateCategoryFilter(e) {
 	// Hantera värdet på vald radio button
@@ -468,6 +467,7 @@ function updateCategoryFilter(e) {
 	filteredProducts.sort((a, b) => a.category.localeCompare(b.category));
 	changePriceRange();
 }
+
 // Sortering av namn
 function sortProducts(order) {
 	if (order === 'ascending') {
@@ -479,6 +479,7 @@ function sortProducts(order) {
 	}
 	printProducts();
 }
+
 // Sortering av rating
 function sortByRating(e) {
 	const selectedRating = e.currentTarget.value;
@@ -493,23 +494,29 @@ function sortByRating(e) {
 	}
 	printProducts();
 }
+
 // sortering av kategori
 for (let i = 0; i < categoryFilterRadios.length; i++) {
 	categoryFilterRadios[i].addEventListener('click', updateCategoryFilter);
 }
+
 // sortering av pris 
 priceRangeSlider.addEventListener('input', changePriceRange);
+
 // sortering av namn
 ascendingRadio.addEventListener('click', () => sortProducts('ascending'));
 descendingRadio.addEventListener('click', () => sortProducts('descending'));
+
 // sortering av rating
 for (let i = 0; i < ratingRadio.length; i++) {
 	ratingRadio[i].addEventListener('click', sortByRating);
 }
 
+// rabattkod
 function applyDiscount() {
     const discountCode = discountCodeField.value.toLowerCase();
 
+	// om koden 'rabatt' skrivs in ska rabatt ges
     if (discountCode === 'rabatt') {
         const discountPercentage = 0.10;
 
@@ -522,13 +529,14 @@ function applyDiscount() {
         printCartProducts();
         updateTotalOrderAndInvoiceOption();
 
-        alert('Discount applied! Your order prices have been reduced.');
+        alert('Rabatt tillämpad.');
     }
 }
 
 printProducts();
+
+
 // FAKTURA ELLER KORT
-// gör till array
 const cardInvoiceRadios = Array.from(document.querySelectorAll('input[name="payment-option"]'));
 const inputs = [
 	document.querySelector('#creditCardNumber'),
@@ -537,9 +545,11 @@ const inputs = [
 	document.querySelector('#creditCardCvc'),
 	document.querySelector('#personalId'),
 ];
-// Default options
+// Default option
 let selectedPaymentOption = 'card';
+
 const orderBtn = document.querySelector('#orderBtn');
+
 //REGEX
 //personnummer
 const personalIdRegEx = new RegExp(/^(\d{10}|\d{12}|\d{6}-\d{4}|\d{8}-\d{4}|\d{8} \d{4}|\d{6} \d{4})/);
@@ -554,18 +564,12 @@ inputs.forEach(input => {
 cardInvoiceRadios.forEach(radioBtn => {
 	radioBtn.addEventListener('input', switchPaymentMethod);
 })
-/**
- * växlar mellan faktura- och kort-betalning
- * Växlar visibility.
- */
+// växlar mellan faktura- och kort-betalning. Växlar visibility.
 function switchPaymentMethod(e) {
 	// togglar synligheten av betalningsmetoder
-	console.log('Switching payment method:', e.target.value);
-	// Toggle visibility of payment options
 	invoiceOption.classList.toggle('hidden');
 	cardOption.classList.toggle('hidden');
 	selectedPaymentOption = e.target.value;
-	console.log(selectedPaymentOption);
 }
 //personnummer 
 function isPersonalIdNumberValid() {
@@ -625,9 +629,8 @@ function updateTotalOrderAndInvoiceOption() {
 	printProducts();
 	printCartProducts();
 }
-/*-----------------------------------------------------
----------------------FORMULÄR--------------------------
------------------------------------------------------*/
+
+// KONTAKTFORMULÄR
 const form = document.querySelector('#contactForm');
 const firstName = document.querySelector('#firstname');
 const lastName = document.querySelector('#lastname');
@@ -657,22 +660,25 @@ phonenumber.addEventListener('input', activateSubmitBtn);
 agreementGDPRcheckbox.addEventListener('click', activateSubmitBtn);
 resetBtn.addEventListener('click', resetFormAndCart);
 
+// Reset-knappen för formuläret
 function resetFormAndCart() {
-	// Reset form fields
+	// Återställ/Reset formulärfälten
 	form.reset();
-	// Reset product amounts in the products array
+	// Reset product amount i produktarrayen
 	products.forEach(product => {
 		product.amount = 0;
 	});
 	// Reset cart
 	cart = [];
 	printCartProducts();
-	// Reset form validation (if needed)
+	// Reset form validation (om det behövs)
 	activateSubmitBtn();
-	// Update total amount in the header
+	// Uppdatera total amount i varukorgen i headern
 	updateTotalAmount();
 	printProducts();
 }
+
+// validering av formulärfälten
 function isFirstNameValid() {
 	return textRegex.test(firstName.value);
 }
@@ -694,16 +700,18 @@ function isCityValid() {
 function isPhonenumberValid() {
 	return telephoneRegex.test(phonenumber.value);
 }
+// aktivera submit-knapp när alla fält validerade
 function activateSubmitBtn() {
-	console.log('Checking form validity...');
 	let isValid = true;
 
+	// error-meddelande
 	errorMessages.forEach((error) => {
 		if (error.textContent != '') {
 			isValid = false;
 		}
 	});
 
+	// om alla är valid ska disabled tas bort från submit-knapp
 	if (
 		isValid &&
 		isFirstNameValid() &&
@@ -721,13 +729,14 @@ function activateSubmitBtn() {
 	}
 }
 
+// visa error-meddelande
 function displayError(inputField, errorMessage) {
     const errorElement = inputField.parentElement.querySelector('.error');
     errorElement.textContent = errorMessage;
 }
-
 const errorMessages = document.querySelectorAll('.error');
 
+// error-meddelanden
 firstName.addEventListener('input', () => {
 	if (!isFirstNameValid()) {
 		displayError(firstName, 'Ange giltigt förnamn.');
@@ -736,7 +745,6 @@ firstName.addEventListener('input', () => {
 	}
 	activateSubmitBtn();
 });
-
 lastName.addEventListener('input', () => {
 	if (!isLastNameValid()) {
 		displayError(lastName, 'Ange giltigt efternamn.');
@@ -745,7 +753,6 @@ lastName.addEventListener('input', () => {
 	}
 	activateSubmitBtn();
 });
-
 address.addEventListener('input', () => {
 	if (!isAddressValid()) {
 		displayError(address, 'Ange giltig adress.');
@@ -754,7 +761,6 @@ address.addEventListener('input', () => {
 	}
 	activateSubmitBtn();
 });
-
 housenumber.addEventListener('input', () => {
 	if (!isHouseNumberValid()) {
 		displayError(housenumber, 'Ange giltigt husnummer.');
@@ -763,7 +769,6 @@ housenumber.addEventListener('input', () => {
 	}
 	activateSubmitBtn();
 });
-
 zipcode.addEventListener('input', () => {
 	if (!isZipcodeValid()) {
 		displayError(zipcode, 'Ange gitligt postnummer.');
@@ -772,7 +777,6 @@ zipcode.addEventListener('input', () => {
 	}
 	activateSubmitBtn();
 });
-
 city.addEventListener('input', () => {
 	if (!isCityValid()) {
 		displayError(city, 'Ange giltig postort.');
@@ -781,7 +785,6 @@ city.addEventListener('input', () => {
 	}
 	activateSubmitBtn();
 });
-
 phonenumber.addEventListener('input', () => {
 	if (!isPhonenumberValid()) {
 		displayError(phonenumber, 'Ange giltigt telefonnummer.');
@@ -790,7 +793,6 @@ phonenumber.addEventListener('input', () => {
 	}
 	activateSubmitBtn();
 });
-
 personalId.addEventListener('input', () => {
 	if (!isPersonalIdNumberValid()) {
 		displayError(personalId, 'Ange giltigt personnummer.');
@@ -800,5 +802,6 @@ personalId.addEventListener('input', () => {
 	activateSubmitBtn();
 });
 
+// bekräftelse-ruta submit
 submitBtn.addEventListener('click', confirmationPopUp);
 
