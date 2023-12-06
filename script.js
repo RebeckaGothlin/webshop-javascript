@@ -780,5 +780,6 @@ personalId.addEventListener('input', () => {
 	} else {
 		displayError(personalId, '');
 	}
+	activateSubmitBtn();
 });
 
