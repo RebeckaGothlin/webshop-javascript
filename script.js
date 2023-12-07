@@ -79,8 +79,8 @@ let products = [
 		image: {
 			src: 'assets/chokladboll-chokladdragerad.png',
 			alt: 'chocolate ball covered in chocolate and coconut flakes',
-			width: 540,
-			height: 540,
+			width: 439,
+			height: 420,
 		},
 		amount: 0,
 		productNo: 222,
@@ -93,8 +93,8 @@ let products = [
 		image: {
 			src: 'assets/chokladboll-hallon.png',
 			alt: 'chocolate ball covered in freeze-dried raspberry',
-			width: 600,
-			height: 607,
+			width: 748,
+			height: 730,
 		},
 		amount: 0,
 		productNo: 333,
@@ -107,8 +107,8 @@ let products = [
 		image: {
 			src: 'assets/chokladboll-kaffe.png',
 			alt: 'chocolate ball with taste of coffee covered in coconut flakes',
-			width: 800,
-			height: 800,
+			width: 710,
+			height: 667,
 		},
 		amount: 0,
 		productNo: 444,
@@ -121,8 +121,8 @@ let products = [
 		image: {
 			src: 'assets/chokladboll-kokos.png',
 			alt: 'chocolate ball covered in coconut flakes',
-			width: 800,
-			height: 800,
+			width: 618,
+			height: 615,
 		},
 		amount: 0,
 		productNo: 555,
@@ -135,8 +135,8 @@ let products = [
 		image: {
 			src: 'assets/chokladboll-parlsocker.png',
 			alt: 'chocolate ball covered in nib sugar',
-			width: 2048,
-			height: 1637,
+			width: 1291,
+			height: 1279,
 		},
 		amount: 0,
 		productNo: 666,
@@ -149,8 +149,8 @@ let products = [
 		image: {
 			src: 'assets/chokladboll-raw.png',
 			alt: 'a raw chocolate ball covered in coconut flakes',
-			width: 800,
-			height: 800,
+			width: 501,
+			height: 487,
 		},
 		amount: 0,
 		productNo: 777,
@@ -163,8 +163,8 @@ let products = [
 		image: {
 			src: 'assets/chokladboll-sockerfri.png',
 			alt: 'sugar free chocolate ball covered in coconut flakes',
-			width: 1000,
-			height: 816,
+			width: 455,
+			height: 458,
 		},
 		amount: 0,
 		productNo: 888,
@@ -177,8 +177,8 @@ let products = [
 		image: {
 			src: 'assets/chokladboll-strossel.png',
 			alt: 'chocolate ball covered in colorful sprinkles',
-			width: 1034,
-			height: 980,
+			width: 713,
+			height: 743,
 		},
 		amount: 0,
 		productNo: 999,
@@ -191,8 +191,8 @@ let products = [
 		image: {
 			src: 'assets/havreboll.png',
 			alt: 'light oatmeal ball covered in coconut flakes',
-			width: 2048,
-			height: 1637,
+			width: 1354,
+			height: 1286,
 		},
 		amount: 0,
 		productNo: 1010,
@@ -382,7 +382,7 @@ function printCartProducts() {
 		cartHtmlContainer.innerHTML += `<p>Frakt: ${Math.round(25 + (0.1 * sum))} kr</p>`;
 
 	// fortsätt-knapp (continue)
-	cartHtmlContainer.innerHTML += `<button id="continue"><a style="text-decoration: none;" href="#page3-link">Fortsätt</a></button>`
+	cartHtmlContainer.innerHTML += `<button class="continue-button" id="continue"><a style="text-decoration: none; href="#page3-link">Fortsätt</a></button>`
 
 	// delete product-knappen cart
 	const deleteBtn = document.querySelectorAll('.delete');
