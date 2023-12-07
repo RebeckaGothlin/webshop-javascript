@@ -293,7 +293,7 @@ function printProducts() {
                         <img src="${product.image.src}" alt="${product.image.alt}" width="${product.image.width}" height="${product.image.height}" loading="lazy">
                     </div>
                     <div class="product-details">
-                        Rating: ${product.rating}
+                        Betyg: ${product.rating}
                         <strong>${product.name}</strong>
                         Pris: ${product.price * priceIncrease} kr
                         <div class="buttons-container">
@@ -630,7 +630,7 @@ function updateTotalOrderAndInvoiceOption() {
 	printCartProducts();
 }
 
-// KONTAKTFORMULÄR
+// KONTAKTFORMULÄR (fixa koden!!)
 const form = document.querySelector('#contactForm');
 const firstName = document.querySelector('#firstname');
 const lastName = document.querySelector('#lastname');
@@ -671,7 +671,6 @@ function resetFormAndCart() {
 	// Reset cart
 	cart = [];
 	printCartProducts();
-	// Reset form validation (om det behövs)
 	activateSubmitBtn();
 	// Uppdatera total amount i varukorgen i headern
 	updateTotalAmount();
