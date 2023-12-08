@@ -1,6 +1,9 @@
 # 🍫 Gottlins choklad 
 A webshop named "Gottlins choklad" selling chocolate balls.
 
+Link to the live version of project:
+<https://medieinstitutet.github.io/fed23d-js-grundkurs-webshop-RebeckaGothlin/>
+
 ## Tech stack
 
 <img src="https://user-images.githubusercontent.com/25181517/192158956-48192682-23d5-4bfc-9dfb-6511ade346bc.png" width="20" alt="Sass"> <img src="https://user-images.githubusercontent.com/25181517/192158954-f88b5814-d510-4564-b285-dff7d6400dad.png" width="25" alt="html5"> <img src="https://user-images.githubusercontent.com/25181517/117447155-6a868a00-af3d-11eb-9cfe-245df15c9f3f.png" width="20" alt="Javascript">
@@ -32,7 +35,7 @@ The contact form with errors due to wrong inputs from user, without errors and t
 
 ## Validation
 ### ✔️ Lighthouse 
-<img src="/assets/validation-and-lighthouse/lighthouse.png" width="200">
+<img src="/assets/validation-and-lighthouse/lighthouse.png" width="500">
 
 ### ✔️ HTML & CSS
-<img src="/assets/validation-and-lighthouse/validation-html-js.png" width="200"> <img src="/assets/validation-and-lighthouse/validation-css.png" width="200">
+<img src="/assets/validation-and-lighthouse/validation-html-js.png" width="200"> <img src="/assets/validation-and-lighthouse/validation-css.png" width="250">
