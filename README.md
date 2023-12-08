@@ -39,3 +39,5 @@ The contact form with errors due to wrong inputs from user, without errors and t
 
 ### ✔️ HTML & CSS
 <img src="/assets/validation-and-lighthouse/validation-html-js.png" width="200"> <img src="/assets/validation-and-lighthouse/validation-css.png" width="250">
+
+This project was made by Rebecka Göthlin.
