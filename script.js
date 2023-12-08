@@ -258,11 +258,11 @@ function increaseAmount(e) {
 	products[index].amount += 1;
 
 	// beräknar det nedsatta priset, om rabattkod skrivits in
-	const discountedPrice = products[index].discount ? 
-	products[index].price - (products[index].price * products[index].discount / 100) : 
-	products[index].price;
-    
-    products[index].discountedPrice = discountedPrice;
+	const discountedPrice = products[index].discount ?
+		products[index].price - (products[index].price * products[index].discount / 100) :
+		products[index].price;
+
+	products[index].discountedPrice = discountedPrice;
 
 	// uppdatera varukorgs-arrayen genom filtrera bort de produkter med antal mindre eller lika med 0
 	cart = products.filter(product => product.amount > 0);
@@ -357,11 +357,11 @@ function printCartProducts() {
 				productPrice *= 0.9;
 			}
 			const adjustedProductPrice = productPrice * priceIncrease;
-			
+
 			sum += product.amount * adjustedProductPrice;
 			cartHtmlContainer.innerHTML += `
 			<div class="cart-summary">
-				<img src="${product.image.src}"> 
+				<img src="${product.image.src}" alt="${product.image.alt}" width="${product.image.width}" height="${product.image.height}" loading="lazy"> 
 				<span class="cart-name">${product.name}</span> 
 				<span class="cart-amount">${product.amount}</span> 
 				<span class="cart-sum">${product.amount * adjustedProductPrice} kr</span> 
@@ -391,10 +391,10 @@ function printCartProducts() {
 	} else
 		cartHtmlContainer.innerHTML += `<p>Frakt: ${Math.round(25 + (0.1 * sum))} kr</p>`;
 
-		// att betala / totala summan inkl. frakt
-		const shippingCost = orderedProductAmount > 15 ? 0 : Math.round(25 + (0.1 * sum));
-		const totalSumWithShipping = sum + shippingCost;
-		cartHtmlContainer.innerHTML += `<p>Att betala: ${totalSumWithShipping} kr</p>`;
+	// att betala / totala summan inkl. frakt
+	const shippingCost = orderedProductAmount > 15 ? 0 : Math.round(25 + (0.1 * sum));
+	const totalSumWithShipping = sum + shippingCost;
+	cartHtmlContainer.innerHTML += `<p>Att betala: ${totalSumWithShipping} kr</p>`;
 
 	// fortsätt-knapp (continue)
 	cartHtmlContainer.innerHTML += `<button class="continue-button" id="continue"><a href="#page3-link">Fortsätt</a></button>`
@@ -432,30 +432,30 @@ function removeItem(e) {
 }
 // fortsättknappen (continue) popup (SKRIV MEDDELANDE)
 function confirmationPopUp() {
-    // Lagra infon om ordern
-    let orderDetails = 'Orderdetaljer:\n\n';
-    // går igenom produkterna i varukorgen
-    cart.forEach(product => {
-        const price = product.discountedPrice || product.price;  // använd nedsatt pris om det finns
-        orderDetails += `${product.name} - Antal: ${product.amount} - Pris: ${price * product.amount} kr\n Leveranstid: 2-5 arbetsdagar.`;
-    });
-    // beräknar och visar totala priset på ordern
-    const totalOrderSum = cart.reduce((sum, product) => sum + (product.discountedPrice || product.price) * product.amount, 0);
-    orderDetails += `\nSumma: ${totalOrderSum} kr`;
+	// Lagra infon om ordern
+	let orderDetails = 'Orderdetaljer:\n\n';
+	// går igenom produkterna i varukorgen
+	cart.forEach(product => {
+		const price = product.discountedPrice || product.price;  // använd nedsatt pris om det finns
+		orderDetails += `${product.name} - Antal: ${product.amount} - Pris: ${price * product.amount} kr\n Leveranstid: 2-5 arbetsdagar.`;
+	});
+	// beräknar och visar totala priset på ordern
+	const totalOrderSum = cart.reduce((sum, product) => sum + (product.discountedPrice || product.price) * product.amount, 0);
+	orderDetails += `\nSumma: ${totalOrderSum} kr`;
 
-    // bekräftlse med modal
-    const confirmationText = document.querySelector('#confirmationModal .modal-content p');
-    confirmationText.textContent = orderDetails;
+	// bekräftlse med modal
+	const confirmationText = document.querySelector('#confirmationModal .modal-content p');
+	confirmationText.textContent = orderDetails;
 
-    // visa modal
-    const confirmationModal = document.querySelector('#confirmationModal');
-    confirmationModal.style.display = 'block';
+	// visa modal
+	const confirmationModal = document.querySelector('#confirmationModal');
+	confirmationModal.style.display = 'block';
 
 	// när man klickat på ok ska modal-fönstret försvinna
-    const confirmBtn = document.querySelector('#confirmationModal #confirmBtn');
-    confirmBtn.addEventListener('click', () => {
-        confirmationModal.style.display = 'none';
-    });
+	const confirmBtn = document.querySelector('#confirmationModal #confirmBtn');
+	confirmBtn.addEventListener('click', () => {
+		confirmationModal.style.display = 'none';
+	});
 }
 
 // SORTERING AV PRODUKTERNA
@@ -533,30 +533,32 @@ discountCodeField.addEventListener('input', applyDiscount);
 
 // rabattkod
 function applyDiscount() {
-    const discountCode = discountCodeField.value.toLowerCase();
+	const discountCode = discountCodeField.value.toLowerCase();
 
 	// om koden 'rabatt' skrivs in ska rabatt ges
-    if (discountCode === 'rabatt') {
-        const discountPercentage = 0.10;
+	if (discountCode === 'rabatt') {
+		const discountPercentage = 0.10;
 
-        cart.forEach(product => {
-            const discountedPrice = product.price * (1 - discountPercentage);
-            product.discountedPrice = discountedPrice;
-        });
+		cart.forEach(product => {
+			const discountedPrice = product.price * (1 - discountPercentage);
+			product.discountedPrice = discountedPrice;
+		});
 
-        printProducts();
-        printCartProducts();
-        updateTotalOrderAndInvoiceOption();
+		printProducts();
+		printCartProducts();
+		updateTotalOrderAndInvoiceOption();
 
-        alert('Rabatt tillämpad.');
-    }
+		alert('Rabatt tillämpad.');
+	}
 }
 
 printProducts();
 
 
 // FAKTURA ELLER KORT
+// Väljer ut alla radio btns med inputnamnet payment-option
 const cardInvoiceRadios = Array.from(document.querySelectorAll('input[name="payment-option"]'));
+// array med 
 const inputs = [
 	document.querySelector('#creditCardNumber'),
 	document.querySelector('#creditCardYear'),
@@ -569,12 +571,12 @@ let selectedPaymentOption = 'card';
 
 const orderBtn = document.querySelector('#orderBtn');
 
-//REGEX
+//REGEX för att validera pers.nr. och kreditkortnr
 //personnummer
 const personalIdRegEx = new RegExp(/^(\d{10}|\d{12}|\d{6}-\d{4}|\d{8}-\d{4}|\d{8} \d{4}|\d{6} \d{4})/);
 // kort 
 const creditCardNumberRegEx = new RegExp(/^(5[1-5][0-9]{14}|2(22[1-9][0-9]{12}|2[3-9][0-9]{13}|[3-6][0-9]{14}|7[0-1][0-9]{13}|720[0-9]{12}))$/); // MasterCard
-//Add event listeners
+// event listeners för input-elementen
 inputs.forEach(input => {
 	input.addEventListener('focusout', activateOrderButton);
 	input.addEventListener('input', activateOrderButton);
@@ -591,11 +593,13 @@ function switchPaymentMethod(e) {
 	selectedPaymentOption = e.target.value;
 }
 //personnummer 
+// kollar om pers.nr. är giltigt mha regex
 function isPersonalIdNumberValid() {
 	return personalIdRegEx.exec(personalId.value);
 	// return early = koncept, helst avbryta funktioner så fort som möjligt (slipper köra onödig kod)
 }
 //kort
+// aktiverar eller inaktiverar orderknappen beroende på vad användare skriver
 function activateOrderButton() {
 	// knappen ska vara disabled som default, och först när 
 	// användaren skrivit rätt då tas attributet (disabled) bort
@@ -633,13 +637,16 @@ function updateTotalOrderAndInvoiceOption() {
 	totalOrderSum = cart.reduce((sum, product) => sum + product.amount * product.price, 0);
 	// Inaktivera faktura om total är over 800 kr
 	if (totalOrderSum > 800) {
+		// inaktiverar och döljer faktura om total  är över 800 kr
 		invoiceOption.setAttribute('disabled', 'true');
-		invoiceOption.style.display = 'none'; // Hide invoice option
+		invoiceOption.style.display = 'none';
 	} else {
+		// annars aktiverar och visar faktura
 		invoiceOption.removeAttribute('disabled');
 		invoiceOption.style.display = 'block'; // Show invoice option
 	}
 
+	// om varugkorgen är tom ska faktura aktiveras och visas
 	if (cart.length === 0) {
 		invoiceOption.removeAttribute('disabled');
 		invoiceOption.style.display = 'block';
@@ -649,7 +656,7 @@ function updateTotalOrderAndInvoiceOption() {
 	printCartProducts();
 }
 
-// KONTAKTFORMULÄR (fixa koden!!)
+// KONTAKTFORMULÄR
 const form = document.querySelector('#contactForm');
 const firstName = document.querySelector('#firstname');
 const lastName = document.querySelector('#lastname');
@@ -658,10 +665,11 @@ const housenumber = document.querySelector('#housenumber');
 const zipcode = document.querySelector('#zipcode');
 const city = document.querySelector('#city');
 const phonenumber = document.querySelector('#phonenumber');
+const email = document.querySelector('#email');
 const submitBtn = document.querySelector('#submitBtn');
 const resetBtn = document.querySelector('#resetBtn');
 const agreementGDPRcheckbox = document.querySelector('#agreementGDPR');
-
+// regex
 const textRegex = new RegExp(/^[A-Za-zåäöÅÄÖ\s]+$/);
 const emailRegex = new RegExp(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/);
 const telephoneRegex = new RegExp(/^([+]46)\s*(7[0236])\s*(\d{4})\s*(\d{3})$/);
@@ -669,29 +677,20 @@ const addressRegex = new RegExp(/^[A-Za-zåäöÅÄÖ\s]+$/);
 const numberRegex = new RegExp(/^[0-9][A-Za-z0-9 -]*$/);
 const zipRegex = new RegExp(/^\d{3}\s?\d{2}$/);
 
-firstName.addEventListener('input', activateSubmitBtn);
-lastName.addEventListener('input', activateSubmitBtn);
-address.addEventListener('input', activateSubmitBtn);
-housenumber.addEventListener('input', activateSubmitBtn);
-zipcode.addEventListener('input', activateSubmitBtn);
-city.addEventListener('input', activateSubmitBtn);
-phonenumber.addEventListener('input', activateSubmitBtn);
-agreementGDPRcheckbox.addEventListener('click', activateSubmitBtn);
-resetBtn.addEventListener('click', resetFormAndCart);
 
 // Reset-knappen för formuläret
 function resetFormAndCart() {
 	// Återställ/Reset formulärfälten
 	form.reset();
-	// Reset product amount i produktarrayen
+	// Rensa product amount i produktarrayen
 	products.forEach(product => {
 		product.amount = 0;
 	});
-	// Reset cart
+	// Rensa varukorgen
 	cart = [];
+
 	printCartProducts();
 	activateSubmitBtn();
-	// Uppdatera total amount i varukorgen i headern
 	updateTotalAmount();
 	printProducts();
 }
@@ -718,18 +717,24 @@ function isCityValid() {
 function isPhonenumberValid() {
 	return telephoneRegex.test(phonenumber.value);
 }
-// aktivera submit-knapp när alla fält validerade
+function isEmailValid() {
+	return emailRegex.test(email.value);
+}
+// aktivera submit-knapp när alla fält är validerade
 function activateSubmitBtn() {
 	let isValid = true;
 
 	// error-meddelande
+	// loopa igenom varje errormeddelande-element
 	errorMessages.forEach((error) => {
+		// kolla om textcontent av errormeddelande är tomt
 		if (error.textContent != '') {
+			// om error-medd. visas är formuläret invalid
 			isValid = false;
 		}
 	});
 
-	// om alla är valid ska disabled tas bort från submit-knapp
+	// om alla är giltiga ska disabled tas bort från submit-knapp
 	if (
 		isValid &&
 		isFirstNameValid() &&
@@ -739,86 +744,48 @@ function activateSubmitBtn() {
 		isZipcodeValid() &&
 		isCityValid() &&
 		isPhonenumberValid() &&
+		isEmailValid() &&
 		agreementGDPRcheckbox.checked
 	) {
 		submitBtn.removeAttribute('disabled');
 	} else {
+		// annars återstår inaktiverad knapp 
 		submitBtn.setAttribute('disabled', '');
 	}
 }
 
-// visa error-meddelande
+// visa error-meddelande under inputfälten om ogiltigt
 function displayError(inputField, errorMessage) {
-    const errorElement = inputField.parentElement.querySelector('.error');
-    errorElement.textContent = errorMessage;
+	const errorElement = inputField.parentElement.querySelector('.error');
+	errorElement.textContent = errorMessage;
 }
 const errorMessages = document.querySelectorAll('.error');
 
-// error-meddelanden
-firstName.addEventListener('input', () => {
-	if (!isFirstNameValid()) {
-		displayError(firstName, 'Ange giltigt förnamn.');
-	} else {
-		displayError(firstName, '');
-	}
-	activateSubmitBtn();
-});
-lastName.addEventListener('input', () => {
-	if (!isLastNameValid()) {
-		displayError(lastName, 'Ange giltigt efternamn.');
-	} else {
-		displayError(lastName, '');
-	}
-	activateSubmitBtn();
-});
-address.addEventListener('input', () => {
-	if (!isAddressValid()) {
-		displayError(address, 'Ange giltig adress.');
-	} else {
-		displayError(address, '');
-	}
-	activateSubmitBtn();
-});
-housenumber.addEventListener('input', () => {
-	if (!isHouseNumberValid()) {
-		displayError(housenumber, 'Ange giltigt husnummer.');
-	} else {
-		displayError(housenumber, '');
-	}
-	activateSubmitBtn();
-});
-zipcode.addEventListener('input', () => {
-	if (!isZipcodeValid()) {
-		displayError(zipcode, 'Ange gitligt postnummer.');
-	} else {
-		displayError(zipcode, '');
-	}
-	activateSubmitBtn();
-});
-city.addEventListener('input', () => {
-	if (!isCityValid()) {
-		displayError(city, 'Ange giltig postort.');
-	} else {
-		displayError(city, '');
-	}
-	activateSubmitBtn();
-});
-phonenumber.addEventListener('input', () => {
-	if (!isPhonenumberValid()) {
-		displayError(phonenumber, 'Ange giltigt telefonnummer.');
-	} else {
-		displayError(phonenumber, '');
-	}
-	activateSubmitBtn();
-});
-personalId.addEventListener('input', () => {
-	if (!isPersonalIdNumberValid()) {
-		displayError(personalId, 'Ange giltigt personnummer.');
-	} else {
-		displayError(personalId, '');
-	}
-	activateSubmitBtn();
-});
+// Event listener-funktion
+function handleInputChange(inputField, validationFunction, errorMessage) {
+	return function inputFieldCangeHandler() {
+		// kolla om valideringsfunktionen returns false (input är ogiltigt)
+		if (!validationFunction()) {
+			// om invalid, visa errormedd.
+			displayError(inputField, errorMessage);
+		} else {
+			// om valid, ta bort errormedd.
+			displayError(inputField, '');
+		}
+		activateSubmitBtn();
+	};
+}
+
+// Event listeners
+firstName.addEventListener('input', handleInputChange(firstName, isFirstNameValid, 'Ange giltigt förnamn.'));
+lastName.addEventListener('input', handleInputChange(lastName, isLastNameValid, 'Ange giltigt efternamn.'));
+address.addEventListener('input', handleInputChange(address, isAddressValid, 'Ange giltig adress.'));
+housenumber.addEventListener('input', handleInputChange(housenumber, isHouseNumberValid, 'Ange giltigt husnummer.'));
+zipcode.addEventListener('input', handleInputChange(zipcode, isZipcodeValid, 'Ange giltigt postnummer.'));
+city.addEventListener('input', handleInputChange(city, isCityValid, 'Ange giltig postort.'));
+phonenumber.addEventListener('input', handleInputChange(phonenumber, isPhonenumberValid, 'Ange giltigt telefonnummer.'));
+email.addEventListener('input', handleInputChange(email, isEmailValid, 'Ange giltig e-postadress.'));
+agreementGDPRcheckbox.addEventListener('click', activateSubmitBtn);
 
 // bekräftelse-ruta submit
 submitBtn.addEventListener('click', confirmationPopUp);
