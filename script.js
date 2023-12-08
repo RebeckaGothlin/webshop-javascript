@@ -429,13 +429,21 @@ function resetSlowCustomerTimeout() {
 
 // remove product/delete-knapp cart
 function removeItem(e) {
+	// ta bort productnumret från det klickade elementets id
 	const productNumber = Number(e.target.id.replace('delete-', ''));
+	// hitta indexet av produkten i varukorgs-arrayen
 	const indexInCart = cart.findIndex(product => product.productNo === productNumber);
+	// hitta indexet av produkt i products-arrayen
 	const indexInProducts = products.findIndex(product => product.productNo === productNumber);
+	// om produkt finns i varukorgen..
 	if (indexInCart > -1) {
+		// ..ta bort produkt från varukorgs-arrayen
 		cart.splice(indexInCart, 1);
+		// antalet raderade produkter 0 i produkts-arrayen
 		products[indexInProducts].amount = 0;
+		// beräkna den totala summan igen genom att summera antal produkter gånger dess priser
 		totalOrderSum = cart.reduce((sum, product) => sum + product.amount * product.price, 0);
+	
 		printCartProducts();
 		printProducts();
 	}

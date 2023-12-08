@@ -317,7 +317,7 @@ h1 {
     .page3 {
         margin: 20px;
         grid-column: span 4;
-        input[type=name], input[type=address], input[type=housenr], input[type=zip], input[type=city], input[type=code], input[type=phone], input[type=email], input[type=discount] {
+        input[type=text] {
             width: 100%;
             padding: 10px;
             border-radius: 2px;
