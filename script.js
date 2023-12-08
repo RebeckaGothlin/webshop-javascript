@@ -199,9 +199,9 @@ let products = [
 	},
 ];
 
-// div products från HTML 
+// products från HTML 
 const productsContainer = document.querySelector('#products');
-// div cart från HTML
+// cart från HTML
 const cartHtmlContainer = document.querySelector('#cart');
 let cart = [...products];
 // datum för rabatter/helgpåslag
@@ -218,6 +218,7 @@ const ascendingRadio = document.querySelector('input[value="ascending"]');
 const descendingRadio = document.querySelector('input[value="descending"]');
 // sortering rating
 const ratingRadio = document.querySelectorAll('[name="ratingFilter"]');
+// betalningsmetoder
 const invoiceOption = document.querySelector('#invoice');
 const cardOption = document.querySelector('#card');
 // rabattkod
@@ -229,14 +230,9 @@ let totalOrderSum = 0;
 // långsam kund 
 let slownessTimeout;
 
-
-invoiceOption.removeAttribute('disabled');
-invoiceOption.disabled = false;
-
 // printar ut produkterna på sidan
 printProducts();
 
-discountCodeField.addEventListener('input', applyDiscount);
 
 // minus-knappen 
 function decreaseAmount(e) {
@@ -254,15 +250,23 @@ function decreaseAmount(e) {
 
 // plus-knappen
 function increaseAmount(e) {
+	// hämta indexet från id:et på klickade elementet
 	let index = e.target.id.replace('increase-', '');
+	// gör om index till nummer
 	index = Number(index);
+	// öka antal med 1
 	products[index].amount += 1;
 
-	const discountedPrice = products[index].discount ? products[index].price - (products[index].price * products[index].discount / 100) : products[index].price;
+	// beräknar det nedsatta priset, om rabattkod skrivits in
+	const discountedPrice = products[index].discount ? 
+	products[index].price - (products[index].price * products[index].discount / 100) : 
+	products[index].price;
     
     products[index].discountedPrice = discountedPrice;
 
+	// uppdatera varukorgs-arrayen genom filtrera bort de produkter med antal mindre eller lika med 0
 	cart = products.filter(product => product.amount > 0);
+	// beräkna totala ordersumman genom att summera antal och rabatterade priset (eller standardpriset)
 	totalOrderSum = cart.reduce((sum, product) => sum + product.amount * (product.discountedPrice || product.price), 0);
 	printProducts();
 	printCartProducts();
@@ -339,15 +343,21 @@ function printCartProducts() {
 	let msg = '';
 	let priceIncrease = getPriceMultiplier();
 	// cart
+	// iterate genom varje produkt i products-arrayen
 	products.forEach(product => {
+		// räknar totala antalet ordered produkter
 		orderedProductAmount += product.amount;
 		// rabatt/helgpåslag
+		// om antal produkter i cart är mer än 0
 		if (product.amount > 0) {
+			// priset antingen rabatterat eller standardpris
 			let productPrice = product.discountedPrice || product.price;
+			// om antal produkter i cart är fler än eller lika med 10 st = rabattera med 10 %
 			if (product.amount >= 10) {
 				productPrice *= 0.9;
 			}
 			const adjustedProductPrice = productPrice * priceIncrease;
+			
 			sum += product.amount * adjustedProductPrice;
 			cartHtmlContainer.innerHTML += `
 			<div class="cart-summary">
@@ -381,8 +391,13 @@ function printCartProducts() {
 	} else
 		cartHtmlContainer.innerHTML += `<p>Frakt: ${Math.round(25 + (0.1 * sum))} kr</p>`;
 
+		// att betala / totala summan inkl. frakt
+		const shippingCost = orderedProductAmount > 15 ? 0 : Math.round(25 + (0.1 * sum));
+		const totalSumWithShipping = sum + shippingCost;
+		cartHtmlContainer.innerHTML += `<p>Att betala: ${totalSumWithShipping} kr</p>`;
+
 	// fortsätt-knapp (continue)
-	cartHtmlContainer.innerHTML += `<button class="continue-button" id="continue"><a style="text-decoration: none; href="#page3-link">Fortsätt</a></button>`
+	cartHtmlContainer.innerHTML += `<button class="continue-button" id="continue"><a href="#page3-link">Fortsätt</a></button>`
 
 	// delete product-knappen cart
 	const deleteBtn = document.querySelectorAll('.delete');
@@ -511,6 +526,10 @@ descendingRadio.addEventListener('click', () => sortProducts('descending'));
 for (let i = 0; i < ratingRadio.length; i++) {
 	ratingRadio[i].addEventListener('click', sortByRating);
 }
+
+// rabattkod 
+discountCodeField.addEventListener('input', applyDiscount);
+
 
 // rabattkod
 function applyDiscount() {
