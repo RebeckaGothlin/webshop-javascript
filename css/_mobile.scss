@@ -8,6 +8,22 @@
     width: 1px;
 }
 
+@keyframes shake {
+    0%, 100% {
+      transform: translateX(0);
+    }
+    10%, 30%, 50%, 70%, 90% {
+      transform: translateX(-10px);
+    }
+    20%, 40%, 60%, 80% {
+      transform: translateX(10px);
+    }
+}
+  
+.shake {
+    animation: shake 0.2s ease;
+}
+
 body,
 body:not(.dark-theme) {
     background-color: white;
@@ -301,7 +317,7 @@ h1 {
     .page3 {
         margin: 20px;
         grid-column: span 4;
-        input[type=text] {
+        input[type=name], input[type=address], input[type=housenr], input[type=zip], input[type=city], input[type=code], input[type=phone], input[type=email], input[type=discount] {
             width: 100%;
             padding: 10px;
             border-radius: 2px;

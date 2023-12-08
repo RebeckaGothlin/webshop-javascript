@@ -268,10 +268,19 @@ function increaseAmount(e) {
 	cart = products.filter(product => product.amount > 0);
 	// beräkna totala ordersumman genom att summera antal och rabatterade priset (eller standardpriset)
 	totalOrderSum = cart.reduce((sum, product) => sum + product.amount * (product.discountedPrice || product.price), 0);
+
+	// Lägg till shake-klass på cart-elementet
+	cartHtmlContainer.classList.add('shake');
+
 	printProducts();
 	printCartProducts();
 	resetSlowCustomerTimeout();
 	updateTotalOrderAndInvoiceOption();
+
+	// Ta bort shake-klassen efter animationen är klar
+	setTimeout(() => {
+		cartHtmlContainer.classList.remove('shake');
+	}, 200);
 }
 
 // rabatt/ HELGPÅSLAG
@@ -333,6 +342,7 @@ function updateTotalAmount() {
 	const totalAmount = products.reduce((total, product) => total + product.amount, 0);
 	totalAmountSpan.textContent = `${totalAmount}`
 }
+
 
 // printar produkterna i varukorgen (inte i headern)
 function printCartProducts() {
@@ -430,8 +440,18 @@ function removeItem(e) {
 		printProducts();
 	}
 }
-// fortsättknappen (continue) popup (SKRIV MEDDELANDE)
-function confirmationPopUp() {
+
+// funktion för confirmation
+// när man klickar på ok ska modalfönstret stängas
+function handleConfirmationClick() {
+	confirmationModal.style.display = 'none';
+	// submit form efter confirmation
+	form.submit();
+  }
+// Confirmation popup fortsättknappen (continue) (SKRIV MEDDELANDE)
+function confirmationPopUp(e) {
+	e.preventDefault();
+
 	// Lagra infon om ordern
 	let orderDetails = 'Orderdetaljer:\n\n';
 	// går igenom produkterna i varukorgen
@@ -453,9 +473,7 @@ function confirmationPopUp() {
 
 	// när man klickat på ok ska modal-fönstret försvinna
 	const confirmBtn = document.querySelector('#confirmationModal #confirmBtn');
-	confirmBtn.addEventListener('click', () => {
-		confirmationModal.style.display = 'none';
-	});
+	confirmBtn.addEventListener('click', handleConfirmationClick);
 }
 
 // SORTERING AV PRODUKTERNA
